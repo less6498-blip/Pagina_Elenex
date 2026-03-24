@@ -49,7 +49,7 @@
 </div>
 
 <!-- Carrusel de productos -->
-  <div id="productCarousel" class="carousel slide">
+  <div id="productCarousel" class="carousel slide reveal">
   <div class="carousel-inner">
 
     <!-- Contenedor Slide 1 -->
@@ -63,7 +63,7 @@
           <img src="{{ asset('img/mojito1.png') }}" class="img-main">
           <img src="{{ asset('img/mojito2.png') }}" class="img-hover">
         </div>
-        <p class="product-desc">POLO OVERSIZE PARANOIA</p>
+        <p class="product-desc">POLO MOJITO</p>
         <p class="product-price">
           <s class="product-price" style="color:gray;">S/89.90</s> S/65.00
         </p>
@@ -76,7 +76,7 @@
           <img src="{{ asset('img/over1.png') }}" class="img-main">
           <img src="{{ asset('img/over2.png') }}" class="img-hover">
           </div>
-          <p class="product-desc">POLO OVERSIZE NOTHING </p>
+          <p class="product-desc">POLO OVERSIZE NEGRO </p>
           <p class="product-price">
             <s class="product-price" style="color:gray;">S/89.90 </s> S/65.00
           </p>
@@ -89,7 +89,7 @@
           <img src="{{ asset('img/oververde1.png') }}" class="img-main">
           <img src="{{ asset('img/oververde2.png') }}" class="img-hover">
           </div>
-          <p class="product-desc">POLO OVERSIZE NOTHING </p>
+          <p class="product-desc">POLO OVERSIZE VERDE </p>
           <p class="product-price">
             <s class="product-price" style="color:gray;">S/89.90 </s> S/65.00
           </p>
@@ -102,7 +102,7 @@
           <img src="{{ asset('img/bividi1.png') }}" class="img-main">
           <img src="{{ asset('img/bividi2.png') }}" class="img-hover">
           </div>
-          <p class="product-desc">POLO OVERSIZE NOTHING </p>
+          <p class="product-desc">BIVIDI BLANCO </p>
           <p class="product-price">
             <s class="product-price" style="color:gray;">S/89.90 </s> S/65.00
           </p>
@@ -122,7 +122,7 @@
           <img src="{{ asset('img/wait1.png') }}" class="img-main">
           <img src="{{ asset('img/wait2.png') }}" class="img-hover">
         </div>
-        <p class="product-desc">POLO OVERSIZE PARANOIA</p>
+        <p class="product-desc">POLO WAIT AZUL</p>
         <p class="product-price">
           <s class="product-price" style="color:gray;">S/89.90</s> S/65.00
         </p>
@@ -135,7 +135,7 @@
           <img src="{{ asset('img/nomadic1.png') }}" class="img-main">
           <img src="{{ asset('img/nomadic2.png') }}" class="img-hover">
           </div>
-          <p class="product-desc">POLO OVERSIZE NOTHING </p>
+          <p class="product-desc">POLO NOMADIC BLANCO </p>
           <p class="product-price">
             <s class="product-price" style="color:gray;">S/89.90 </s> S/65.00
           </p>
@@ -148,7 +148,7 @@
           <img src="{{ asset('img/stopwars1.png') }}" class="img-main">
           <img src="{{ asset('img/stopwars2.png') }}" class="img-hover">
           </div>
-          <p class="product-desc">POLO OVERSIZE NOTHING </p>
+          <p class="product-desc">POLO STOPWARS </p>
           <p class="product-price">
             <s class="product-price" style="color:gray;">S/89.90 </s> S/65.00
           </p>
@@ -173,12 +173,12 @@
 </div>
 </div>
 
-<div class="titulo2">
+<div class="titulo2 reveal">
   <span>NUEVO EN CASACAS</span>
 </div>
 
 <!-- Contenedor Slide 2 -->
-  <div id="productCarousel2" class="carousel slide">
+  <div id="productCarousel2" class="carousel slide reveal">
   <div class="carousel-inner">
 
     <!-- ✅ Slide 1 -->
@@ -300,18 +300,18 @@
   </button>
 </div>
 
-<div class="banner" style="margin-top: 40px;">
+<div class="banner reveal" style="margin-top: 40px;">
       <img src="{{ asset('img/baner.png') }}" class="d-block w-100">
     </div>
-<div class="verano" style="margin-top: 60px; text-align: center; gap: 20px; display: flex; padding-left: 180px;">
+<div class="verano reveal" style="margin-top: 60px; text-align: center; gap: 20px; display: flex; padding-left: 180px;">
       <img src="{{ asset('img/bividi3.png') }}" style="width: 600px; height: auto;">
      <div style="display: flex; flex-direction: column; justify-content: flex-start;">
-    <h2 style="margin: 180px 0 0 0; padding-left: 200px">¡Nuevos Conjuntos Moda Emilio!</h2>
-    <p style="margin: 60px 0 0 0; font-size: 20px; padding-left: 200px; color: gray;">¡Prepara tu armario para el calor! El Set Camisa Short Hombre Emilio 
+    <h2 style="margin: 180px 0 0 0; padding-left: 200px">¡Nuevos Bividis de Moda!</h2>
+    <p style="margin: 60px 0 0 0; font-size: 20px; padding-left: 200px; color: gray;">¡Prepara tu armario para el calor! El Nuevo Bividi de Hombre Elenex 
       <br><br> es la clave para un estilo casual coordinado y sin esfuerzo...</p>
       <a href="/productos" 
      class="btn-ver">
-    Ver colección
+    Ver mas
   </a>
   </div>
 </div>
@@ -319,7 +319,7 @@
 
 
 <!-- Carrusel de categorías -->
-<div id="productCarousel3" class="carousel slide">
+<div id="productCarousel3" class="carousel slide reveal">
   <div class="carousel-inner">
 
     <!-- Slide 1 -->

@@ -15,7 +15,7 @@
 @stack('styles')
 </head>
 <body>
-
+<div id="page-wrapper">
   @include('header')
 
   <main>
@@ -26,6 +26,15 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('js/carousel.js') }}"></script>
 <script src="https://kit.fontawesome.com/515cfa72de.js" crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const wrapper = document.getElementById("page-wrapper");
+    if (wrapper) {
+      wrapper.classList.add("loaded");
+    }
+  });
+</script>
 @stack('scripts')
 </body>
 </html>
