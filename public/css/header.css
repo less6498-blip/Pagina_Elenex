@@ -1,0 +1,386 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+.mini-carrusel {
+  width: 100%;
+  height: 30px;
+  overflow: hidden;
+  background-color: black;
+  display: flex;
+  align-items: center;
+}
+
+.carrusel-track {
+  display: flex;
+  width: 300%; /* 3 items * 100% ancho cada uno */
+  transition: transform 0.5s ease-in-out;
+}
+
+.carrusel-item {
+  flex: 0 0 100%; /* cada item ocupa todo el ancho visible */
+  display: flex;
+  justify-content: center; /* centra horizontalmente */
+  align-items: center;
+  gap: 8px; /* espacio entre imagen y texto */
+  color: white;
+  background-color: black;
+  white-space: nowrap;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+.parrafo {
+  margin: 0;
+  font-size: 15.5px;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.falabella-link{
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; 
+color: greenyellow;
+font-weight: bold;
+text-decoration: underline;
+}
+
+.ripley-link{
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+color: silver;
+font-weight: bold;
+text-decoration: underline;
+}
+
+.header{
+position:sticky;
+top:0;
+z-index:1000;
+width:100%;
+background:white;
+border-bottom:1px solid #eee;
+transition:all 0.3s ease;
+}
+
+/* estado cuando haces scroll */
+
+.header.scrolled{
+
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+
+}
+
+.header-container{
+max-width:1200px;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:10px 20px;
+transition:0.3s;
+}
+
+/* cuando haces scroll */
+
+.header.scrolled .header-container{
+padding:3px 20px;
+}
+
+.logo img{
+height:44px;
+transition:0.3s;
+}
+
+.header.scrolled .logo img{
+height:32px;
+}
+
+.header.scrolled .menu-item {
+  font-size: 15px;
+}
+
+.header.scrolled .menu-item-especial {
+  font-size: 15px;
+}
+
+.header.scrolled .search-btn {
+  width: 35px;
+  height: 35px;
+}
+
+.header.scrolled .search-btn img {
+  width: 15px;
+  height: 15px;
+}
+
+.header.scrolled .cart-btn {
+   width: 35px;
+  height: 35px;
+}
+
+.header.scrolled .cart-btn img {
+  width: 15px;
+  height: 15px;
+}
+
+.header.scrolled .cart-count {
+  font-size: 10px;
+}
+
+.menu{
+display:flex;
+gap:30px;
+list-style:none;
+margin-top: 20px;
+}
+
+.menu-item{
+cursor:pointer;
+font-weight:600;
+font-size:17px;
+display:flex;
+font-family: 'Roboto', sans-serif; 
+align-items:center;
+gap:5px;
+position: relative;
+}
+
+/* estilo de subrayado */
+
+.menu-item::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: black;
+  left: 0;
+  bottom: -5px;
+  transition: width 0.3s ease;
+}
+
+.menu-item:hover::after{
+  width: 100%;
+}
+
+/*boton rojo */
+
+.menu-item-especial {
+  background-color: #e60000; /* rojo brillante */
+  color: white;              /* texto blanco */
+  padding: 8px 16px;         /* espacio dentro del botón */
+  border-radius: 10px;       /* bordes redondeados */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: inline-block;     /* se ve como botón */
+  font-size: 17px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.menu-item-especial:hover {
+  background-color: #b30000; /* rojo más oscuro al pasar el mouse */
+}
+
+/* flecha */
+.arrow{
+width:6px;
+height:6px;
+border-right:2px solid black;
+border-bottom:2px solid black;
+transform:rotate(45deg);
+}
+
+.header-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+/* BOTON BUSCAR */
+
+.search-btn{
+
+width:40px;
+height:40px;
+
+border-radius:50%;
+border:1px solid #ddd;
+
+background:white;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+cursor:pointer;
+
+transition:0.2s;
+
+}
+
+.search-btn img{
+width:18px;
+height:18px;
+}
+
+/* hover */
+
+.search-btn:hover{
+background:#f5f5f5;
+}
+
+/* BUSCADOR OVERLAY */
+
+.search-right-overlay{
+ position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5); /* fondo oscuro semitransparente */
+  display: flex;
+  justify-content: flex-end; /* contenido a la derecha */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none; /* no bloquear clicks cuando está oculto */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 5000;
+}
+
+/* cuando se abre */
+
+.search-right-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* input */
+
+.search-right-container {
+  background: white;
+  width: 450px;
+  padding: 40px;
+  display: flex;
+  align-items: flex-start; /* todos alineados verticalmente */
+  gap: 10px; /* espacio entre lupa, input y X */
+  box-sizing: border-box;
+}
+
+.search-input {
+  flex: 1; /* ocupa todo el espacio entre lupa y X */
+  align-items: flex-start;
+  font-size: 16px;
+  border: 2px solid #000;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.search-right-container input {
+  width: 100%;
+  font-size: 18px;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 2px solid #000;
+  outline: none;
+  background: transparent;
+}
+
+.search-right-container img {
+width: 24px;
+height: 24px;
+}
+
+#search-close{
+
+ font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: black;
+  padding: 6px;
+
+}
+
+/* Bolsa shop */
+
+.cart-btn{
+ position:relative;
+  width:40px;
+  height:40px;
+  background:white;
+  border-radius:50%;
+  border:1px solid #ddd;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.cart-btn:hover{
+  background:#f5f5f5;
+}
+
+.cart-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+.cart-count{
+  position:absolute;
+  top:-5px;
+  right:-5px;
+  background:black;
+  color:white;
+  font-size:12px;
+  padding:3px 6px;
+  border-radius:50%;
+}
+
+/* mega menu */
+
+.mega-menu{
+
+position:absolute;
+left:0;
+top:100%;
+
+width:100%;
+
+background:white;
+border-top:1px solid #eee;
+box-shadow:0 8px 20px rgba(0,0,0,0.05);
+
+padding:30px;
+
+display:flex;
+justify-content:center;
+gap:60px;
+
+opacity:0;
+visibility:hidden;
+
+transition:0.3s;
+
+}
+
+.mega-menu a{
+text-decoration:none;
+color:#444;
+font-weight:600;
+font-size: 16px;
+display: inline-block;
+font-family: 'Roboto', sans-serif;
+transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.mega-menu a:hover {
+  transform: scale(1.15);
+  color: black;
+}

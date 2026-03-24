@@ -1,0 +1,219 @@
+.footer {
+  background-color: #000;  
+  color: #fff;             
+  padding: 30px 20px;
+  font-family: sans-serif;
+  margin-top: 40px;
+}
+
+.footer-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+/* LOGO */
+.footer-logo img {
+  max-width: 400px;
+  display: block;
+  margin-left: 100px;
+  margin-top: 10px;
+}
+
+/* NOSOTROS */
+.footer-about {
+  display: block;
+  margin-left: 130px;
+  margin-top: 20px;
+}
+
+.footer-about p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: #ccc;
+  line-height: 1.5;
+  text-align: start; /* si quieres centrar debajo del logo */
+  margin: 10px 0;
+}
+
+/* LIBRO DE RECLAMACIONES */
+.footer-libro {
+  display: flex;
+  justify-content: center; /* centra horizontalmente */
+  margin-top: 30px;        /* separación del texto de sobre nosotros */
+}
+
+.footer-libro img {
+  max-width: 150px; /* ajusta según necesites */
+  height: auto;
+  display: block;
+}
+
+/* CONTACTO */
+.footer-contact {
+  display: block;
+  margin-left: 200px;
+  margin-top: 30px;
+}
+
+.footer-contact h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 30px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 8px;
+}
+
+.footer-contact p {
+  font-family: 'Roboto', sans-serif;  
+  font-size: 16px;                     
+  color: #ccc;                         
+  line-height: 1.5;
+  margin: 5px 0;
+  font-weight: bold;
+}
+
+.footer-contact i {
+  color: inherit;  /* toma el mismo color que el texto */
+  margin-right: 8px; /* opcional, separa icono del texto */
+  margin-top: 18px;
+}
+
+.footer-contact a {
+    color: #ccc;          /* color del texto, ajusta como quieras */
+    text-decoration: none; /* quita el subrayado */
+    font-weight: bold;     /* opcional, lo hace negrita */
+}
+
+.footer-contact a:hover {
+    color: #fff;           /* color al pasar el mouse */
+    text-decoration: underline; /* solo subraya al hacer hover si quieres */
+}
+
+.footer-contact span {
+  margin-left: 32px; /* un pequeño espacio entre “Llamános:” y el número */
+}
+
+/* CONTENEDOR REDES + PAGO */
+.footer-right {
+  display: flex;
+  flex-direction: column; /* esto los pone uno debajo del otro */
+  margin-left: 180px;
+  margin-top: 30px;
+  gap: 30px; /* espacio entre redes y pago */
+}
+
+/* REDES SOCIALES */
+.footer-social h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600px;
+  font-size: 30px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 8px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  margin-left: 60px;
+}
+
+/* Estilo base (círculos) */
+.social-icons a {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #111;
+  color: #ccc;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+/* hover general */
+.social-icons a:hover {
+  transform: translateY(-5px) scale(1.1);
+}
+
+/* FACEBOOK */
+.social-icons a:nth-child(1):hover {
+  background: #1877f2;
+  color: #fff;
+  box-shadow: 0 0 15px #1877f2;
+}
+
+/* INSTAGRAM (degradado pro 🔥) */
+.social-icons a:nth-child(2):hover {
+  background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(238,42,123,0.7);
+}
+
+/* TIKTOK */
+.social-icons a:nth-child(3):hover {
+  background: #000;
+  color: #25f4ee;
+  box-shadow: 0 0 15px #25f4ee;
+}
+
+
+/* PAGO */
+.footer-pago h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 30px;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 8px;
+}
+
+/* COPYRIGHT */
+.footer-copy {
+  display: flex;
+  justify-content: space-between; /* izquierda - derecha */
+  align-items: center;
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid #333; /* 🔥 línea arriba */
+  font-size: 14px;
+  color: #888;
+}
+
+.copy-left {
+  padding-left: 80px;
+}
+
+.copy-right {
+  display: flex;
+  padding-right: 60px;
+  gap: 40px; /* 🔥 espacio entre los links */
+}
+
+.copy-right a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+.copy-right a:hover {
+  color: #fff;
+  text-decoration: underline;
+}

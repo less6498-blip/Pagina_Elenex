@@ -1,0 +1,487 @@
+/* ========================= */
+/* INDICADORES DEL CARRUSEL */
+.carousel-indicators button:not(.active) {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  margin: 0 5px; 
+  padding: 0;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-indicators button.active {
+  width: 40px;
+  height: 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin: 0 5px; 
+  padding: 0;
+}
+
+.carousel-indicators button.active .progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: white;
+  border-radius: 12px;
+  transition: width linear;
+  box-sizing: border-box;
+}
+
+.carousel-indicators button, 
+.carousel-indicators .progress {
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* ========================= */
+/* FLECHAS PRINCIPAL (PORTADA) */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  transform: scale(1.9);
+}
+
+/* Flechas personalizadas de portada */
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 50%;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.custom-arrow:hover {
+  opacity: 1;
+}
+
+#prevBtn { left: 50px; }
+#nextBtn { right: 50px; }
+
+/* ========================= */
+/* TITULOS */
+.titulo1, .titulo2 {
+  position: relative;
+  text-align: center;
+  margin: 50px 0;
+}
+
+.titulo1 span, .titulo2 span {
+  background: #fff;
+  padding: 0 15px;
+  color: #000;
+  font-weight: bold;
+  font-size: 2rem;
+  position: relative;
+  z-index: 1;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 2px;
+}
+
+.titulo1::before, .titulo2::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #000;
+  z-index: 0;
+}
+
+
+
+/* ========================= */
+/* PRODUCTOS */
+.product-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  height: 600px; /* 🔥 altura fija (ajústala si quieres más largo) */
+}
+
+.product-img-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 🔥 mantiene proporción sin deformar */
+  transition: all 0.3s ease;
+}
+
+/* Imagen principal */
+.img-main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Imagen hover */
+.img-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+/* 🔥 EFECTO ROME */
+.product-card:hover .img-hover {
+  opacity: 1;
+  transform: scale(1.09);
+}
+
+.product-card:hover .img-main {
+  opacity: 0;
+  transform: scale(1.09);
+}
+.product-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.product-card:hover {
+  color: inherit;
+}
+
+
+.product-desc {
+  font-size: 1.1rem;
+  margin: 0;
+  color: #333;
+  font-family:'Oswald', sans-serif;
+}
+
+.product-price {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #000;
+}
+.carousel-control-prev,
+.carousel-control-next {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+#productCarousel .carousel-item .row,
+#productCarousel2 .carousel-item .row {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+#productCarousel .carousel-control-prev-icon,
+#productCarousel .carousel-control-next-icon,
+#productCarousel2 .carousel-control-prev-icon,
+#productCarousel2 .carousel-control-next-icon  {
+  transform: scale(1.9);
+  filter: invert(1);
+  width: 8px;
+}
+
+#productCarousel .carousel-control-prev,
+#productCarousel .carousel-control-next,
+#productCarousel2 .carousel-control-prev,
+#productCarousel2 .carousel-control-next  {
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #cfcfcf;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+#productCarousel,
+#productCarousel2 {
+  position: relative;
+  overflow: visible;
+}
+
+#productCarousel .carousel-control-prev,
+#productCarousel2 .carousel-control-prev {
+  left: 90px;
+}
+
+#productCarousel .carousel-control-next,
+#productCarousel2 .carousel-control-next {
+  right: 90px;
+}
+
+#productCarousel:hover .carousel-control-prev,
+#productCarousel:hover .carousel-control-next,
+#productCarousel2:hover .carousel-control-prev,
+#productCarousel2:hover .carousel-control-next {
+  opacity: 1;
+}
+
+#productCarousel .carousel-control-prev:hover,
+#productCarousel .carousel-control-next:hover,
+#productCarousel2 .carousel-control-prev:hover,
+#productCarousel2 .carousel-control-next:hover {
+  background-color: #888;
+}
+
+
+
+/* Tarjeta "Ver más" */
+.product-card.ver-mas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 250px;
+  padding: 40px;
+  text-align: center;
+}
+
+.ver-mas-title {
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 2rem;
+  font-family:'Oswald', sans-serif;
+}
+
+.ver-mas-link {
+  position: relative;
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  padding-right: 25px;
+}
+
+.ver-mas-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0;
+  height: 2px;
+  background: #000;
+  transition: width 0.3s ease;
+}
+
+.ver-mas-link::before {
+  content: "→";
+  position: absolute;
+  right: 0;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: all 0.3s ease;
+}
+
+.ver-mas-link:hover::after { width: 100%; }
+.ver-mas-link:hover::before { opacity: 1; transform: translateX(5px); }
+
+
+/* ========================= */
+/* BOTON VER MÁS COLECCION */
+.btn-ver {
+  margin-top: 60px;
+  margin-left: 410px;
+  width: 180px;
+  height: 50px;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.btn-ver:hover {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  transform: scale(1.05);
+}
+
+/* ========================= */
+/* PRODUCT CAROUSEL 3 - CATEGORIAS */
+#productCarousel3 {
+  margin-top: 60px;
+}
+
+#productCarousel3 .carousel-item .row {
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+#productCarousel3 .category-img {
+  width: 400px;
+  height: 400px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 1px auto;
+}
+
+#productCarousel3 .carousel-control-prev-icon,
+#productCarousel3 .carousel-control-next-icon {
+  transform: scale(1.9);
+  filter: invert(1);
+  width: 8px;
+}
+
+#productCarousel3 .carousel-control-prev,
+#productCarousel3 .carousel-control-next {
+  width: 35px;
+  height: 35px;
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: auto;
+  background-color: #cfcfcf;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+#productCarousel3:hover .carousel-control-prev,
+#productCarousel3:hover .carousel-control-next { opacity: 1; }
+
+#productCarousel3 .carousel-control-prev:hover,
+#productCarousel3 .carousel-control-next:hover { background-color: #888; }
+
+#productCarousel3 .carousel-control-prev { left: 150px; }
+#productCarousel3 .carousel-control-next { right: 150px; }
+
+/* ========================= */
+/* CATEGORIAS */
+/* Mantener estilos existentes de categoría */
+.category-card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+  max-width: 600px;
+  margin: 0 auto;
+  transition: transform 0.4s ease;
+}
+
+.category-img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.category-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 20px;
+  transition: 0.3s ease;
+}
+
+.category-overlay span {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 3px;
+  color: white;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.category-overlay span::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: white;
+  margin: 5px auto 0;
+}
+
+/* Hover efecto imagen y overlay */
+.category-card-link:hover .category-card .category-img {
+  transform: scale(1.1);
+}
+
+.category-card-link:hover .category-card .category-overlay {
+  background: rgba(0,0,0,0.75);
+}
+
+.category-card-link:hover .category-overlay span {
+  transform: scale(1.1);
+}
+
+/* Estilo Ver más → afuera de la imagen */
+.category-ver-mas {
+  display: flex;
+  margin-top: 15px;
+  margin-left: 15px; 
+  font-weight: bold;
+  font-family: 'Urban', sans-serif;
+  font-size: 18px;
+  color: #363636;
+  text-decoration: underline;
+  transition: all 0.3s ease;
+}
+
+/* Hover sincronizado: imagen + Ver más */
+.category-card-link:hover .category-ver-mas {
+  transform: translateX(5px);
+  color: black;
+}
+
+/* ========================= */
+/* PORTADA CARRUSEL (LOGOS) */
+
+#carruselExample {
+  height: 850px; /* 🔥 aquí lo haces más grande */
+  position: relative;
+  overflow: hidden;
+}
+
+#carruselExample .carousel-inner,
+#carruselExample .carousel-item {
+  height: 100%;
+}
+
+#carruselExample img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 🔥 clave para que no se deformen */
+}
+
+body {
+  transform: scale(1.08);
+  opacity: 0;
+  transition: 
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.6s ease;
+}
+
+body.loaded {
+  transform: scale(1);
+  opacity: 1;
+}

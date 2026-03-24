@@ -1,0 +1,143 @@
+/* Contenedor principal */
+.tiendas-page {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+    font-family: sans-serif;
+}
+
+/* Título */
+.tiendas-title {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+    color: #222;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* CONTENEDOR */
+.carousel {
+    position: relative;
+    overflow: hidden;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.carousel button {
+    position: absolute;
+    top: 50%;
+    transform: none;
+    backdrop-filter: blur(10px);
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: none;
+    padding: 10px 14px;
+    font-size: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.9;
+    z-index: 5; /* 🔥 importante: sobre los slides */
+}
+
+.carousel button:hover {
+    background: #333;
+    transform: scale(1.1);
+}
+
+/* Flecha derecha */
+.next {
+    right: 10px;
+}
+
+/* Flecha izquierda */
+.prev {
+    left: 10px;
+}
+
+.prev {
+    display: none;
+}
+
+/* TRACK */
+.carousel-track {
+
+    position: relative;
+    min-height: 800px;
+}
+
+/* CADA SLIDE */
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 35px;
+    justify-content: center;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+/* IMPORTANTE: tamaño de tus cards reducido */
+.tienda-card {
+    background: #f5f5f5;
+    padding: 30px;       /* menos padding */
+    width: calc(45% - 50px);  /* 3 por fila */
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.carousel-slide:nth-child(3) {
+    max-height: 350px;
+    align-items: center;
+}
+
+/* TITULOS */
+.tienda-card p {
+    font-size: 15px;    /* más pequeño */
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.tienda-card h2 {
+    font-size: 24px;    /* más pequeño */
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* BOTONES DENTRO DEL BOX */
+.tienda-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* BOTONES */
+.btn {
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 15px;
+    color: #fff;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn i, .btn svg {
+    font-size: 16px; /* o 18px según convenga */
+    vertical-align: middle;
+    vertical-align: text-top;
+}
