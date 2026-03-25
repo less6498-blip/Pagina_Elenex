@@ -1,0 +1,68 @@
+body { background-color: #f8f9fa; }
+        
+.card { 
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    max-width: 200px; /* controla el ancho de la tarjeta */
+    position: relative;
+}
+        
+.card:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+ }
+        
+.product-img { 
+    height: 400px; 
+    object-fit: cover; 
+}
+
+.price { 
+    font-size: 1.2rem; 
+    color: #198754; 
+    font-weight: bold; 
+}
+        
+.btn-custom { 
+    border-radius: 8px; 
+}
+        
+h2.category-title { 
+    margin-top: 40px; 
+    margin-bottom: 20px; 
+}
+
+.product-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 300px; /* ajusta según tu diseño */
+    overflow: hidden;
+}
+
+.product-img-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.img-hover {
+    opacity: 0;
+}
+
+/* Efecto hover */
+.card:hover .product-img {
+    transform: scale(1.05);
+    opacity: 0;
+}
+
+.card:hover .img-hover {
+    transform: scale(1.05);
+    opacity: 1;
+}
+

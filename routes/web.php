@@ -16,8 +16,10 @@ Route::get('/tiendas', [TiendaController::class, 'index'])->name('tiendas.index'
 // 🧑 Clientes (CRUD)
 Route::resource('clientes', ClienteController::class);
 
-// 📦 Productos (CRUD)
-Route::resource('productos', ProductoController::class);
+// 📦 Productos 
 
+Route::get('/catalogo/{categoria?}', [ProductoController::class, 'catalogo'])
+    ->name('productos.catalogo'); // 
+    
 // 🧾 Pedidos (CRUD)
 Route::resource('pedidos', PedidoController::class);

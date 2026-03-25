@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="tiendas-page">
-    <h1 class="tiendas-title">NUESTRAS TIENDAS 🛒</h1>
+    <h1 class="tiendas-title" style="padding-top: 90px">NUESTRAS TIENDAS 🛒</h1>
 
     <div class="carousel">
         <div class="carousel-track">
