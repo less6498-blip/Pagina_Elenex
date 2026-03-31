@@ -1,47 +1,40 @@
-body { background-color: #f8f9fa; }
-        
+/* Fondo general */
+body { 
+    background-color: #f8f9fa; 
+    font-family: Arial, sans-serif;
+}
+
+/* Tarjeta de producto */
 .card { 
     border: none;
     border-radius: 12px;
     overflow: hidden;
     transition: transform 0.2s, box-shadow 0.2s;
-    max-width: 200px; /* controla el ancho de la tarjeta */
     position: relative;
+    width: 100%; /* ancho 100% para que se ajuste a la columna */
+    max-width: 320px; /* máximo ancho */
+    height: auto; /* altura automática según contenido */
+    display: flex;
+    flex-direction: column;
+    margin: auto;
 }
-        
+
 .card:hover { 
     transform: translateY(-5px); 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
- }
-        
-.product-img { 
-    height: 400px; 
-    object-fit: cover; 
+    box-shadow: 0 12px 30px rgba(0,0,0,0.18);
 }
 
-.price { 
-    font-size: 1.2rem; 
-    color: #198754; 
-    font-weight: bold; 
-}
-        
-.btn-custom { 
-    border-radius: 8px; 
-}
-        
-h2.category-title { 
-    margin-top: 40px; 
-    margin-bottom: 20px; 
-}
-
+/* Contenedor de imágenes */
 .product-img-wrapper {
     position: relative;
     width: 100%;
-    height: 300px; /* ajusta según tu diseño */
+    height: 400px; /* altura de imagen */
     overflow: hidden;
+    border-radius: 12px;
 }
 
-.product-img-wrapper img {
+/* Imagen principal y hover */
+.product-img-wrapper img.product-img {
     position: absolute;
     top: 0;
     left: 0;
@@ -49,20 +42,102 @@ h2.category-title {
     height: 100%;
     object-fit: cover;
     transition: all 0.3s ease;
+    z-index: 1;
 }
 
-.img-hover {
+.product-img-wrapper img.img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
     opacity: 0;
+    z-index: 2;
 }
 
-/* Efecto hover */
-.card:hover .product-img {
+/* Hover efecto */
+.card:hover .product-img-wrapper img.product-img {
     transform: scale(1.05);
     opacity: 0;
 }
 
-.card:hover .img-hover {
+.card:hover .product-img-wrapper img.img-hover {
     transform: scale(1.05);
     opacity: 1;
 }
 
+/* Precio */
+.price { 
+    font-size: 1.6rem; 
+    color: #3f3e3e; 
+    font-weight: bold; 
+    margin-bottom: 12px;
+}
+
+/* Botones */
+.btn-custom, .btn-dark, .btn-primary {
+    border-radius: 8px; 
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+/* Título de producto */
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* Título de categoría */
+h2.category-title { 
+    margin-top: 50px; 
+    margin-bottom: 25px; 
+    font-weight: 600;
+    color: #333;
+}
+
+/* Sidebar categorías */
+.list-group-item {
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.list-group-item.active {
+    background-color: #3f3e3e;
+    color: #fff;
+    border-color: #3f3e3e;
+}
+
+/* Responsive: ajustar columnas de productos */
+@media (max-width: 1200px) {
+    .col-lg-9 .row > div {
+        flex: 0 0 33.3333%;
+        max-width: 33.3333%;
+    }
+}
+
+@media (max-width: 992px) {
+    .col-lg-9 .row > div {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 576px) {
+    .col-lg-9 .row > div {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+/* Hover en botones */
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* Centrar los productos cuando hay pocas columnas */
+.category-products .row {
+    justify-content: flex-start;
+}

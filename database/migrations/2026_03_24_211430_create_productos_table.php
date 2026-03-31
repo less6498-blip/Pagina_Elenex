@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('color');
             $table->integer('stock');
             $table->string('imagen')->nullable();
+            $table->string('imagen2')->nullable();
             $table->string('slug')->unique();
             $table->decimal('precio', 10, 2);
             $table->boolean('activo')->default(true);

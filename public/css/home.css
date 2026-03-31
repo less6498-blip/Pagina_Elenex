@@ -92,7 +92,7 @@
   font-size: 2rem;
   position: relative;
   z-index: 1;
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Google Sans Flex", "Google Sans", "Helvetica Neue", sans-serif;
   letter-spacing: 2px;
 }
 
@@ -166,11 +166,11 @@
   font-size: 1.1rem;
   margin: 0;
   color: #333;
-  font-family:'Oswald', sans-serif;
+  font-family:"Google Sans Flex", "Google Sans", "Helvetica Neue", sans-serif;
 }
 
 .product-price {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Google Sans Flex", "Google Sans", "Helvetica Neue", sans-serif;
   font-weight: 500;
   font-size: 1rem;
   color: #000;
@@ -261,7 +261,7 @@
   font-weight: bold;
   margin-bottom: 15px;
   font-size: 2rem;
-  font-family:'Oswald', sans-serif;
+  font-family:'Roboto', sans-serif;
 }
 
 .ver-mas-link {
@@ -270,6 +270,7 @@
   color: #000;
   font-weight: bold;
   padding-right: 25px;
+  font-family:'Roboto', sans-serif;
 }
 
 .ver-mas-link::after {
@@ -303,9 +304,9 @@
   margin-left: 410px;
   width: 180px;
   height: 50px;
-  background-color: black;
-  color: white;
-  border-radius: 5px;
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #000;
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -316,10 +317,8 @@
 }
 
 .btn-ver:hover {
-  background-color: white;
-  color: black;
-  border: 1px solid black;
-  transform: scale(1.05);
+  background-color: #000;
+  color: #fff;
 }
 
 /* ========================= */
@@ -459,6 +458,7 @@
 #carruselExample {
   height: 850px; /* 🔥 aquí lo haces más grande */
   position: relative;
+  margin-top: 100px;
   overflow: hidden;
 }
 

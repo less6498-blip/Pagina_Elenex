@@ -13,12 +13,7 @@
 <div class="mini-carrusel">
   <div class="carrusel-track">
     <div class="carrusel-item">
-      <img src="{{ asset('img/fala.png') }}" width="16">
-      <p>Encuéntranos en <a href="https://www.falabella.com.pe/falabella-pe/seller/ELENEX" target="_blank">falabella.com</a></p>
-    </div>
-    <div class="carrusel-item">
-      <img src="{{ asset('img/rip.png') }}" width="14">
-      <p>Encuéntranos en <a href="https://simple.ripley.com.pe/tienda/elenex-4142?type=catalog" target="_blank">ripley.com</a></p>
+      <p>🚚 ENVIOS GRATIS POR COMPRAS MAYORES A S/150.00 A TODO LIMA</p>
     </div>
   </div>
 </div>
@@ -70,7 +65,7 @@ CATÁLOGO <span class="arrow"></span>
 <div class="mega-menu vertical-menu" id="catalogo">
 
     <div class="menu-col">
-        <span>Polos</span>
+        <a href="{{ route('productos.catalogo', ['categoria' => 'Polos']) }}">Polos</a>
         <div class="submenu">
             <a href="{{ route('productos.catalogo', ['categoria' => 'oversize']) }}">Oversize</a>
             <a href="#">Básicos</a>
@@ -104,13 +99,37 @@ CATÁLOGO <span class="arrow"></span>
 </header>
 
 <!-- BUSCADOR -->
-<div class="search-right-overlay" id="search-overlay">
-<div class="search-right-container">
-<img src="https://img.icons8.com/?size=100&id=7695&format=png&color=000000">
-<input type="text" placeholder="Buscar productos..." class="search-input">
-<button id="search-close">✕</button>
+<div class="search-panel-overlay" id="search-overlay">
+  <div class="search-panel">
+    
+    <!-- Header del panel -->
+    <div class="search-panel-header">
+      <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="lupa" class="search-icon">
+
+      <div class="search-input-wrapper">
+      <input type="text" id="search-input" placeholder="Buscar productos...">
+      <button id="clear-search">Borrar</button>
+      </div>
+
+      <button id="search-close">✕</button>
+    </div>
+
+    <!-- Texto debajo del input -->
+    <div class="search-info-text">
+      Productos
+    </div>
+
+    <!-- Resultados -->
+    <div id="search-results" class="search-results">
+      <!-- Productos aparecerán aquí -->
+    </div>
+
+    <!-- Botón ver más -->
+    <button class="search-more-btn" id="search-more" style="display:none;">VER MÁS</button>
+  </div>
 </div>
-</div>
+
+
 
 <!-- JS MENU -->
 <script>
@@ -147,30 +166,157 @@ document.querySelector(".header").addEventListener("mouseleave", () => {
 });
 </script>
 
-<!-- BUSCADOR JS -->
+
+<!-- ACHICAR ELEMENTOS MEDIANTE SCROLL -->
 <script>
-const openSearch = document.getElementById("search-open");
-const closeSearch = document.getElementById("search-close");
-const searchOverlay = document.getElementById("search-overlay");
-
-openSearch.onclick = () => {
-searchOverlay.classList.add("active");
-document.body.style.overflow="hidden";
-}
-
-closeSearch.onclick = () => {
-searchOverlay.classList.remove("active");
-document.body.style.overflow="auto";
-}
-
-searchOverlay.addEventListener("click", function(e) {
-  if(e.target === this){
-    this.classList.remove("active");
-    document.body.style.overflow = "auto";
+window.addEventListener("scroll", () => {
+  const header = document.querySelector(".header");
+  if (window.scrollY > 50) { // ajusta el valor si quieres que se achique antes o después
+    header.classList.add("scrolled");
+  } else {
+    header.classList.remove("scrolled");
   }
 });
 </script>
 
+<!-- BUSCADOR DEL HEADER 🔍 -->
+<script>
+const searchOverlay = document.getElementById('search-overlay');
+const searchPanel = document.querySelector('.search-panel');
+const searchInput = document.getElementById('search-input');
+const searchClose = document.getElementById('search-close');
+const searchResults = document.getElementById('search-results');
+const searchMore = document.getElementById('search-more');
+const clearBtn = document.getElementById('clear-search');
+const searchInfoText = document.querySelector('.search-info-text');
+
+let cerrando = false;
+let timeout;
+
+// 🔓 ABRIR PANEL
+document.getElementById('search-open').onclick = () => {
+  searchOverlay.classList.add('active');
+  requestAnimationFrame(() => {
+    searchPanel.classList.add('opening'); // animación deslizante
+  });
+  searchInput.focus();
+  document.body.style.overflow = 'hidden';
+  searchInfoText.style.opacity = 0; // texto inicialmente oculto
+};
+
+// 🔒 CERRAR PANEL
+function cerrarPanel() {
+  if (cerrando) return;
+  cerrando = true;
+
+  searchPanel.classList.remove('opening');
+  searchPanel.classList.add('closing');
+
+  setTimeout(() => {
+    searchOverlay.classList.remove('active');
+    searchPanel.classList.remove('closing');
+
+    document.body.style.overflow = 'auto';
+    searchResults.innerHTML = '';
+    searchInput.value = '';
+    searchMore.style.display = 'none';
+    clearBtn.classList.remove('show');
+    searchInfoText.style.opacity = 0;
+
+    cerrando = false;
+  }, 350);
+}
+
+// ❌ BOTÓN CERRAR
+searchClose.onclick = cerrarPanel;
+
+// ❌ CLICK FUERA DEL PANEL
+searchOverlay.addEventListener('click', (e) => {
+  if (e.target === searchOverlay) cerrarPanel();
+});
+
+// ❌ TECLA ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') cerrarPanel();
+});
+
+// 🔍 BUSCAR PRODUCTOS
+async function mostrarResultados(query) {
+  searchResults.innerHTML = '';
+
+  if (!query) {
+    searchMore.style.display = 'none';
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/productos/buscar?q=${encodeURIComponent(query)}`);
+    const productos = await response.json();
+
+    if (!productos || productos.length === 0) {
+      searchMore.style.display = 'none';
+      return;
+    }
+
+    productos.forEach((p, index) => {
+      const div = document.createElement('div');
+      div.className = 'search-item';
+      div.innerHTML = `
+        <img src="${p.imagen}" alt="${p.nombre}">
+        <div class="name">${p.nombre}</div>
+        <div class="price">S/ ${parseFloat(p.precio).toFixed(2)}</div>
+      `;
+
+      // 👉 Click en producto redirige a detalle.blade.php usando id
+      div.addEventListener('click', () => {
+        window.location.href = `/producto/${p.id}`;
+      });
+
+      searchResults.appendChild(div);
+
+      // animación fade-in
+      setTimeout(() => {
+        div.classList.add('show');
+      }, index * 20);
+    });
+
+    searchMore.style.display = 'block';
+  } catch (error) {
+    console.error('Error al buscar productos:', error);
+    searchMore.style.display = 'none';
+  }
+}
+
+// ✍️ INPUT: mostrar botón borrar + resultados + texto info
+searchInput.addEventListener('input', (e) => {
+  const value = e.target.value.trim();
+
+  // mostrar/ocultar botón ❌
+  if (value.length > 0) {
+    clearBtn.classList.add('show');
+    searchInfoText.style.opacity = 1; // aparece el texto al escribir
+  } else {
+    clearBtn.classList.remove('show');
+    searchInfoText.style.opacity = 0; // desaparece antes de escribir
+  }
+
+  // buscar productos con delay
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+    mostrarResultados(value);
+  }, 150);
+});
+
+// ❌ BOTÓN LIMPIAR INPUT
+clearBtn.onclick = () => {
+  searchInput.value = '';
+  searchResults.innerHTML = '';
+  searchMore.style.display = 'none';
+  clearBtn.classList.remove('show');
+  searchInfoText.style.opacity = 0;
+  searchInput.focus();
+};
+</script>
 <script src="{{ asset('js/mini-carrusel.js') }}"></script>
 
 </body>

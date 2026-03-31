@@ -17,6 +17,7 @@ class Producto extends Model
         'color',
         'stock',
         'imagen',
+        'imagen2',
         'slug',
         'precio',
         'activo'

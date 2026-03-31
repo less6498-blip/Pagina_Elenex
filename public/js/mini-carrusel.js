@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+/*document.addEventListener("DOMContentLoaded", function () {
   const track = document.querySelector(".carrusel-track");
   const totalItems = 3; // Sabemos que son 3 items (incluyendo clon)
 
@@ -17,4 +17,4 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 500); // coincide con duración transición
     }
   }, 3000);
-});
+});*/

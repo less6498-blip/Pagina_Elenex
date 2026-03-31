@@ -1,0 +1,147 @@
+/* ===== Body y fuente ===== */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Contenedor del producto ===== */
+.product-detail {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 50px auto;
+  gap: 40px;
+}
+
+/* ===== Galería de imágenes ===== */
+.product-gallery {
+  flex: 1 1 500px;
+}
+
+/* Imagen principal fija */
+.main-image img {
+  width: 800px;   /* ancho fijo */
+  height: 800px;  /* altura fija */
+  object-fit: cover; /* recorta para llenar el contenedor sin deformar */
+  border-radius: 8px;
+}
+
+/* Miniaturas uniformes */
+.sub-img {
+  width: 100px;   /* miniaturas más grandes y uniformes */
+  height: 100px;
+  object-fit: cover;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.sub-img.active-thumb {
+  border: 2px solid black;
+}
+
+.sub-img:hover {
+  transform: scale(1.1);
+}
+
+/* ===== Información del producto ===== */
+.product-info {
+  flex: 1 1 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product-title {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.product-price {
+  font-size: 24px;
+  color: #3f3e3e;
+  font-weight: bold;
+}
+
+/* ===== Opciones del producto (color, talla, cantidad) ===== */
+.product-options {
+  display: flex;
+  flex-direction: column; /* cada input debajo del anterior */
+  gap: 15px;
+}
+
+.product-options label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.product-options input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  max-width: 120px; /* ancho compacto para inputs */
+}
+
+/* ===== Botones ===== */
+.product-buttons {
+  display: flex;
+  flex-direction: column; /* botones en columna */
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Botones con estilo personalizado */
+.product-buttons .btn {
+  border-radius: 1px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: Arial, sans-serif; /* fuente de los botones */
+}
+
+.product-buttons .btn-buy {
+  background-color: black;
+  color: white;
+  padding: 10px 10px;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.product-buttons .btn-buy:hover {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  transform: scale(1.02);
+}
+
+.product-buttons .btn-cart {
+  background-color: white;
+  color: black;
+  padding: 10px 10px;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid black;
+}
+
+.product-buttons .btn-cart:hover {
+  background-color: black;
+  color: white;
+  border: 1px solid black;
+  transform: scale(1.02);
+}
+
+
+
