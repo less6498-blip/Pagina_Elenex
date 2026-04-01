@@ -368,8 +368,8 @@
 #productCarousel3 .carousel-control-prev:hover,
 #productCarousel3 .carousel-control-next:hover { background-color: #888; }
 
-#productCarousel3 .carousel-control-prev { left: 150px; }
-#productCarousel3 .carousel-control-next { right: 150px; }
+#productCarousel3 .carousel-control-prev { left: 130px; }
+#productCarousel3 .carousel-control-next { right: 130px; }
 
 /* ========================= */
 /* CATEGORIAS */
@@ -403,12 +403,13 @@
 }
 
 .category-overlay span {
-  font-family: 'Bebas Neue', sans-serif;
+  font-family: "Google Sans Flex", "Google Sans", "Helvetica Neue", sans-serif;
   font-size: 28px;
   letter-spacing: 3px;
   color: white;
   text-transform: uppercase;
   position: relative;
+  font-weight: bold;
 }
 
 .category-overlay span::after {

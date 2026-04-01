@@ -25,7 +25,7 @@
 <!-- LOGO -->
 <div class="logo">
 <a href="/">
-<img src="{{ asset('img/elelogo.png') }}">
+<img src="{{ asset('img/elelogo.webp') }}">
 </a>
 </div>
 
@@ -41,7 +41,9 @@ CATÁLOGO <span class="arrow"></span>
 
 <li class="menu-item">ACCESORIOS</li>
 <li class="menu-item">CONJUNTOS</li>
-<li class="menu-item">NEW ARRIVALS</li>
+    <li class="menu-item">
+    <a href="{{ route('productos.newArrivals') }}">NEW ARRIVALS</a>
+    </li>
 <li class="menu-item-especial">LIQUIDACIÓN 🔥</li>
 
 </ul>
@@ -65,38 +67,17 @@ CATÁLOGO <span class="arrow"></span>
 <div class="mega-menu vertical-menu" id="catalogo">
 
     <div class="menu-col">
-        <a href="{{ route('productos.catalogo', ['categoria' => 'Polos']) }}">Polos</a>
-        <div class="submenu">
-            <a href="{{ route('productos.catalogo', ['categoria' => 'oversize']) }}">Oversize</a>
-            <a href="#">Básicos</a>
-        </div>
+        @foreach(\App\Models\Categoria::all() as $categoria)
+           <a href="{{ route('productos.catalogo', ['categoria' => $categoria->nombre]) }}"
+            class="{{ request('categoria') == $categoria->nombre ? 'activo' : '' }}">
+            {{ $categoria->nombre }}
+          </a>
+        @endforeach
     </div>
-
-    <div class="menu-col">
-        <span>Pantalones</span>
-        <div class="submenu">
-            <a href="{{ route('productos.catalogo', ['categoria' => 'jean']) }}">Jean</a>
-        </div>
-    </div>
-
-    <div class="menu-col">
-        <span>Chalecos</span>
-        <div class="submenu">
-            <a href="#">Deportivos</a>
-        </div>
-    </div>
-
-    <div class="menu-col">
-        <span>Calzado</span>
-        <div class="submenu">
-            <a href="{{ route('productos.catalogo', ['categoria' => 'zapatillas']) }}">Zapatillas</a>
-        </div>
-    </div>
-
-</div>
 
 </div>
 </header>
+<div id="menu-overlay"></div>
 
 <!-- BUSCADOR -->
 <div class="search-panel-overlay" id="search-overlay">
@@ -125,6 +106,7 @@ CATÁLOGO <span class="arrow"></span>
     </div>
 
     <!-- Botón ver más -->
+     <div class="search-info-text" id="search-error" style="display:none;"></div>
     <button class="search-more-btn" id="search-more" style="display:none;">VER MÁS</button>
   </div>
 </div>
@@ -135,34 +117,57 @@ CATÁLOGO <span class="arrow"></span>
 <script>
 const items = document.querySelectorAll(".menu-item");
 const menus = document.querySelectorAll(".mega-menu");
+const overlay = document.getElementById("menu-overlay");
 
 items.forEach(item => {
   item.addEventListener("mouseenter", () => {
     const id = item.dataset.menu;
 
+    // Ocultar todos los mega-menus
     menus.forEach(menu => {
       menu.style.opacity = "0";
       menu.style.visibility = "hidden";
       menu.style.pointerEvents = "none";
     });
 
+    // Si es Catálogo (tiene data-menu)
     if (id) {
       const menu = document.getElementById(id);
-      if(menu){
+      if (menu) {
         menu.style.opacity = "1";
         menu.style.visibility = "visible";
         menu.style.pointerEvents = "auto";
+
+        // 🔥 Mostrar overlay solo para Catálogo
+        overlay.classList.add("active");
       }
+    } else {
+      // 🔥 Si no es Catálogo, quitar overlay
+      overlay.classList.remove("active");
     }
   });
 });
 
+// Al salir del header, ocultar todo y quitar overlay
 document.querySelector(".header").addEventListener("mouseleave", () => {
   menus.forEach(menu => {
     menu.style.opacity = "0";
     menu.style.visibility = "hidden";
     menu.style.pointerEvents = "none";
   });
+
+  overlay.classList.remove("active");
+});
+
+// Cerrar si hacen click fuera
+overlay.addEventListener("click", () => {
+  menus.forEach(menu => {
+    menu.style.opacity = "0";
+    menu.style.visibility = "hidden";
+    menu.style.pointerEvents = "none";
+  });
+
+  overlay.classList.remove("active");
 });
 </script>
 
@@ -192,16 +197,16 @@ const searchInfoText = document.querySelector('.search-info-text');
 
 let cerrando = false;
 let timeout;
+let palabraBuscada = '';
+let tieneResultados = false;
 
 // 🔓 ABRIR PANEL
 document.getElementById('search-open').onclick = () => {
   searchOverlay.classList.add('active');
-  requestAnimationFrame(() => {
-    searchPanel.classList.add('opening'); // animación deslizante
-  });
+  requestAnimationFrame(() => searchPanel.classList.add('opening'));
   searchInput.focus();
   document.body.style.overflow = 'hidden';
-  searchInfoText.style.opacity = 0; // texto inicialmente oculto
+  searchInfoText.style.opacity = 0;
 };
 
 // 🔒 CERRAR PANEL
@@ -215,14 +220,14 @@ function cerrarPanel() {
   setTimeout(() => {
     searchOverlay.classList.remove('active');
     searchPanel.classList.remove('closing');
-
     document.body.style.overflow = 'auto';
     searchResults.innerHTML = '';
     searchInput.value = '';
     searchMore.style.display = 'none';
     clearBtn.classList.remove('show');
     searchInfoText.style.opacity = 0;
-
+    palabraBuscada = '';
+    tieneResultados = false;
     cerrando = false;
   }, 350);
 }
@@ -243,9 +248,11 @@ document.addEventListener('keydown', (e) => {
 // 🔍 BUSCAR PRODUCTOS
 async function mostrarResultados(query) {
   searchResults.innerHTML = '';
+  tieneResultados = false;
 
   if (!query) {
     searchMore.style.display = 'none';
+    searchInfoText.style.opacity = 0;
     return;
   }
 
@@ -254,10 +261,18 @@ async function mostrarResultados(query) {
     const productos = await response.json();
 
     if (!productos || productos.length === 0) {
+      searchResults.innerHTML = `
+        <div style="color:#555; padding:20px; text-align:center;">
+          No se encontraron resultados para "<strong>${query}</strong>".<br>
+          Revisa la ortografía o usa una palabra o frase diferente.
+        </div>
+      `;
       searchMore.style.display = 'none';
+      searchInfoText.style.opacity = 0;
       return;
     }
 
+    // Mostrar productos
     productos.forEach((p, index) => {
       const div = document.createElement('div');
       div.className = 'search-item';
@@ -266,45 +281,42 @@ async function mostrarResultados(query) {
         <div class="name">${p.nombre}</div>
         <div class="price">S/ ${parseFloat(p.precio).toFixed(2)}</div>
       `;
-
-      // 👉 Click en producto redirige a detalle.blade.php usando id
       div.addEventListener('click', () => {
         window.location.href = `/producto/${p.id}`;
       });
-
       searchResults.appendChild(div);
-
-      // animación fade-in
-      setTimeout(() => {
-        div.classList.add('show');
-      }, index * 20);
+      setTimeout(() => div.classList.add('show'), index * 20);
     });
 
+    // Mostrar botón VER MÁS solo si hay resultados
+    tieneResultados = true;
     searchMore.style.display = 'block';
+    searchInfoText.style.opacity = 1;
   } catch (error) {
     console.error('Error al buscar productos:', error);
+    searchResults.innerHTML = `
+      <div style="color:#555; padding:20px; text-align:center;">
+        Ocurrió un error. Intenta nuevamente.
+      </div>
+    `;
     searchMore.style.display = 'none';
+    searchInfoText.style.opacity = 0;
   }
 }
 
 // ✍️ INPUT: mostrar botón borrar + resultados + texto info
 searchInput.addEventListener('input', (e) => {
-  const value = e.target.value.trim();
+  palabraBuscada = e.target.value.trim();
 
-  // mostrar/ocultar botón ❌
-  if (value.length > 0) {
+  if (palabraBuscada.length > 0) {
     clearBtn.classList.add('show');
-    searchInfoText.style.opacity = 1; // aparece el texto al escribir
   } else {
     clearBtn.classList.remove('show');
-    searchInfoText.style.opacity = 0; // desaparece antes de escribir
+    searchInfoText.style.opacity = 0;
   }
 
-  // buscar productos con delay
   clearTimeout(timeout);
-  timeout = setTimeout(() => {
-    mostrarResultados(value);
-  }, 150);
+  timeout = setTimeout(() => mostrarResultados(palabraBuscada), 150);
 });
 
 // ❌ BOTÓN LIMPIAR INPUT
@@ -314,7 +326,35 @@ clearBtn.onclick = () => {
   searchMore.style.display = 'none';
   clearBtn.classList.remove('show');
   searchInfoText.style.opacity = 0;
+  palabraBuscada = '';
+  tieneResultados = false;
   searchInput.focus();
+};
+
+// 🔗 BOTÓN VER MÁS → redirige a categoría si existe, sino a búsqueda general
+searchMore.onclick = () => {
+  if (!tieneResultados) return;
+
+  const palabra = palabraBuscada.trim().toLowerCase();
+
+  // Mapear palabras a categorías existentes
+  const categorias = {
+    "polos": "Polos",
+    "casacas": "Casacas"
+  };
+
+  let categoriaEncontrada = null;
+  Object.keys(categorias).forEach(key => {
+    if (palabra.includes(key)) categoriaEncontrada = categorias[key];
+  });
+
+  if (categoriaEncontrada) {
+    // Redirige a la categoría
+    window.location.href = `/productos/catalogo?categoria=${encodeURIComponent(categoriaEncontrada)}`;
+  } else {
+    // Si no hay categoría válida, va a búsqueda general
+    window.location.href = `/productos/buscar?query=${encodeURIComponent(palabraBuscada)}`;
+  }
 };
 </script>
 <script src="{{ asset('js/mini-carrusel.js') }}"></script>

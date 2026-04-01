@@ -20,10 +20,15 @@ Route::resource('clientes', ClienteController::class);
 
 Route::get('/catalogo/{categoria?}', [ProductoController::class, 'catalogo'])
     ->name('productos.catalogo'); // 
-Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('productos.show');
+Route::get('/productos/{id}', [ProductoController::class, 'show'])
+    ->name('productos.show');
     
 // 🧾 Pedidos (CRUD)
 Route::resource('pedidos', PedidoController::class);
 
 // 🔎 Buqueda de productos
 Route::get('/api/productos/buscar', [ProductoController::class, 'buscar']);
+
+// 🎇 New arrivals
+Route::get('/new-arrivals', [App\Http\Controllers\HomeController::class, 'newArrivals'])
+    ->name('productos.newArrivals'); //

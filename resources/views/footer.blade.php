@@ -3,7 +3,7 @@
 
     <!-- Logo a la izquierda -->
     <div class="footer-logo">
-      <img src="{{ asset('img/elelogo2.png') }}" alt="Logo Elenex">
+      <img src="{{ asset('img/elelogo2.webp') }}" alt="Logo Elenex">
 
     <!-- Contenido sobre nosotros -->
       <div class="footer-about">
@@ -15,7 +15,7 @@
 
     <!-- Libro de reclamaciones -->
       <div class="footer-libro">
-    <img src="{{ asset('img/libror.png') }}" alt="Libro de Reclamaciones">
+    <img src="{{ asset('img/libror.webp') }}" alt="Libro de Reclamaciones">
   </div>
     </div>
 

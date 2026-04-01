@@ -12,9 +12,9 @@
         <button type="button" data-bs-target="#carruselExample" data-bs-slide-to="2"><span class="progress"></span></button>
     </div>
     <div class="carousel-inner">
-        <div class="carousel-item active"><img src="{{ asset('img/logo1.png') }}" class="d-block w-100"></div>
-        <div class="carousel-item"><img src="{{ asset('img/logo2.png') }}" class="d-block w-100"></div>
-        <div class="carousel-item"><img src="{{ asset('img/logo3.png') }}" class="d-block w-100"></div>
+        <div class="carousel-item active"><img src="{{ asset('img/logo1.webp') }}" class="d-block w-100"></div>
+        <div class="carousel-item"><img src="{{ asset('img/logo2.webp') }}" class="d-block w-100"></div>
+        <div class="carousel-item"><img src="{{ asset('img/logo3.webp') }}" class="d-block w-100"></div>
     </div>
 </div>
 
@@ -24,42 +24,46 @@
 
 <!-- Título New Arrivals -->
 <div class="titulo1 reveal">
-    <span>NEW ARRIVALS 🔥</span>
+    <span>NEW ARRIVALS 🎇</span>
 </div>
 
-<!-- Carrusel de Productos Polos -->
+<!-- Carrusel de Productos New Arrivals -->
 <div id="productCarousel" class="carousel slide reveal">
     <div class="carousel-inner">
         @php
-            $chunksPolos = $polos->chunk(4);
+            $chunksNew = $newArrivals->chunk(4); 
         @endphp
-        @foreach($chunksPolos as $chunkIndex => $chunk)
+        @foreach($chunksNew as $chunkIndex => $chunk)
             <div class="carousel-item @if($chunkIndex == 0) active @endif">
                 <div class="row justify-content-center g-1">
                     @foreach($chunk as $producto)
                         <div class="col-6 col-md-3 text-center">
-                            <a href="{{ url('/producto/'.$producto->id) }}" class="product-card">
+                            <a href="{{ route('productos.show', $producto->id) }}" class="product-card">
                                 <div class="product-img-wrapper">
                                     <img src="{{ asset('img/'.$producto->imagen) }}" class="img-main">
-                                    <img src="{{ asset('img/'.$producto->imagen2) }}" class="img-hover">
+                                    @if($producto->imagen2)
+                                        <img src="{{ asset('img/'.$producto->imagen2) }}" class="img-hover">
+                                    @endif
                                 </div>
                                 <p class="product-desc">{{ strtoupper($producto->nombre) }}</p>
                                 <p class="product-price">S/{{ number_format($producto->precio,2) }}</p>
                             </a>
                         </div>
                     @endforeach
-                    @if($chunkIndex == count($chunksPolos) - 1)
-                        <div class="col-6 col-md-3 text-center product-card ver-mas">
-                            <div class="ver-mas-title">NEW ARRIVALS</div>
-                            <a href="{{ url('/productos') }}" class="ver-mas-link">Ver más</a>
-                        </div>
-                    @endif
+
+                    {{-- Ver más al final del último chunk --}}
+                   @if($chunkIndex == count($chunksNew) - 1)
+                    <div class="col-6 col-md-3 text-center product-card ver-mas">
+                        <div class="ver-mas-title">NEW ARRIVALS</div>
+                        <a href="{{ route('productos.newArrivals') }}" class="ver-mas-link">Ver más</a>
+                    </div>
+                @endif
                 </div>
             </div>
         @endforeach
     </div>
 
-    <!-- Controles del carrusel de productos -->
+    <!-- Controles del carrusel -->
     <button id="prevProduct" class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon"></span>
     </button>
@@ -84,7 +88,7 @@
                 <div class="row justify-content-center g-1">
                     @foreach($chunk as $producto)
                         <div class="col-6 col-md-3 text-center">
-                            <a href="{{ url('/producto/'.$producto->id) }}" class="product-card">
+                            <a href="{{ route('productos.show', $producto->id) }}" class="product-card">
                                 <div class="product-img-wrapper">
                                     <img src="{{ asset('img/'.$producto->imagen) }}" class="img-main">
                                     <img src="{{ asset('img/'.$producto->imagen2) }}" class="img-hover">
@@ -97,7 +101,7 @@
                     @if($chunkIndex == count($chunksCasacas) - 1)
                         <div class="col-6 col-md-3 text-center product-card ver-mas">
                             <div class="ver-mas-title">CASACAS</div>
-                            <a href="{{ route('productos.catalogo', ['categoria' => 'Casacas']) }}" class="ver-mas-link">Ver más</a>
+                            <a href="{{ route('productos.catalogo', strtolower('Casacas')) }}" class="ver-mas-link">Ver más</a>
                         </div>
                     @endif
                 </div>
@@ -116,12 +120,12 @@
 
 <!-- Banner -->
 <div class="banner reveal" style="margin-top: 40px;">
-    <img src="{{ asset('img/baner.png') }}" class="d-block w-100">
+    <img src="{{ asset('img/baner.webp') }}" class="d-block w-100">
 </div>
 
 <!-- Verano / Promoción -->
 <div class="verano reveal" style="margin-top: 60px; text-align: center; gap: 20px; display: flex; padding-left: 180px;">
-    <img src="{{ asset('img/bividi3.png') }}" style="width: 600px; height: auto;">
+    <img src="{{ asset('img/bividi3.webp') }}" style="width: 600px; height: auto;">
     <div style="display: flex; flex-direction: column; justify-content: flex-start;">
         <h2 style="margin: 180px 0 0 0; padding-left: 200px">¡Nuevos Bividis de Moda!</h2>
         <p style="margin: 60px 0 0 0; font-size: 20px; padding-left: 200px; color: gray;">
@@ -136,17 +140,18 @@
 <div id="productCarousel3" class="carousel slide reveal">
     <div class="carousel-inner">
         @php
-            $chunkCategorias = $categorias->chunk(3);
+            $categorias = \App\Models\Categoria::all();
+            $chunks = $categorias->chunk(3); // 3 categorías por slide
         @endphp
 
-        @foreach($chunkCategorias as $chunkIndex => $chunk)
+        @foreach($chunks as $chunkIndex => $chunk)
             <div class="carousel-item @if($chunkIndex == 0) active @endif">
                 <div class="row justify-content-center g-3">
                     @foreach($chunk as $categoria)
                         <div class="col-6 col-md-4 text-center">
-                            <a href="{{ url('/productos?categoria='.$categoria->slug) }}" class="category-card-link">
+                            <a href="{{ route('productos.catalogo', ['categoria' => $categoria->nombre]) }}" class="category-card-link">
                                 <div class="category-card">
-                                    <img src="{{ asset('img/'.$categoria->imagen) }}" class="category-img">
+                                    <img src="{{ asset('img/'.$categoria->slug.'.webp') }}" class="category-img" alt="{{ $categoria->nombre }}">
                                     <div class="category-overlay"><span>{{ strtoupper($categoria->nombre) }}</span></div>
                                 </div>
                                 <div class="category-ver-mas">Ver más →</div>
@@ -159,10 +164,10 @@
     </div>
 
     <!-- Controles del carrusel -->
-    <button id="prevProduct3" class="carousel-control-prev" type="button" data-bs-target="#productCarousel3">
+    <button id="prevProduct3" class="carousel-control-prev" type="button" data-bs-target="#productCarousel3" data-bs-slide="prev">
         <span class="carousel-control-prev-icon"></span>
     </button>
-    <button id="nextProduct3" class="carousel-control-next" type="button" data-bs-target="#productCarousel3">
+    <button id="nextProduct3" class="carousel-control-next" type="button" data-bs-target="#productCarousel3" data-bs-slide="next">
         <span class="carousel-control-next-icon"></span>
     </button>
 </div>

@@ -3,7 +3,7 @@
 @section('content')
 <section class="product-detail container" style="padding-top: 150px;">
 
-  <div class="row g-9">
+  <div class="row g-4">
         {{-- Galería de imágenes --}}
     <div class="col-md-6 product-gallery d-flex">
   {{-- Miniaturas a la izquierda --}}

@@ -10,7 +10,11 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Aquí llamamos a tu seeder de productos
+      
+    // Aquí llamamos a tu seeder de categorias
+        $this->call(CategoriaSeeder::class);
+
+    // Aquí llamamos a tu seeder de productos
         $this->call(ProductoSeeder::class);
     }
 }

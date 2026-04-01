@@ -8,21 +8,31 @@ use App\Models\Producto;
 class ProductoController extends Controller
 {
     // 🔹 Mostrar el catálogo de productos
-    public function catalogo($categoria = null)
-    {
-        // Trae todos los productos activos con su categoría
-        $productos = Producto::with('categoria')
-            ->where('activo', 1)
-            ->get();
-
-        // Agrupa los productos por nombre de categoría
-        $categorias = $productos->groupBy(function($producto) {
+   public function catalogo($categoria = null)
+{
+    // 🔹 TODAS las categorías (para el sidebar)
+    $todasCategorias = Producto::with('categoria')
+        ->where('activo', 1)
+        ->get()
+        ->groupBy(function($producto) {
             return $producto->categoria->nombre ?? 'Sin categoría';
         });
 
-        // 👇 IMPORTANTE: enviamos también la categoría seleccionada
-        return view('catalogo', compact('categorias', 'categoria'));
+    // 🔹 QUERY base
+    $query = Producto::with('categoria')
+        ->where('activo', 1);
+
+    // 🔥 filtro por categoría
+    if ($categoria) {
+        $query->whereHas('categoria', function ($q) use ($categoria) {
+            $q->whereRaw('LOWER(nombre) = ?', [strtolower($categoria)]);
+        });
     }
+
+    $productos = $query->get();
+
+    return view('catalogo', compact('productos', 'todasCategorias', 'categoria'));
+}
 
 
 
