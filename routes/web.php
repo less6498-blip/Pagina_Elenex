@@ -27,7 +27,7 @@ Route::get('/productos/{id}', [ProductoController::class, 'show'])
 Route::resource('pedidos', PedidoController::class);
 
 // 🔎 Buqueda de productos
-Route::get('/api/productos/buscar', [ProductoController::class, 'buscar']);
+Route::get('/api/productos/buscar', [ProductoController::class, 'buscar'])->name('productos.buscar');
 
 // 🎇 New arrivals
 Route::get('/new-arrivals', [App\Http\Controllers\HomeController::class, 'newArrivals'])

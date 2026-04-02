@@ -20,6 +20,15 @@
 <div class="container" style="padding-top: 180px;">
     <h1 class="text-center mb-5" style="margin-left: 330px;">Catálogo de Productos 🛍️</h1>
 
+
+    {{-- Mostrar mensaje solo si viene desde Ver Más (query no vacía) --}}
+    @if(!empty($queryBusqueda))
+        <p class="text-center mb-4" style="color: gray; font-weight: 600; margin-left: 330px;">
+            Resultados para "{{ $queryBusqueda }}"
+        </p>
+    @endif
+
+
     <div class="row" style="padding-top: 10px;">
         {{-- Sidebar de categorías --}}
         <div class="col-lg-3 mb-4">

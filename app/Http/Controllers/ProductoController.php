@@ -8,9 +8,11 @@ use App\Models\Producto;
 class ProductoController extends Controller
 {
     // 🔹 Mostrar el catálogo de productos
-   public function catalogo($categoria = null)
+   public function catalogo(Request $request, $categoria = null)
 {
-    // 🔹 TODAS las categorías (para el sidebar)
+    $queryBusqueda = $request->get('query');
+
+    // 🔹 TODAS las categorías
     $todasCategorias = Producto::with('categoria')
         ->where('activo', 1)
         ->get()
@@ -22,16 +24,27 @@ class ProductoController extends Controller
     $query = Producto::with('categoria')
         ->where('activo', 1);
 
-    // 🔥 filtro por categoría
+    // 🔹 filtro por categoría
     if ($categoria) {
         $query->whereHas('categoria', function ($q) use ($categoria) {
             $q->whereRaw('LOWER(nombre) = ?', [strtolower($categoria)]);
         });
     }
 
+    // 🔥 FILTRO POR BUSQUEDA (IMPORTANTE)
+    if (!empty($queryBusqueda)) {
+        $palabras = explode(' ', $queryBusqueda);
+
+        $query->where(function ($q) use ($palabras) {
+            foreach ($palabras as $palabra) {
+                $q->where('nombre', 'like', '%' . $palabra . '%');
+            }
+        });
+    }
+
     $productos = $query->get();
 
-    return view('catalogo', compact('productos', 'todasCategorias', 'categoria'));
+    return view('catalogo', compact('productos', 'todasCategorias', 'categoria', 'queryBusqueda'));
 }
 
 
@@ -44,7 +57,7 @@ class ProductoController extends Controller
         ->where('activo', 1)
         ->where('nombre', 'like', "%{$query}%")
         ->take(20) // máximo 20 resultados
-        ->get(['id', 'nombre', 'precio', 'imagen', 'slug']); // campos que necesitas
+        ->get(['id', 'nombre', 'precio', 'imagen']); // campos que necesitas
 
     // Asegúrate de poner la URL completa de la imagen si es relativa
     $productos->transform(function($p) {

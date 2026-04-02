@@ -132,7 +132,7 @@
             ¡Prepara tu armario para el calor! El Nuevo Bividi de Hombre Elenex 
             <br><br> es la clave para un estilo casual coordinado y sin esfuerzo...
         </p>
-        <a href="/productos" class="btn-ver">Ver más</a>
+        <a href="{{ route('productos.catalogo', strtolower('Bividis')) }}" class="btn-ver">Ver más</a>
     </div>
 </div>
 

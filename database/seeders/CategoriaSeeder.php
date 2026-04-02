@@ -19,6 +19,7 @@ class CategoriaSeeder extends Seeder
         ['nombre' => 'Bermudas', 'descripcion' => 'Bermudas para verano', 'slug' => 'bermudas'],
         ['nombre' => 'Shorts', 'descripcion' => 'Shorts casuales', 'slug' => 'shorts'],
         ['nombre' => 'Calzados', 'descripcion' => 'Lo mejor en calzados', 'slug' => 'calzados'],
+        ['nombre' => 'Accesorios', 'descripcion' => 'Complementos y accesorios de moda', 'slug' => 'accesorios'],
     ];
 
     foreach ($categorias as $cat) {

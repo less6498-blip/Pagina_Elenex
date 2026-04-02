@@ -4,10 +4,17 @@
 
 @section('content')
 
-<div class="container" style="padding-top: 50px;">
+<div class="container" style="padding-top: 180px;">
+    
+    {{-- Título --}}
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">New Arrivals 🎇</h1>
+        <p class="text-muted">Descubre nuestros productos más recientes</p>
+    </div>
+
     <div class="row g-4">
         @forelse($productos as $producto)
-            <div class="col-md-6 col-lg-4 product-item">
+            <div class="col-md-6 col-lg-3 product-item">
                 <div class="card product-card">
                     {{-- Imagen principal y hover --}}
                     <div class="product-img-wrapper">
