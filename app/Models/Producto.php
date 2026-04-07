@@ -42,4 +42,8 @@ class Producto extends Model
     {
         return $this->hasMany(DetalleCarrito::class);
     }
+    public function imagenes()
+    {
+    return $this->hasMany(Imagen::class)->orderBy('orden');
+    }
 }

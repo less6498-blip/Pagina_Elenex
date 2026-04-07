@@ -3,218 +3,249 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use App\Models\Categoria;
 use App\Models\Producto;
 use App\Models\Marca;
+use App\Models\Variante;
+use App\Models\Imagen;
 
 class ProductoSeeder extends Seeder
 {
     public function run(): void
     {
-        // ===========================
-        // 1️⃣ Crear la Marca
-        // ===========================
-        $marca = Marca::firstOrCreate(
-            ['nombre' => 'Elenex'], // condición para no duplicar
-            ['activo' => 1]
-        );
+        $marca = Marca::firstOrCreate(['nombre' => 'Elenex'], ['activo' => 1]);
+
+        $polos = Categoria::where('slug', 'polos')->first();
+        $casacas = Categoria::where('slug', 'casacas')->first();
+        $bividis = Categoria::where('slug', 'bividis')->first();
 
         // ===========================
-        // 2️⃣ Crear Categorías
-        // ===========================
-        $polos = Categoria::firstOrCreate([
-            'nombre' => 'Polos'
-        ], [
-            'descripcion' => 'Polos de hombre y mujer',
-            'slug' => 'polos'
-        ]);
-
-        $casacas = Categoria::firstOrCreate([
-            'nombre' => 'Casacas'
-        ], [
-            'descripcion' => 'Casacas para todas las temporadas',
-            'slug' => 'casacas'
-        ]);
-
-        // ===========================
-        // 3️⃣ Crear Productos Polos
+        // Productos Polos (New Arrivals)
         // ===========================
         $productosPolos = [
             [
-                'nombre' => 'Polo Mojito',
-                'talla' => 'M',
-                'color' => 'Blanco',
-                'stock' => 10,
-                'imagen' => 'mojito1.png',
-                'imagen2' => 'mojito2.png',
-                'slug' => 'polo-mojito',
-                'precio' => 65.00,
-                'activo' => 1
+                'nombre' => 'Polo Mojito Oversize',
+                'precio' => 75.00,
+                'nuevo' => true,
+                'variantes' => [
+                    ['color'=>'Blanco','tallas'=>['S'=>20,'M'=>30,'L'=>30,'XL'=>15],'imagenes'=>['mojito1.webp','mojito2.webp']],
+                ]
             ],
             [
-                'nombre' => 'Polo Oversize Negro',
-                'talla' => 'L',
-                'color' => 'Negro',
-                'stock' => 8,
-                'imagen' => 'over1.png',
-                'imagen2' => 'over2.png',
-                'slug' => 'polo-oversize-negro',
-                'precio' => 65.00,
-                'activo' => 1
+                'nombre' => 'Polo Harry Oversize',
+                'precio' => 75.00,
+                'nuevo' => true,
+                'variantes' => [
+                    ['color'=>'Negro','tallas'=>['S'=>15,'M'=>15,'L'=>13,'XL'=>0],'imagenes'=>['over1.webp','over2.webp']],
+                ]
             ],
             [
-                'nombre' => 'Polo Oversize Verde',
-                'talla' => 'M',
-                'color' => 'Verde',
-                'stock' => 7,
-                'imagen' => 'oververde1.png',
-                'imagen2' => 'oververde2.png',
-                'slug' => 'polo-oversize-verde',
+                'nombre' => 'Polo Positive Oversize',
                 'precio' => 65.00,
-                'activo' => 1
+                'nuevo' => true,
+                'variantes' => [
+                    ['color'=>'Verde','tallas'=>['S'=>21,'M'=>20,'L'=>10,'XL'=>5],'imagenes'=>['oververde1.webp','oververde2.webp']],
+                ]
             ],
             [
-                'nombre' => 'Bividi Blanco',
-                'talla' => 'M',
-                'color' => 'Blanco',
-                'stock' => 5,
-                'imagen' => 'bividi1.png',
-                'imagen2' => 'bividi2.png',
-                'slug' => 'bividi-blanco',
+                'nombre' => 'Polo Wait Boxy',
                 'precio' => 65.00,
-                'activo' => 1
+                'nuevo' => true,
+                'variantes' => [
+                    ['color'=>'Acero','tallas'=>['S'=>29,'M'=>23,'L'=>12,'XL'=>10],'imagenes'=>['wait1.webp','wait2.webp']],
+                ]
             ],
             [
-                'nombre' => 'Polo Wait Azul',
-                'talla' => 'M',
-                'color' => 'Azul',
-                'stock' => 5,
-                'imagen' => 'wait1.png',
-                'imagen2' => 'wait2.png',
-                'slug' => 'wait-azul',
+                'nombre' => 'Polo Nomadic Boxy',
                 'precio' => 65.00,
-                'activo' => 1
+                'nuevo' => true,
+                'variantes' => [
+                    ['color'=>'Blanco','tallas'=>['S'=>3,'M'=>1,'L'=>0,'XL'=>3],'imagenes'=>['nomadic1.webp','nomadic2.webp']],
+                ]
             ],
             [
-                'nombre' => 'Polo Nomadic Blanco',
-                'talla' => 'S',
-                'color' => 'Blanco',
-                'stock' => 5,
-                'imagen' => 'nomadic1.png',
-                'imagen2' => 'nomadic2.png',
-                'slug' => 'nomadic-blanco',
+                'nombre' => 'Polo Stop Wars Boxy',
                 'precio' => 65.00,
-                'activo' => 1
-            ],
-            [
-                'nombre' => 'Polo Stop Wars',
-                'talla' => 'M',
-                'color' => 'Cocoa',
-                'stock' => 5,
-                'imagen' => 'stopwars1.png',
-                'imagen2' => 'stopwars2.png',
-                'slug' => 'stopwars-cocoa',
-                'precio' => 65.00,
-                'activo' => 1
+                'nuevo' => true,
+                'variantes' => [
+                    ['color'=>'Expresso','tallas'=>['S'=>14,'M'=>3,'L'=>7,'XL'=>4],'imagenes'=>['stopwars1.webp','stopwars2.webp']],
+                ]
             ],
         ];
 
-        foreach ($productosPolos as $producto) {
-            Producto::create(array_merge($producto, [
+        foreach ($productosPolos as $prod) {
+            $producto = Producto::create([
                 'categoria_id' => $polos->id,
-                'marca_id' => $marca->id
-            ]));
+                'marca_id' => $marca->id,
+                'nombre' => $prod['nombre'],
+                'slug' => Str::slug($prod['nombre']),
+                'precio' => $prod['precio'],
+                'activo' => 1,
+                'nuevo' => $prod['nuevo'] ?? false,
+            ]);
+
+            foreach ($prod['variantes'] as $var) {
+                // Crear todas las tallas de la variante
+                foreach ($var['tallas'] as $talla => $stock) {
+                    $variante = Variante::create([
+                        'producto_id' => $producto->id,
+                        'talla' => $talla,
+                        'color' => $var['color'],
+                        'stock' => $stock,
+                        'stock_reservado' => 0,
+                        'sku' => strtoupper($producto->slug.'-'.$var['color'].'-'.$talla),
+                    ]);
+
+                    // Crear imágenes por color (para todas las tallas se repiten)
+                    foreach ($var['imagenes'] as $index => $img) {
+                        Imagen::create([
+                            'variante_id' => $variante->id,
+                            'ruta' => $img,
+                            'orden' => $index+1,
+                        ]);
+                    }
+                }
+            }
         }
 
         // ===========================
-        // 4️⃣ Crear Productos Casacas
+        // Productos Casacas (no New Arrival)
         // ===========================
         $productosCasacas = [
-            [
-                'nombre' => 'Casaca Wheeler Negro',
-                'talla' => 'M',
-                'color' => 'Negro',
-                'stock' => 4,
-                'imagen' => 'wheeler.png',
-                'imagen2' => 'wheeler2.png',
-                'slug' => 'casaca-wheeler-negro',
-                'precio' => 124.00,
-                'activo' => 1
+                [
+                'nombre' => 'Casaca Wheeler',
+                'precio' => 125.00,
+                'nuevo' => false,
+                'variantes' => [
+                    ['color'=>'Negro','tallas'=>['S'=>20,'M'=>20,'L'=>10,'XL'=>0],'imagenes'=>['wheeler.webp','wheeler2.webp']],
+                ]
             ],
-            [
-                'nombre' => 'Casaca Trek Verde',
-                'talla' => 'L',
-                'color' => 'Verde',
-                'stock' => 6,
-                'imagen' => 'trek.png',
-                'imagen2' => 'trek2.png',
-                'slug' => 'casaca-trek-verde',
-                'precio' => 299.90,
-                'activo' => 1
-            ],
-            [
-                'nombre' => 'Casaca Quik negro',
-                'talla' => 'M',
-                'color' => 'Negro',
-                'stock' => 11,
-                'imagen' => 'quik.png',
-                'imagen2' => 'quik2.png',
-                'slug' => 'casaca-quik-negro',
-                'precio' => 369.90,
-                'activo' => 1
-            ],
-            [
-                'nombre' => 'Casaca Carnero Lond',
-                'talla' => 'S',
-                'color' => 'Negro',
-                'stock' => 14,
-                'imagen' => 'carnero.png',
-                'imagen2' => 'carnero2.png',
-                'slug' => 'casaca-carnero-lond-negro',
+                [
+                'nombre' => 'Casaca Trek',
                 'precio' => 219.90,
-                'activo' => 1
+                'nuevo' => false,
+                'variantes' => [
+                    ['color'=>'Verde-Blanco','tallas'=>['S'=>5,'M'=>13,'L'=>11,'XL'=>0],'imagenes'=>['trek.webp','trek2.webp']],
+                    ['color'=>'Negro-Blanco','tallas'=>['S'=>2,'M'=>7,'L'=>5,'XL'=>0],'imagenes'=>['trek.webp','trek2.webp']],
+                ]
             ],
-            [
-                'nombre' => 'Casaca Counter Verde',
-                'talla' => 'M',
-                'color' => 'Verde',
-                'stock' => 9,
-                'imagen' => 'counter.png',
-                'imagen2' => 'counter2.png',
-                'slug' => 'casaca-counter-verde',
-                'precio' => 219.90,
-                'activo' => 1
+                [
+                'nombre' => 'Casaca Quik',
+                'precio' => 199.90,
+                'nuevo' => false,
+                'variantes' => [
+                    ['color'=>'Negro','tallas'=>['S'=>17,'M'=>23,'L'=>26,'XL'=>12],'imagenes'=>['quik.webp','quik2.webp']],
+                    ['color'=>'Beige','tallas'=>['S'=>17,'M'=>22,'L'=>13,'XL'=>9],'imagenes'=>['quik.webp','quik2.webp']],
+                ]
             ],
-            [
+                [
                 'nombre' => 'Casaca Carnero Lond',
-                'talla' => 'M',
-                'color' => 'Beige',
-                'stock' => 20,
-                'imagen' => 'carn.png',
-                'imagen2' => 'carn2.png',
-                'slug' => 'casaca-carnero-lond-beige',
-                'precio' => 249.90,
-                'activo' => 1
+                'precio' => 170.00,
+                'nuevo' => false,
+                'variantes' => [
+                    ['color'=>'Negro','tallas'=>['S'=>3,'M'=>3,'L'=>5,'XL'=>2],'imagenes'=>['carnero.webp','carnero2.webp']],
+                    ['color'=>'Camello','tallas'=>['S'=>5,'M'=>3,'L'=>9,'XL'=>4],'imagenes'=>['carn.webp','carn2.webp']],
+                ]
             ],
-            [
+                [
+                'nombre' => 'Casaca Counter',
+                'precio' => 99.90,
+                'nuevo' => false,
+                'variantes' => [
+                    ['color'=>'Verde','tallas'=>['S'=>3,'M'=>0,'L'=>0,'XL'=>14],'imagenes'=>['counter.webp','counter2.webp']],
+                ]
+            ],
+                [
                 'nombre' => 'Casaca Boxy Fit Nomad',
-                'talla' => 'L',
-                'color' => 'Violeta',
-                'stock' => 6,
-                'imagen' => 'boxy.png',
-                'imagen2' => 'boxy2.png',
-                'slug' => 'casaca-boxy-fit-nomad',
-                'precio' => 249.90,
-                'activo' => 1
+                'precio' => 149.90,
+                'nuevo' => false,
+                'variantes' => [
+                    ['color'=>'Violeta','tallas'=>['S'=>8,'M'=>20,'L'=>17,'XL'=>7],'imagenes'=>['boxy.webp','boxy2.webp']],
+                    ['color'=>'Verde','tallas'=>['S'=>68,'M'=>32,'L'=>11,'XL'=>40],'imagenes'=>['boxy.webp','boxy2.webp']],
+                ]
+            ],
+            // ... otras casacas
+        ];
+
+        foreach ($productosCasacas as $prod) {
+            $producto = Producto::create([
+                'categoria_id' => $casacas->id,
+                'marca_id' => $marca->id,
+                'nombre' => $prod['nombre'],
+                'slug' => Str::slug($prod['nombre']),
+                'precio' => $prod['precio'],
+                'activo' => 1,
+                'nuevo' => $prod['nuevo'] ?? false,
+            ]);
+
+            foreach ($prod['variantes'] as $var) {
+                foreach ($var['tallas'] as $talla => $stock) {
+                    $variante = Variante::create([
+                        'producto_id' => $producto->id,
+                        'talla' => $talla,
+                        'color' => $var['color'],
+                        'stock' => $stock,
+                        'stock_reservado' => 0,
+                        'sku' => strtoupper($producto->slug.'-'.$var['color'].'-'.$talla),
+                    ]);
+
+                    foreach ($var['imagenes'] as $index => $img) {
+                        Imagen::create([
+                            'variante_id' => $variante->id,
+                            'ruta' => $img,
+                            'orden' => $index+1,
+                        ]);
+                    }
+                }
+            }
+        }
+
+        // ===========================
+        // Productos Bividis (New Arrival)
+        // ===========================
+        $productosBividis = [
+            [
+                'nombre' => 'Bividi Blanco',
+                'precio' => 65.00,
+                'nuevo' => true,
+                'variantes' => [
+                    ['color'=>'Blanco','tallas'=>['M'=>5],'imagenes'=>['bividi1.webp','bividi2.webp']],
+                ]
             ],
         ];
 
-        foreach ($productosCasacas as $producto) {
-            Producto::create(array_merge($producto, [
-                'categoria_id' => $casacas->id,
-                'marca_id' => $marca->id
-            ]));
-        }
+        foreach ($productosBividis as $prod) {
+            $producto = Producto::create([
+                'categoria_id' => $bividis->id,
+                'marca_id' => $marca->id,
+                'nombre' => $prod['nombre'],
+                'slug' => Str::slug($prod['nombre']),
+                'precio' => $prod['precio'],
+                'activo' => 1,
+                'nuevo' => $prod['nuevo'] ?? false,
+            ]);
 
+            foreach ($prod['variantes'] as $var) {
+                foreach ($var['tallas'] as $talla => $stock) {
+                    $variante = Variante::create([
+                        'producto_id' => $producto->id,
+                        'talla' => $talla,
+                        'color' => $var['color'],
+                        'stock' => $stock,
+                        'stock_reservado' => 0,
+                        'sku' => strtoupper($producto->slug.'-'.$var['color'].'-'.$talla),
+                    ]);
+
+                    foreach ($var['imagenes'] as $index => $img) {
+                        Imagen::create([
+                            'variante_id' => $variante->id,
+                            'ruta' => $img,
+                            'orden' => $index+1,
+                        ]);
+                    }
+                }
+            }
+        }
     }
 }

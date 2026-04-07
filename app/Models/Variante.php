@@ -27,4 +27,8 @@ class Variante extends Model
     {
         return $this->hasMany(DetallePedido::class);
     }
+    public function imagenes()
+    {
+    return $this->hasMany(Imagen::class)->orderBy('orden');
+    }
 }

@@ -18,9 +18,17 @@
                 <div class="card product-card">
                     {{-- Imagen principal y hover --}}
                     <div class="product-img-wrapper">
-                        <img src="{{ asset('img/' . $producto->imagen) }}" class="product-img" alt="{{ $producto->nombre }}">
-                        @if($producto->imagen2)
-                            <img src="{{ asset('img/' . $producto->imagen2) }}" class="product-img img-hover" alt="{{ $producto->nombre }} hover">
+                       @php
+                            $imagenPrincipal = $producto->variantes->first()->imagenes->first();
+                            $imagenHover = $producto->variantes->first()->imagenes->skip(1)->first();
+                        @endphp
+
+                        @if($imagenPrincipal)
+                        <img src="{{ asset('img/' . $imagenPrincipal->ruta) }}" class="product-img" alt="{{ $producto->nombre }}">
+                        @endif
+
+                        @if($imagenHover)
+                        <img src="{{ asset('img/' . $imagenHover->ruta) }}" class="product-img img-hover" alt="{{ $producto->nombre }} hover">
                         @endif
                     </div>
 

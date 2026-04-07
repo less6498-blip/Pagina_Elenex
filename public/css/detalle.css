@@ -145,3 +145,38 @@ body {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+.color-box.active-color {
+    border: 2px solid #000;
+}
+
+.talla-box {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.talla-box.disabled {
+    text-decoration: line-through;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.talla-box.selected {
+    background-color: #000;
+    color: #fff;
+}

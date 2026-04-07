@@ -11,17 +11,12 @@ return new class extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
 
-            // 🔗 Relación con categorias y marca
+            // 🔗 Relación con categorías y marcas
             $table->foreignId('categoria_id')->constrained('categorias');
             $table->foreignId('marca_id')->constrained('marcas');
 
-            // 📍 Datos de dirección
+            // 📍 Datos generales del producto
             $table->string('nombre');
-            $table->string('talla');
-            $table->string('color');
-            $table->integer('stock');
-            $table->string('imagen')->nullable();
-            $table->string('imagen2')->nullable();
             $table->string('slug')->unique();
             $table->decimal('precio', 10, 2);
             $table->boolean('activo')->default(true);
@@ -29,6 +24,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+
     public function down(): void
     {
         Schema::dropIfExists('productos');

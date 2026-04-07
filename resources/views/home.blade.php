@@ -40,10 +40,18 @@
                         <div class="col-6 col-md-3 text-center">
                             <a href="{{ route('productos.show', $producto->id) }}" class="product-card">
                                 <div class="product-img-wrapper">
-                                    <img src="{{ asset('img/'.$producto->imagen) }}" class="img-main">
-                                    @if($producto->imagen2)
-                                        <img src="{{ asset('img/'.$producto->imagen2) }}" class="img-hover">
-                                    @endif
+                                @php
+                                    $imagenPrincipal = $producto->variantes->first()->imagenes->first();
+                                    $imagenHover = $producto->variantes->first()->imagenes->skip(1)->first();
+                                @endphp
+
+                                @if($imagenPrincipal)
+                                    <img src="{{ asset('img/' . $imagenPrincipal->ruta) }}" class="product-img" alt="{{ $producto->nombre }}">
+                                @endif
+
+                                @if($imagenHover)
+                                    <img src="{{ asset('img/' . $imagenHover->ruta) }}" class="product-img img-hover" alt="{{ $producto->nombre }} hover">
+                                @endif
                                 </div>
                                 <p class="product-desc">{{ strtoupper($producto->nombre) }}</p>
                                 <p class="product-price">S/{{ number_format($producto->precio,2) }}</p>
@@ -90,8 +98,18 @@
                         <div class="col-6 col-md-3 text-center">
                             <a href="{{ route('productos.show', $producto->id) }}" class="product-card">
                                 <div class="product-img-wrapper">
-                                    <img src="{{ asset('img/'.$producto->imagen) }}" class="img-main">
-                                    <img src="{{ asset('img/'.$producto->imagen2) }}" class="img-hover">
+                                     @php
+                                        $imagenPrincipal = $producto->variantes->first()->imagenes->first();
+                                        $imagenHover = $producto->variantes->first()->imagenes->skip(1)->first();
+                                     @endphp
+
+                                     @if($imagenPrincipal)
+                                        <img src="{{ asset('img/' . $imagenPrincipal->ruta) }}" class="product-img" alt="{{ $producto->nombre }}">
+                                     @endif
+
+                                     @if($imagenHover)
+                                        <img src="{{ asset('img/' . $imagenHover->ruta) }}" class="product-img img-hover" alt="{{ $producto->nombre }} hover">
+                                     @endif
                                 </div>
                                 <p class="product-desc">{{ strtoupper($producto->nombre) }}</p>
                                 <p class="product-price">S/{{ number_format($producto->precio,2) }}</p>
