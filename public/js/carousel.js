@@ -1,45 +1,68 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const carousel = document.getElementById("carruselExample");
-  const bsCarousel = bootstrap.Carousel.getOrCreateInstance(carousel);
+(function () {
+    const DURATION = 4000;
+    const EXPAND_DELAY = 350;
+    const BAR_WIDTH = 44;
 
-  // Botones personalizados
-  document.getElementById("prevBtn").addEventListener("click", () => {
-    bsCarousel.prev();
-  });
+    const bsEl = document.getElementById('carruselExample');
+    const dots = document.querySelectorAll('#carruselIndicators .yape-dot');
+    const TOTAL = dots.length;
+    let current = 0;
+    let autoTimer = null;
+    let expandTimeout = null;
+    let fillRAF = null;
+    let fillStart = null;
+    let isTransitioning = false;
 
-  document.getElementById("nextBtn").addEventListener("click", () => {
-    bsCarousel.next();
-  });
+    function resetDot(dot) {
+        dot.style.width = '8px';
+        const fill = dot.querySelector('.yape-dot-fill');
+        fill.style.transition = 'none';
+        fill.style.width = '0px';
+    }
 
-  // Función de barra de progreso (si ya la tienes)
-  const interval = parseInt(carousel.getAttribute("data-bs-interval")) || 4000;
-  let activeBar = null;
+    function activateDot(dot) {
+        cancelAnimationFrame(fillRAF);
+        clearTimeout(expandTimeout);
+        dot.style.width = '8px';
+        const fill = dot.querySelector('.yape-dot-fill');
+        fill.style.transition = 'none';
+        fill.style.width = '8px';
 
-  function resetBars() {
-    document.querySelectorAll(".progress").forEach((bar) => {
-      bar.style.transition = "none";
-      bar.style.width = "0%";
+        expandTimeout = setTimeout(() => {
+            dot.style.width = BAR_WIDTH + 'px';
+            fillStart = null;
+            const remaining = DURATION - EXPAND_DELAY;
+            fillRAF = requestAnimationFrame(function tick(ts) {
+                if (!fillStart) fillStart = ts;
+                const progress = Math.min((ts - fillStart) / remaining, 1);
+                fill.style.width = (8 + (BAR_WIDTH - 8) * progress) + 'px';
+                if (progress < 1) fillRAF = requestAnimationFrame(tick);
+            });
+        }, EXPAND_DELAY);
+    }
+
+    // Sincronizar con Bootstrap cuando cambia el slide
+    bsEl.addEventListener('slide.bs.carousel', (e) => {
+        resetDot(dots[current]);
+        current = e.to;
+        activateDot(dots[current]);
     });
-  }
 
-  function fillActiveBar() {
-    resetBars();
-    activeBar = document.querySelector(
-      ".carousel-indicators button.active .progress"
-    );
-    if (!activeBar) return;
+    // Click en dots
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            const index = parseInt(dot.dataset.index);
+            bootstrap.Carousel.getInstance(bsEl).to(index);
+        });
+    });
 
-    setTimeout(() => {
-      activeBar.style.transition = `width ${interval}ms linear`;
-      activeBar.style.width = "100%";
-    }, 50);
-  }
+    // Flechas
+    document.getElementById('prevBtn').addEventListener('click', () => {
+        bootstrap.Carousel.getInstance(bsEl).prev();
+    });
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        bootstrap.Carousel.getInstance(bsEl).next();
+    });
 
-  fillActiveBar();
-
-  carousel.addEventListener("slid.bs.carousel", fillActiveBar);
-
-  document.querySelectorAll(".carousel-indicators button").forEach((btn) => {
-    btn.addEventListener("click", fillActiveBar);
-  });
-});
+    activateDot(dots[0]);
+})();

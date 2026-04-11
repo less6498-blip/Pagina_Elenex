@@ -6,11 +6,14 @@
 
 <!-- Carrusel de Portada -->
 <div id="carruselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carruselExample" data-bs-slide-to="0" class="active"><span class="progress"></span></button>
-        <button type="button" data-bs-target="#carruselExample" data-bs-slide-to="1"><span class="progress"></span></button>
-        <button type="button" data-bs-target="#carruselExample" data-bs-slide-to="2"><span class="progress"></span></button>
+    
+    <!-- Indicadores estilo Yape -->
+    <div class="yape-indicators" id="carruselIndicators">
+        <div class="yape-dot" data-bs-target="#carruselExample" data-index="0"><div class="yape-dot-fill"></div></div>
+        <div class="yape-dot" data-bs-target="#carruselExample" data-index="1"><div class="yape-dot-fill"></div></div>
+        <div class="yape-dot" data-bs-target="#carruselExample" data-index="2"><div class="yape-dot-fill"></div></div>
     </div>
+
     <div class="carousel-inner">
         <div class="carousel-item active"><img src="{{ asset('img/logo1.webp') }}" class="d-block w-100"></div>
         <div class="carousel-item"><img src="{{ asset('img/logo2.webp') }}" class="d-block w-100"></div>
@@ -188,6 +191,19 @@
     <button id="nextProduct3" class="carousel-control-next" type="button" data-bs-target="#productCarousel3" data-bs-slide="next">
         <span class="carousel-control-next-icon"></span>
     </button>
+</div>
+
+<!-- Carrusel móvil de categorías (scroll horizontal) -->
+<div class="categorias-scroll-movil">
+    @foreach(\App\Models\Categoria::all() as $categoria)
+        <a href="{{ route('productos.catalogo', ['categoria' => $categoria->nombre]) }}" class="categoria-scroll-item">
+            <div class="category-card">
+                <img src="{{ asset('img/'.$categoria->slug.'.webp') }}" class="category-img" alt="{{ $categoria->nombre }}">
+                <div class="category-overlay"><span>{{ strtoupper($categoria->nombre) }}</span></div>
+            </div>
+            <div class="category-ver-mas">Ver más →</div>
+        </a>
+    @endforeach
 </div>
 
 @endsection

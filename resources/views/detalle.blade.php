@@ -52,9 +52,12 @@ $colorMap = [
     'blanco' => '#ffffff',
     'negro' => '#000000',
     'acero' => '#5d85a7',
-    'gris' => '#808080',
-    'rojo' => '#FF0000',
-    'azul' => '#0000FF',
+    'oliva' => '#356439',
+    'expresso' => '#aa8163',
+    'verde-claro' => '#c8e4c9',
+    'beige' => '#e2c9a9',
+    'verde-oscuro' => '#1d3623',
+    'lila' => '#8c64ad',
     // agrega todos los colores que uses
 ];
 
@@ -297,16 +300,24 @@ function renderMiniaturas(variante) {
 // Evento click para cada color
 colorBoxes.forEach(box => {
     box.addEventListener("click", () => {
-        // Desmarcar todos los colores
+
+        // Desmarcar colores
         colorBoxes.forEach(c => c.classList.remove("active-color"));
         box.classList.add("active-color");
 
         // Renderizar tallas
         renderTallas(box.dataset.color);
 
-        // Actualizar miniaturas e imagen principal
-        const varianteColor = variantes.find(v => v.color === box.dataset.color);
-        renderMiniaturas(varianteColor);
+        // 🔥 Obtener variantes del color
+        const variantesColor = variantes.filter(v => v.color === box.dataset.color);
+
+        let varianteFinal = variantesColor.find(v => v.imagenes && v.imagenes.length > 0);
+
+        if (!varianteFinal && variantesColor.length > 0) {
+            varianteFinal = variantesColor[0];
+        }
+
+        renderMiniaturas(varianteFinal);
     });
 });
 

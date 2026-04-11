@@ -45,7 +45,7 @@ class ProductoSeeder extends Seeder
                 'precio' => 65.00,
                 'nuevo' => true,
                 'variantes' => [
-                    ['color'=>'Verde','tallas'=>['S'=>21,'M'=>20,'L'=>10,'XL'=>5],'imagenes'=>['oververde1.webp','oververde2.webp']],
+                    ['color'=>'Oliva','tallas'=>['S'=>21,'M'=>20,'L'=>10,'XL'=>5],'imagenes'=>['oververde1.webp','oververde2.webp']],
                 ]
             ],
             [
@@ -118,7 +118,7 @@ class ProductoSeeder extends Seeder
                 'precio' => 125.00,
                 'nuevo' => false,
                 'variantes' => [
-                    ['color'=>'Negro','tallas'=>['S'=>20,'M'=>20,'L'=>10,'XL'=>0],'imagenes'=>['wheeler.webp','wheeler2.webp']],
+                    ['color'=>'Negro','tallas'=>['S'=>20,'M'=>20,'L'=>10,'XL'=>0],'imagenes'=>['wheeler.webp','wheeler2.webp','wheeler3.webp','wheeler4.webp','wheeler5.webp']],
                 ]
             ],
                 [
@@ -126,8 +126,8 @@ class ProductoSeeder extends Seeder
                 'precio' => 219.90,
                 'nuevo' => false,
                 'variantes' => [
-                    ['color'=>'Verde-Blanco','tallas'=>['S'=>5,'M'=>13,'L'=>11,'XL'=>0],'imagenes'=>['trek.webp','trek2.webp']],
-                    ['color'=>'Negro-Blanco','tallas'=>['S'=>2,'M'=>7,'L'=>5,'XL'=>0],'imagenes'=>['trek.webp','trek2.webp']],
+                    ['color'=>'Verde-Claro','tallas'=>['S'=>5,'M'=>13,'L'=>11,'XL'=>0],'imagenes'=>['trek.webp','trek2.webp','trek3.webp','trek4.webp','trek5.webp']],
+                    ['color'=>'Negro','tallas'=>['S'=>2,'M'=>7,'L'=>5,'XL'=>0],'imagenes'=>['trekn.webp','trekn2.webp','trekn3.webp','trekn4.webp','trekn5.webp']],
                 ]
             ],
                 [
@@ -135,8 +135,8 @@ class ProductoSeeder extends Seeder
                 'precio' => 199.90,
                 'nuevo' => false,
                 'variantes' => [
-                    ['color'=>'Negro','tallas'=>['S'=>17,'M'=>23,'L'=>26,'XL'=>12],'imagenes'=>['quik.webp','quik2.webp']],
-                    ['color'=>'Beige','tallas'=>['S'=>17,'M'=>22,'L'=>13,'XL'=>9],'imagenes'=>['quik.webp','quik2.webp']],
+                    ['color'=>'Negro','tallas'=>['S'=>17,'M'=>23,'L'=>26,'XL'=>12],'imagenes'=>['quik.webp','quik2.webp','quik3.webp','quik4.webp','quik5.webp']],
+                    ['color'=>'Beige','tallas'=>['S'=>17,'M'=>22,'L'=>13,'XL'=>9],'imagenes'=>['quikb.webp','quikb2.webp','quikb3.webp','quikb4.webp','quikb5.webp']],
                 ]
             ],
                 [
@@ -144,8 +144,8 @@ class ProductoSeeder extends Seeder
                 'precio' => 170.00,
                 'nuevo' => false,
                 'variantes' => [
-                    ['color'=>'Negro','tallas'=>['S'=>3,'M'=>3,'L'=>5,'XL'=>2],'imagenes'=>['carnero.webp','carnero2.webp']],
-                    ['color'=>'Camello','tallas'=>['S'=>5,'M'=>3,'L'=>9,'XL'=>4],'imagenes'=>['carn.webp','carn2.webp']],
+                    ['color'=>'Negro','tallas'=>['S'=>3,'M'=>3,'L'=>5,'XL'=>2],'imagenes'=>['carnero.webp','carnero2.webp','carnero3.webp','carnero4.webp','carnero5.webp']],
+                    ['color'=>'Beige','tallas'=>['S'=>5,'M'=>3,'L'=>9,'XL'=>4],'imagenes'=>['carn.webp','carn2.webp','carn3.webp','carn4.webp','carn5.webp']],
                 ]
             ],
                 [
@@ -153,7 +153,7 @@ class ProductoSeeder extends Seeder
                 'precio' => 99.90,
                 'nuevo' => false,
                 'variantes' => [
-                    ['color'=>'Verde','tallas'=>['S'=>3,'M'=>0,'L'=>0,'XL'=>14],'imagenes'=>['counter.webp','counter2.webp']],
+                    ['color'=>'Verde-Oscuro','tallas'=>['S'=>3,'M'=>0,'L'=>0,'XL'=>14],'imagenes'=>['counter.webp','counter2.webp']],
                 ]
             ],
                 [
@@ -161,8 +161,8 @@ class ProductoSeeder extends Seeder
                 'precio' => 149.90,
                 'nuevo' => false,
                 'variantes' => [
-                    ['color'=>'Violeta','tallas'=>['S'=>8,'M'=>20,'L'=>17,'XL'=>7],'imagenes'=>['boxy.webp','boxy2.webp']],
-                    ['color'=>'Verde','tallas'=>['S'=>68,'M'=>32,'L'=>11,'XL'=>40],'imagenes'=>['boxy.webp','boxy2.webp']],
+                    ['color'=>'Lila','tallas'=>['S'=>8,'M'=>20,'L'=>17,'XL'=>7],'imagenes'=>['boxy.webp','boxy2.webp','boxy3.webp','boxy4.webp']],
+                    ['color'=>'Verde-Oscuro','tallas'=>['S'=>68,'M'=>32,'L'=>11,'XL'=>40],'imagenes'=>['boxye.webp','boxye2.webp','boxye3.webp','boxye4.webp']],
                 ]
             ],
             // ... otras casacas

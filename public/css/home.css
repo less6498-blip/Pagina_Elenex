@@ -1,44 +1,33 @@
-/* ========================= */
 /* INDICADORES DEL CARRUSEL */
-.carousel-indicators button:not(.active) {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  border: none;
-  margin: 0 5px; 
-  padding: 0;
-  overflow: hidden;
-  transition: background-color 0.3s ease;
+.yape-indicators {
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    z-index: 10;
 }
 
-.carousel-indicators button.active {
-  width: 40px;
-  height: 8px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.3);
-  position: relative;
-  overflow: hidden;
-  margin: 0 5px; 
-  padding: 0;
+.yape-dot {
+    position: relative;
+    height: 8px;
+    border-radius: 50px;
+    background: rgba(255,255,255,0.35);
+    cursor: pointer;
+    transition: width 0.45s cubic-bezier(.4,0,.2,1);
+    width: 8px;
+    flex-shrink: 0;
 }
 
-.carousel-indicators button.active .progress {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0;
-  background: white;
-  border-radius: 12px;
-  transition: width linear;
-  box-sizing: border-box;
-}
-
-.carousel-indicators button, 
-.carousel-indicators .progress {
-  padding: 0 !important;
-  border: none !important;
+.yape-dot-fill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: #ffffff;
+    border-radius: 50px;
+    width: 0px;
 }
 
 /* ========================= */
@@ -494,3 +483,177 @@
   transform: translateY(0);
 }
 
+/* ========================= */
+/* OCULTAR/MOSTRAR SEGÚN DISPOSITIVO */
+.categorias-scroll-movil {
+    display: none;
+}
+/*RESPONSIVE*/
+
+@media (max-width: 768px) {
+
+    /* ========================= */
+    /* CARRUSEL PORTADA */
+    #carruselExample {
+        margin-top: 80px;
+        height: 21vh;
+    }
+
+    .yape-dot {
+      width: 5px;
+      height: 5px;
+    }
+
+    
+    .yape-indicators{
+      bottom: 10px;
+    }
+
+    
+    .custom-arrow {
+      top: 19% !important;
+      transform: translateY(-50%) !important;
+      color: whitesmoke;
+      font-size: 25px;
+      transition: opacity 0.3s ease;
+    }
+
+    #prevBtn { left: 10px; }
+    #nextBtn { right: 10px; }
+
+
+    /* ========================= */
+    /* TITULOS */
+    .titulo1, 
+    .titulo2 {
+      margin: 25px 0 35px 0 !important;
+        }
+    .titulo1 span, .titulo2 span {
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+        padding: 0 10px;
+    }
+
+   /* ========================= */
+/* PRODUCTOS MÁS PEQUEÑOS */
+.product-img-wrapper {
+    height: 300px;
+}
+
+.product-desc {
+    font-size: 0.65rem;
+    margin-top: 4px;
+}
+
+.product-price {
+    font-size: 0.80rem !important;
+}
+
+/* ========================= */ 
+/* SECCION VERANO / BIVIDIS */ 
+.verano { 
+  flex-direction: column !important; 
+  padding-left: 0 !important; 
+  align-items: center !important; 
+  margin-top: 30px !important; 
+  gap: 0 !important; 
+} 
+.verano img { 
+  width: 100% !important; 
+  max-width: 400px; 
+} 
+  .verano div { 
+    padding-left: 0 !important; 
+    align-items: center !important; 
+  } 
+  .verano h2 { 
+    margin: 20px 0 0 0 !important; 
+    padding-left: 0 !important; 
+    font-size: 1.4rem; 
+    text-align: center; 
+  } 
+  .verano p { 
+    margin: 20px 0 0 0 !important; 
+    padding-left: 0 !important; 
+    font-size: 15px !important; 
+    text-align: center; 
+  } 
+  .btn-ver { 
+    margin: 20px auto 0 auto !important; 
+    padding-left: 0 !important; 
+  }
+
+
+/* ========================= */
+/* CATEGORIAS - 2 por slide en columna */
+#productCarousel3 .row {
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+#productCarousel3 .col-6 {
+    width: 80% !important;
+}
+
+#productCarousel3 .col-6:nth-child(n+3) {
+    display: none;
+}
+
+#productCarousel3 .category-img {
+     height: 45vw; /* 🔥 responsive real */
+    max-height: 300px;
+}
+
+    /* Ocultar carrusel Bootstrap en móvil */
+    #productCarousel3 {
+        display: none !important;
+    }
+
+    /* Mostrar scroll horizontal en móvil */
+    .categorias-scroll-movil {
+        display: flex;
+        overflow-x: auto;
+        margin-top: 30px;
+        gap: 12px;
+        padding: 20px 16px;
+        margin-left: 30px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .categorias-scroll-movil::-webkit-scrollbar {
+        display: none;
+    }
+
+    .categoria-scroll-item {
+        flex: 0 0 85vw;
+        scroll-snap-align: start;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .categoria-scroll-item .category-card {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .categoria-scroll-item .category-img {
+        width: 100%;
+        height: 60vw;
+        max-height: 320px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .categoria-scroll-item .category-overlay span {
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+
+    .categoria-scroll-item .category-ver-mas {
+        font-size: 13px;
+        margin-top: 8px;
+        margin-left: 4px;
+    }
+}

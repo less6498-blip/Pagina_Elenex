@@ -1,5 +1,33 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+
+actualizarFlechasMovil('productCarousel');
+actualizarFlechasMovil('productCarousel2');
+
+function actualizarFlechasMovil(carouselId) {
+    if (window.innerWidth > 768) return;
+
+    const carousel = document.getElementById(carouselId);
+    if (!carousel) return;
+
+    const items = carousel.querySelectorAll('.carousel-item');
+    const total = items.length;
+    const prevBtn = carousel.querySelector('.carousel-control-prev');
+    const nextBtn = carousel.querySelector('.carousel-control-next');
+
+    // Estado inicial — solo mostrar next en primer slide
+    if (prevBtn) prevBtn.style.display = 'none';
+    if (nextBtn) nextBtn.style.display = 'flex';
+
+    carousel.addEventListener('slid.bs.carousel', (e) => {
+        const current = e.to;
+        if (prevBtn) prevBtn.style.display = current === 0 ? 'none' : 'flex';
+        if (nextBtn) nextBtn.style.display = current === total - 1 ? 'none' : 'flex';
+    });
+}
+
+/*CARRUSEL GENERAL*/
+
   function setupCarousel(carouselId, prevId, nextId) {
     const carousel = document.getElementById(carouselId);
     const prevBtn = document.getElementById(prevId);
