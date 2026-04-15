@@ -17,6 +17,7 @@
     line-height: 1.6;
     color: #222;
     font-family: 'Montserrat', sans-serif;
+    padding-top: 120px;
 }
 
 /* CONTENEDOR */
@@ -140,4 +141,51 @@
     font-size: 16px; /* o 18px según convenga */
     vertical-align: middle;
     vertical-align: text-top;
+}
+
+/*RESPONSIVE*/
+/* ── Tablet: hasta 1024px ── */
+@media (max-width: 1024px) {
+  .tienda-card        { width: calc(45% - 25px); padding: 24px; }
+  .tiendas-title      { font-size: 28px; }
+  .carousel-track     { min-height: 750px; }
+}
+
+/* ── Móvil: hasta 767px ── */
+@media (max-width: 767px) {
+  .tiendas-title      { font-size: 22px; margin-bottom: 24px;padding-top: 50px; }
+
+  /* El track ya no necesita altura fija: el slide activo empuja el alto */
+  .carousel-track     { min-height: auto; padding-bottom: 60px; }
+
+  /* Los slides pasan de absolute a flujo normal */
+  .carousel-slide {
+    position: relative;
+    opacity: 1;
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .carousel-slide.active { display: flex; }
+
+  /* Cards a ancho completo */
+  .tienda-card        { width: 100%; padding: 20px; box-sizing: border-box; }
+  .tienda-card h2     { font-size: 18px; margin-bottom: 12px; }
+  .tienda-card p      { font-size: 14px; }
+
+  /* Flechas bajan al pie del carousel */
+  .carousel button    { top: auto; bottom: 8px; transform: none; padding: 10px 13px; font-size: 10px; width: 30px; height: 32px; }
+  .next               { right: 12px; }
+  .prev               { left: 12px; display: block; } /* se muestra siempre, JS la oculta si es slide 0 */
+
+  /* Anula el max-height del slide 3 */
+  .carousel-slide:nth-child(3) { max-height: none; }
+}
+
+/* ── Móvil pequeño: hasta 480px ── */
+@media (max-width: 480px) {
+  .tiendas-page       { padding: 0 12px; }
+  .tiendas-title      { font-size: 18px; letter-spacing: 0; }
+  .tienda-card        { padding: 16px; }
+  .btn                { font-size: 13px; padding: 8px 12px; }
 }

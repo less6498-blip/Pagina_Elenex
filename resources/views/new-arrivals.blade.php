@@ -2,14 +2,18 @@
 
 @section('title', 'New Arrivals')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/arrivals.css') }}">
+
+
 @section('content')
 
-<div class="container" style="padding-top: 180px;">
+<div class="container">
     
     {{-- Título --}}
     <div class="text-center mb-5">
-        <h1 class="fw-bold">New Arrivals 🎇</h1>
-        <p class="text-muted">Descubre nuestros productos más recientes</p>
+        <h1 class="arrivals-title">New Arrivals 🎇</h1>
+        <p class="text-muted" style="text-align: center">Descubre nuestros productos más recientes</p>
     </div>
 
     <div class="row g-4">

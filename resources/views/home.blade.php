@@ -157,6 +157,10 @@
     </div>
 </div>
 
+<!-- Título Categorias -->
+<div class="titulo3 reveal">
+    <span> CATEGORIAS</span>
+</div>
 <!-- Carrusel de Categorías -->
 <div id="productCarousel3" class="carousel slide reveal">
     <div class="carousel-inner">

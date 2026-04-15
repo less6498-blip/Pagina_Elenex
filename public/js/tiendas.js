@@ -1,33 +1,16 @@
-document.addEventListener('DOMContentLoaded', () => {
+const slides = document.querySelectorAll('.carousel-slide');
+const prev   = document.querySelector('.prev');
+const next   = document.querySelector('.next');
+let current  = 0;
 
-    const slides = document.querySelectorAll('.carousel-slide');
-    const nextBtn = document.querySelector('.next');
-    const prevBtn = document.querySelector('.prev');
+function goTo(n) {
+  slides[current].classList.remove('active');
+  current = (n + slides.length) % slides.length;
+  slides[current].classList.add('active');
+  prev.style.display = current === 0               ? 'none' : 'block';
+  next.style.display = current === slides.length - 1 ? 'none' : 'block';
+}
 
-    let index = 0;
-
-    function updateCarousel() {
-        slides.forEach(slide => slide.classList.remove('active'));
-        slides[index].classList.add('active');
-
-        prevBtn.style.display = index === 0 ? 'none' : 'block';
-        nextBtn.style.display = index === slides.length - 1 ? 'none' : 'block';
-    }
-
-    updateCarousel(); // importante al cargar
-
-    nextBtn.addEventListener('click', () => {
-        if (index < slides.length - 1) {
-            index++;
-            updateCarousel();
-        }
-    });
-
-    prevBtn.addEventListener('click', () => {
-        if (index > 0) {
-            index--;
-            updateCarousel();
-        }
-    });
-
-});
+prev.addEventListener('click', () => goTo(current - 1));
+next.addEventListener('click', () => goTo(current + 1));
+goTo(0);

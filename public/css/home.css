@@ -67,13 +67,13 @@
 
 /* ========================= */
 /* TITULOS */
-.titulo1, .titulo2 {
+.titulo1, .titulo2, .titulo3 {
   position: relative;
   text-align: center;
   margin: 50px 0;
 }
 
-.titulo1 span, .titulo2 span {
+.titulo1 span, .titulo2 span, .titulo3 span {
   background: #fff;
   padding: 0 15px;
   color: #000;
@@ -85,7 +85,7 @@
   letter-spacing: 2px;
 }
 
-.titulo1::before, .titulo2::before {
+.titulo1::before, .titulo2::before, .titulo3::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -313,7 +313,7 @@
 /* ========================= */
 /* PRODUCT CAROUSEL 3 - CATEGORIAS */
 #productCarousel3 {
-  margin-top: 60px;
+  margin-top: -30px;
 }
 
 #productCarousel3 .carousel-item .row {
@@ -521,19 +521,22 @@
     #prevBtn { left: 10px; }
     #nextBtn { right: 10px; }
 
-
+    
     /* ========================= */
     /* TITULOS */
     .titulo1, 
-    .titulo2 {
+    .titulo2,
+    .titulo3 {
       margin: 25px 0 35px 0 !important;
         }
-    .titulo1 span, .titulo2 span {
+    .titulo1 span, .titulo2 span, .titulo3 span {
         font-size: 1.2rem;
         letter-spacing: 1px;
         padding: 0 10px;
     }
-
+    .titulo3 {
+        top: 7px;
+    }
    /* ========================= */
 /* PRODUCTOS MÁS PEQUEÑOS */
 .product-img-wrapper {
@@ -549,6 +552,12 @@
     font-size: 0.80rem !important;
 }
 
+.ver-mas-title {
+  text-align: center;
+}
+.ver-mas-link {
+  text-align: center;
+}
 /* ========================= */ 
 /* SECCION VERANO / BIVIDIS */ 
 .verano { 
@@ -560,7 +569,7 @@
 } 
 .verano img { 
   width: 100% !important; 
-  max-width: 400px; 
+  max-width: 300px; 
 } 
   .verano div { 
     padding-left: 0 !important; 
@@ -569,18 +578,23 @@
   .verano h2 { 
     margin: 20px 0 0 0 !important; 
     padding-left: 0 !important; 
-    font-size: 1.4rem; 
+    font-size: 1.2rem; 
     text-align: center; 
   } 
   .verano p { 
     margin: 20px 0 0 0 !important; 
     padding-left: 0 !important; 
-    font-size: 15px !important; 
+    font-size: 12px !important; 
     text-align: center; 
   } 
   .btn-ver { 
     margin: 20px auto 0 auto !important; 
     padding-left: 0 !important; 
+    width: 165px;
+    height: 35px;
+    font-size: 15px;
+    background-color: #000;
+    color: #fff;
   }
 
 
@@ -613,10 +627,10 @@
     .categorias-scroll-movil {
         display: flex;
         overflow-x: auto;
-        margin-top: 30px;
+        margin-top: -20px;
         gap: 12px;
         padding: 20px 16px;
-        margin-left: 30px;
+        margin-left: 25px;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
