@@ -233,41 +233,107 @@ colorBoxes.forEach(box => {
 if (colorBoxes.length > 0) colorBoxes[0].click();
 
 /* ── Carrusel de miniaturas en móvil ── */
-(function() {
+(function () {
   let thumbIndex = 0;
   const PER_VIEW = 3;
 
-  function updateThumbCarousel() {
-    if (window.innerWidth > 767) return;
-    const thumbs = subImagesContainer.querySelectorAll('.sub-img');
-    const total  = thumbs.length;
-    if (total === 0) return;
-    thumbs.forEach((t, i) => {
-      t.style.display = (i >= thumbIndex && i < thumbIndex + PER_VIEW) ? '' : 'none';
+  function injectThumbNav() {
+    if (document.getElementById('thumb-prev')) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'thumb-wrapper';
+
+    const btnPrev = document.createElement('button');
+    btnPrev.id   = 'thumb-prev';
+    btnPrev.type = 'button';
+    btnPrev.innerHTML = '❮';
+
+    const btnNext = document.createElement('button');
+    btnNext.id   = 'thumb-next';
+    btnNext.type = 'button';
+    btnNext.innerHTML = '❯';
+
+    /* Envolver: prev | sub-images | next */
+    subImagesContainer.parentNode.insertBefore(wrapper, subImagesContainer);
+    wrapper.appendChild(btnPrev);
+    wrapper.appendChild(subImagesContainer);
+    wrapper.appendChild(btnNext);
+
+    /* Forzar ancho completo vía JS por si el CSS no llega a tiempo */
+    wrapper.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:8px;width:100%;box-sizing:border-box;padding:0 8px;margin-top:10px;';
+
+    /* Puntos DEBAJO del wrapper */
+    const dotsContainer = document.createElement('div');
+    dotsContainer.id = 'thumb-dots';
+    wrapper.parentNode.insertBefore(dotsContainer, wrapper.nextSibling);
+
+    btnPrev.addEventListener('click', () => {
+      if (thumbIndex === 0) return;
+      thumbIndex--;
+      updateThumbCarousel(true);
     });
-    const btnPrev = document.getElementById('thumb-prev');
-    const btnNext = document.getElementById('thumb-next');
-    if (btnPrev) btnPrev.style.display = thumbIndex === 0 ? 'none' : '';
-    if (btnNext) btnNext.style.display = (thumbIndex + PER_VIEW >= total) ? 'none' : '';
+
+    btnNext.addEventListener('click', () => {
+      const total = subImagesContainer.querySelectorAll('.sub-img').length;
+      if (thumbIndex + PER_VIEW >= total) return;
+      thumbIndex++;
+      updateThumbCarousel(true);
+    });
   }
 
-  function injectThumbNav() {
-    if (document.getElementById('thumb-nav')) return;
-    const wrap = document.createElement('div');
-    wrap.id = 'thumb-nav';
-    wrap.innerHTML = `
-      <button id="thumb-prev" type="button">❮</button>
-      <button id="thumb-next" type="button">❯</button>
-    `;
-    subImagesContainer.parentNode.insertBefore(wrap, subImagesContainer.nextSibling);
-    document.getElementById('thumb-prev').addEventListener('click', () => {
-      thumbIndex = Math.max(0, thumbIndex - 1);
-      updateThumbCarousel();
-    });
-    document.getElementById('thumb-next').addEventListener('click', () => {
-      const total = subImagesContainer.querySelectorAll('.sub-img').length;
-      thumbIndex = Math.min(thumbIndex + 1, total - PER_VIEW);
-      updateThumbCarousel();
+  function updateThumbCarousel(animate = false) {
+    if (window.innerWidth > 767) return;
+
+    const thumbs = Array.from(subImagesContainer.querySelectorAll('.sub-img'));
+    const total  = thumbs.length;
+    if (total === 0) return;
+
+    if (animate) {
+      thumbs.forEach(t => {
+        t.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        t.style.opacity    = '0';
+        t.style.transform  = 'translateX(10px)';
+      });
+      setTimeout(() => {
+        applyVisibility(thumbs);
+        thumbs.forEach(t => {
+          t.style.opacity   = '1';
+          t.style.transform = 'translateX(0)';
+        });
+      }, 200);
+    } else {
+      applyVisibility(thumbs);
+    }
+
+    /* Flechas — deshabilitar en extremos */
+    const btnPrev = document.getElementById('thumb-prev');
+    const btnNext = document.getElementById('thumb-next');
+    if (btnPrev) btnPrev.disabled = thumbIndex === 0;
+    if (btnNext) btnNext.disabled = thumbIndex + PER_VIEW >= total;
+
+    /* Puntos — 1 punto por imagen (no por página) */
+    const dotsContainer = document.getElementById('thumb-dots');
+    if (dotsContainer) {
+      dotsContainer.innerHTML = '';
+      /* Solo mostrar puntos si hay más imágenes que PER_VIEW */
+      if (total > PER_VIEW) {
+        const maxIndex = total - PER_VIEW; /* últimos índices posibles */
+        for (let i = 0; i <= maxIndex; i++) {
+          const dot = document.createElement('span');
+          if (i === thumbIndex) dot.classList.add('active-dot');
+          dot.addEventListener('click', () => {
+            thumbIndex = i;
+            updateThumbCarousel(true);
+          });
+          dotsContainer.appendChild(dot);
+        }
+      }
+    }
+  }
+
+  function applyVisibility(thumbs) {
+    thumbs.forEach((t, i) => {
+      t.style.display = (i >= thumbIndex && i < thumbIndex + PER_VIEW) ? '' : 'none';
     });
   }
 
@@ -276,29 +342,29 @@ if (colorBoxes.length > 0) colorBoxes[0].click();
       injectThumbNav();
       updateThumbCarousel();
     } else {
-      subImagesContainer.querySelectorAll('.sub-img').forEach(t => t.style.display = '');
+      subImagesContainer.querySelectorAll('.sub-img').forEach(t => {
+        t.style.display   = '';
+        t.style.opacity   = '';
+        t.style.transform = '';
+      });
     }
   }
 
-  /* ── PATCH: interceptar renderMiniaturas para resetear el carrusel ── */
   const _orig = renderMiniaturas;
-  renderMiniaturas = function(variante) {
+  renderMiniaturas = function (variante) {
     _orig(variante);
     thumbIndex = 0;
     setTimeout(() => initMobileCarousel(), 0);
   };
 
-  /* También parchear el listener de color para usar la versión nueva */
-  colorBoxes.forEach(box => {
-    box.replaceWith(box.cloneNode(true)); // elimina listeners viejos
-  });
-  document.querySelectorAll(".color-box").forEach(box => {
-    box.addEventListener("click", () => {
-      document.querySelectorAll(".color-box").forEach(c => c.classList.remove("active-color"));
-      box.classList.add("active-color");
+  colorBoxes.forEach(box => box.replaceWith(box.cloneNode(true)));
+  document.querySelectorAll('.color-box').forEach(box => {
+    box.addEventListener('click', () => {
+      document.querySelectorAll('.color-box').forEach(c => c.classList.remove('active-color'));
+      box.classList.add('active-color');
       renderTallas(box.dataset.color);
       const variantesColor = variantes.filter(v => v.color === box.dataset.color);
-      let varianteFinal = variantesColor.find(v => v.imagenes && v.imagenes.length > 0) ?? variantesColor[0];
+      const varianteFinal  = variantesColor.find(v => v.imagenes && v.imagenes.length > 0) ?? variantesColor[0];
       renderMiniaturas(varianteFinal);
     });
   });

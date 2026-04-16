@@ -171,24 +171,28 @@ body {
   }
 
   /* ── Contenedor miniaturas: fila con carrusel ── */
-  .sub-images {
-    order: 2;
+/* DESPUÉS */
+.sub-images {
   display: flex !important;
-  justify-content: center;   /* 🔥 centra como Dunkelvolk */
-  gap: 8px !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 8px !important;  /* ← espacio uniforme entre miniaturas */
+  flex: 0 0 auto !important;  /* ← no estira el contenedor */
+}
 
-  width: 100%;               /* 🔥 ocupa todo */
-  margin: 10px 0 0 0;        /* 🔥 sin desplazamientos */
-  
-  overflow: visible;         /* 🔥 NO cortar */
-  }
+.sub-img {
+  width: 80px !important;
+  height: 80px !important;
+  flex-shrink: 0 !important;
+  object-fit: cover !important;
+  border-radius: 5px !important;
+  border: 2px solid transparent !important;
+  cursor: pointer;
+}
 
-  /* Miniatura: ocupa exactamente 1/3 del ancho */
-  .sub-img {
-    width: 90px !important;   /* 🔥 tamaño tipo tienda */
-  height: 90px !important;
-  flex-shrink: 0;
-  }
+.sub-img.active-thumb {
+  border: 2px solid black !important;
+}
 
   /* ── Navegación carrusel de miniaturas ── */
   #thumb-nav {
@@ -198,14 +202,77 @@ body {
     gap: 16px;
     margin-top: 8px;
   }
-  #thumb-prev, #thumb-next {
-    background: #000; color: #fff;
-    border: none; border-radius: 50%;
-    width: 30px; height: 30px;
-    font-size: 12px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-  }
 
+  /* ── Wrapper flechas + miniaturas ── */
+.thumb-wrapper {
+  order: 2;
+  display: flex !important;
+  align-items: center;
+  justify-content: center !important;  /* ← cambia space-between por center */
+  width: 100% !important;
+  margin-top: 10px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  overflow: visible !important;
+  gap: 8px;  /* ← agrega gap entre flechas y miniaturas */
+}
+
+#thumb-prev {
+  justify-self: start;
+}
+
+#thumb-next {
+  justify-self: end;
+  margin-left: -17px;
+}
+
+/* Flechas */
+#thumb-prev, #thumb-next {
+  background: transparent;
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.thumb-wrapper .sub-img.active-thumb {
+  border: 2px solid black !important;
+}
+
+#thumb-prev:hover, #thumb-next:hover { transform: scale(1.15); }
+#thumb-prev:disabled, #thumb-next:disabled { opacity: 0.3; cursor: default; }
+
+/* Puntos indicadores */
+#thumb-dots {
+  order: 3;
+  display: flex !important;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  width: 100%;
+  padding: 0;
+}
+#thumb-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ccc;
+  display: inline-block;
+  transition: background 0.3s, transform 0.3s;
+  cursor: pointer;
+}
+#thumb-dots span.active-dot {
+  background: #000;
+  transform: scale(1.3);
+}
   /* ── Info producto ── */
   .product-info {
     flex: none !important;
