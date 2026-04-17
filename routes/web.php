@@ -20,7 +20,7 @@ Route::resource('clientes', ClienteController::class);
 
 Route::get('/catalogo/{categoria?}', [ProductoController::class, 'catalogo'])
     ->name('productos.catalogo'); // 
-Route::get('/productos/{id}', [ProductoController::class, 'show'])
+Route::get('/productos/{slug}', [ProductoController::class, 'show'])
     ->name('productos.show');
     
 // 🧾 Pedidos (CRUD)

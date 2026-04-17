@@ -195,6 +195,15 @@ h2.category-title {
     opacity: 1;
 }
 
+.cart-icon {
+    width: 17px;
+    height: 17px;
+    filter: brightness(0) invert(1); /* la convierte a blanco */
+    object-fit: contain;
+    display: block;
+    transform: translateY(-2px);
+}
+
 /* 💻 SOLO DESKTOP */
 @media (min-width: 992px) {
     .catalog-header h1 {
@@ -272,5 +281,16 @@ h2.category-title {
 
     .card-body {
         padding: 10px;
+    }
+    .cart-btn-text {
+        font-size: 0.65rem;
+    }
+    .cart-icon {
+    width: 12px;
+    height: 12px;
+    filter: brightness(0) invert(1); /* la convierte a blanco */
+    object-fit: contain;
+    display: block;
+    transform: translateY(-2px);
     }
 }

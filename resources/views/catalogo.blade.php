@@ -94,19 +94,25 @@
                                 @endif
                             </div>
 
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">{{ $producto->nombre }}</h5>
-                                <p class="price">S/ {{ number_format($producto->precio, 2) }}</p>
+                            <div class="card-body d-flex flex-column justify-content-between">
+    
+    <div>
+        <h5 class="card-title">{{ $producto->nombre }}</h5>
+        <p class="price">S/ {{ number_format($producto->precio, 2) }}</p>
+    </div>
 
-                                <a href="{{ route('productos.show', $producto->id) }}"
-                                   class="btn btn-primary mb-2">
-                                    Ver detalle
-                                </a>
+    <div>
+        <a href="{{ route('productos.show', $producto->slug) }}"
+           class="btn btn-primary mb-2 w-100">
+            Ver detalle
+        </a>
 
-                                <button class="btn btn-dark mt-auto">
-                                    Añadir al carrito
-                                </button>
-                            </div>
+        <button class="btn btn-dark w-100 d-flex align-items-center justify-content-center gap-2">
+            <span class="cart-btn-text">Añadir al carrito</span>
+            <img src="https://img.icons8.com/?size=100&id=3686&format=png&color=000000" class="cart-icon">
+        </button>
+    </div>
+</div>
 
                         </div>
                     </div>

@@ -82,11 +82,13 @@ class ProductoController extends Controller
     }
 
     // 🔹 Mostrar detalle de un producto
-    public function show($id)
+   public function show($slug)
 {
     $producto = Producto::with(['variantes.imagenes' => function($q) {
         $q->orderBy('orden');
-    }])->findOrFail($id);
+    }])
+    ->where('slug', $slug)
+    ->firstOrFail();
 
     $productosSimilares = Producto::with(['variantes.imagenes'])
         ->where('activo', 1)

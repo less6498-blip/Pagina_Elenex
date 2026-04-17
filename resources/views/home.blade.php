@@ -41,7 +41,7 @@
                 <div class="row justify-content-center g-1">
                     @foreach($chunk as $producto)
                         <div class="col-6 col-md-3 text-center">
-                            <a href="{{ route('productos.show', $producto->id) }}" class="product-card">
+                            <a href="{{ route('productos.show', $producto->slug) }}" class="product-card">
                                 <div class="product-img-wrapper">
                                 @php
                                     $imagenPrincipal = $producto->variantes->first()->imagenes->first();
@@ -99,7 +99,7 @@
                 <div class="row justify-content-center g-1">
                     @foreach($chunk as $producto)
                         <div class="col-6 col-md-3 text-center">
-                            <a href="{{ route('productos.show', $producto->id) }}" class="product-card">
+                            <a href="{{ route('productos.show', $producto->slug) }}" class="product-card">
                                 <div class="product-img-wrapper">
                                      @php
                                         $imagenPrincipal = $producto->variantes->first()->imagenes->first();

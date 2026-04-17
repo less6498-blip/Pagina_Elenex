@@ -238,48 +238,45 @@ if (colorBoxes.length > 0) colorBoxes[0].click();
   const PER_VIEW = 3;
 
   function injectThumbNav() {
-    if (document.getElementById('thumb-prev')) return;
+  if (document.querySelector('.thumb-wrapper')) return; // ya existe
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'thumb-wrapper';
+  const wrapper = document.createElement('div');
+  wrapper.className = 'thumb-wrapper';
 
-    const btnPrev = document.createElement('button');
-    btnPrev.id   = 'thumb-prev';
-    btnPrev.type = 'button';
-    btnPrev.innerHTML = '❮';
+  const btnPrev = document.createElement('button');
+  btnPrev.id   = 'thumb-prev';
+  btnPrev.type = 'button';
+  btnPrev.innerHTML = '❮';
 
-    const btnNext = document.createElement('button');
-    btnNext.id   = 'thumb-next';
-    btnNext.type = 'button';
-    btnNext.innerHTML = '❯';
+  const btnNext = document.createElement('button');
+  btnNext.id   = 'thumb-next';
+  btnNext.type = 'button';
+  btnNext.innerHTML = '❯';
 
-    /* Envolver: prev | sub-images | next */
-    subImagesContainer.parentNode.insertBefore(wrapper, subImagesContainer);
-    wrapper.appendChild(btnPrev);
-    wrapper.appendChild(subImagesContainer);
-    wrapper.appendChild(btnNext);
+  subImagesContainer.parentNode.insertBefore(wrapper, subImagesContainer);
+  wrapper.appendChild(btnPrev);
+  wrapper.appendChild(subImagesContainer);
+  wrapper.appendChild(btnNext);
 
-    /* Forzar ancho completo vía JS por si el CSS no llega a tiempo */
-    wrapper.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:8px;width:100%;box-sizing:border-box;padding:0 8px;margin-top:10px;';
+  wrapper.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:8px;width:100%;box-sizing:border-box;padding:0 8px;margin-top:10px;';
 
-    /* Puntos DEBAJO del wrapper */
-    const dotsContainer = document.createElement('div');
-    dotsContainer.id = 'thumb-dots';
-    wrapper.parentNode.insertBefore(dotsContainer, wrapper.nextSibling);
+  const dotsContainer = document.createElement('div');
+  dotsContainer.id = 'thumb-dots';
+  wrapper.parentNode.insertBefore(dotsContainer, wrapper.nextSibling);
 
-    btnPrev.addEventListener('click', () => {
-      if (thumbIndex === 0) return;
-      thumbIndex--;
-      updateThumbCarousel(true);
-    });
+  btnPrev.addEventListener('click', () => {
+    if (thumbIndex === 0) return;
+    thumbIndex--;
+    updateThumbCarousel(true);
+  });
 
-    btnNext.addEventListener('click', () => {
-      const total = subImagesContainer.querySelectorAll('.sub-img').length;
-      if (thumbIndex + PER_VIEW >= total) return;
-      thumbIndex++;
-      updateThumbCarousel(true);
-    });
-  }
+  btnNext.addEventListener('click', () => {
+    const total = subImagesContainer.querySelectorAll('.sub-img').length;
+    if (thumbIndex + PER_VIEW >= total) return;
+    thumbIndex++;
+    updateThumbCarousel(true);
+  });
+}
 
   function updateThumbCarousel(animate = false) {
     if (window.innerWidth > 767) return;
@@ -338,17 +335,40 @@ if (colorBoxes.length > 0) colorBoxes[0].click();
   }
 
   function initMobileCarousel() {
-    if (window.innerWidth <= 767) {
-      injectThumbNav();
-      updateThumbCarousel();
-    } else {
-      subImagesContainer.querySelectorAll('.sub-img').forEach(t => {
-        t.style.display   = '';
-        t.style.opacity   = '';
-        t.style.transform = '';
-      });
+  if (window.innerWidth <= 767) {
+    injectThumbNav();
+    updateThumbCarousel();
+  } else {
+    // ── Deshacer la inyección en desktop ──
+    const wrapper = document.querySelector('.thumb-wrapper');
+    if (wrapper) {
+      // Sacar sub-images del wrapper y devolverla a su lugar original
+      const gallery = document.querySelector('.product-gallery');
+      const mainImageDiv = document.querySelector('.main-image');
+      wrapper.parentNode.insertBefore(subImagesContainer, mainImageDiv);
+      wrapper.remove();
     }
+    // Eliminar puntos si existen
+    const dots = document.getElementById('thumb-dots');
+    if (dots) dots.remove();
+
+    // Restaurar visibilidad de todas las miniaturas
+    subImagesContainer.querySelectorAll('.sub-img').forEach(t => {
+      t.style.display   = '';
+      t.style.opacity   = '';
+      t.style.transform = '';
+    });
   }
+}
+window.addEventListener('resize', () => {
+  thumbIndex = 0;
+  // Permitir re-inyección al volver a móvil
+  if (window.innerWidth > 767) {
+    const prevBtn = document.getElementById('thumb-prev');
+    if (prevBtn) prevBtn.closest('.thumb-wrapper') && (prevBtn.id = ''); // resetear guard
+  }
+  initMobileCarousel();
+});
 
   const _orig = renderMiniaturas;
   renderMiniaturas = function (variante) {
