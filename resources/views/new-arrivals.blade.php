@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'New Arrivals')
+@section('title', 'New Arrivals | Elenex')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/arrivals.css') }}">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Elenex')
+@section('title', 'Elenex | Moda en Ropa Urbana')
 
 @section('content')
 

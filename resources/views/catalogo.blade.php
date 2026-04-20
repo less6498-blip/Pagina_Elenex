@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Catálogo - Elenex</title>
 
     <!-- Bootstrap -->
@@ -11,6 +12,9 @@
     <!-- Tus estilos -->
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/catalogo.css') }}">
+
+    <!-- Icono -->
+    <link rel="icon" type="image/png" href="{{ asset('img/ela.png') }}?v=2">
 </head>
 <body>
 
@@ -107,10 +111,20 @@
             Ver detalle
         </a>
 
-        <button class="btn btn-dark w-100 d-flex align-items-center justify-content-center gap-2">
-            <span class="cart-btn-text">Añadir al carrito</span>
-            <img src="https://img.icons8.com/?size=100&id=3686&format=png&color=000000" class="cart-icon">
-        </button>
+        <button
+    class="btn btn-dark w-100 d-flex align-items-center justify-content-center gap-2"
+    onclick="addToCart({
+        id:      '{{ $producto->id }}',
+        name:    '{{ addslashes($producto->nombre) }}',
+        price:    {{ $producto->precio }},
+        image:   '{{ $imagenPrincipal ? asset("img/" . $imagenPrincipal->ruta) : "" }}',
+        quantity: 1
+    })"
+    aria-label="Añadir {{ $producto->nombre }} al carrito"
+>
+    <span class="cart-btn-text">Añadir al carrito</span>
+    <img src="https://img.icons8.com/?size=100&id=3686&format=png&color=000000" class="cart-icon" alt="" aria-hidden="true">
+</button>
     </div>
 </div>
 
@@ -135,7 +149,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
-
+<link rel="stylesheet" href="{{ asset('css/cart.css') }}">
+<script src="{{ asset('js/cart.js') }}"></script>
 
 </body>
 </html>

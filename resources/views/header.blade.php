@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Elenex</title>
   <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+  <!-- CAMBIO 2: Incluir los nuevos assets ANTES de </body> -->
+<link rel="stylesheet" href="{{ asset('css/cart.css') }}">
+
 </head>
 <body>
 
@@ -49,10 +52,10 @@
       <button class="search-btn" id="search-open">
         <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png">
       </button>
-      <a href="#" class="cart-btn">
-        <img src="https://img.icons8.com/?size=100&id=3686&format=png&color=000000">
-        <span class="cart-count">0</span>
-      </a>
+      <a href="#" class="cart-btn" aria-label="Abrir carrito">
+  <img src="https://img.icons8.com/?size=100&id=3686&format=png&color=000000" alt="Carrito">
+  <span class="cart-badge" aria-hidden="true" style="display:none;">0</span>
+</a>
     </div>
 
     <!-- MENU VERTICAL CATEGORÍAS -->
@@ -145,5 +148,7 @@
 
 <script src="{{ asset('js/header.js') }}"></script>
 <script src="{{ asset('js/mini-carrusel.js') }}"></script>
+<!-- ... resto del head o al final del body: -->
+<script src="{{ asset('js/cart.js') }}"></script>
 </body>
 </html>

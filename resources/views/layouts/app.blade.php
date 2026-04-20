@@ -13,6 +13,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
 
+<!-- ICONO -->
+ <link rel="icon" type="image/png" href="{{ asset('img/ela.png') }}?v=2">
 @stack('styles')
 </head>
 <body>

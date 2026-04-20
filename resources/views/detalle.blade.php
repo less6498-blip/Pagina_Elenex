@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', $producto->nombre . ' | Elenex')
+
 @section('content')
 <section class="product-detail container" style="padding-top: 150px;">
 
@@ -95,7 +97,20 @@
           @csrf
           <input type="hidden" name="variante_id" id="selectedVarianteForm" value="{{ $variante->id ?? '' }}">
           <input type="hidden" name="cantidad" id="selectedQuantity" value="1">
-          <button type="submit" class="btn btn-cart">Añadir al carrito</button>
+          <!-- En tu card o página de producto -->
+<button 
+  class="btn-add-cart"
+  onclick="addToCart({
+    id:      '{{ $producto->id }}',
+    name:    '{{ $producto->nombre }}',
+    price:    {{ $producto->precio }},
+    image:   '{{ asset($producto->imagen) }}',
+    variant: '{{ $producto->talla ?? '' }}'
+  })"
+  aria-label="Agregar {{ $producto->nombre }} al carrito"
+>
+  Agregar al carrito
+</button>
         </form>
       </div>
     </div>
