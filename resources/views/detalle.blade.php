@@ -92,26 +92,17 @@
       </div>
 
       <div class="product-buttons d-flex flex-column gap-3 mb-4">
-        <button class="btn btn-buy">Comprar ahora</button>
-        <form action="#" method="POST" class="d-inline">
-          @csrf
-          <input type="hidden" name="variante_id" id="selectedVarianteForm" value="{{ $variante->id ?? '' }}">
-          <input type="hidden" name="cantidad" id="selectedQuantity" value="1">
-          <!-- En tu card o página de producto -->
-<button 
-  class="btn-add-cart"
-  onclick="addToCart({
-    id:      '{{ $producto->id }}',
-    name:    '{{ $producto->nombre }}',
-    price:    {{ $producto->precio }},
-    image:   '{{ asset($producto->imagen) }}',
-    variant: '{{ $producto->talla ?? '' }}'
-  })"
-  aria-label="Agregar {{ $producto->nombre }} al carrito"
->
-  Agregar al carrito
-</button>
-        </form>
+    <button class="btn btn-buy" id="btn-comprar-ahora">Comprar ahora</button>
+    
+    <button
+        type="button"
+        class="btn btn-cart"
+        id="btn-agregar-carrito"
+        aria-label="Agregar {{ $producto->nombre }} al carrito"
+    >
+        Agregar al carrito
+    </button>
+</div>
       </div>
     </div>
 
@@ -407,5 +398,54 @@ window.addEventListener('resize', () => {
   window.addEventListener('resize', () => { thumbIndex = 0; initMobileCarousel(); });
   setTimeout(() => initMobileCarousel(), 100);
 })();
+</script>
+
+<script>
+document.getElementById('btn-agregar-carrito').addEventListener('click', function () {
+
+    // Obtener la imagen actual que se muestra en pantalla
+    const imgActual = document.getElementById('main-product-img')?.src || '';
+
+    // Obtener talla seleccionada
+    const tallaSeleccionada = document.querySelector('.talla-box.selected')?.textContent?.trim() || '';
+
+    // Obtener color seleccionado
+    const colorSeleccionado = document.querySelector('.color-box.active-color')?.dataset?.color || '';
+
+    // Obtener cantidad
+    const cantidad = parseInt(document.getElementById('quantity')?.value) || 1;
+
+    // Obtener variante ID seleccionada
+    const varianteId = document.getElementById('selectedVariante')?.value || '';
+
+    addToCart({
+        id:      '{{ $producto->id }}' + '-' + varianteId, // ID único por variante
+        name:    '{{ addslashes($producto->nombre) }}',
+        price:    {{ $producto->precio }},
+        image:   imgActual,
+        variant: colorSeleccionado + (tallaSeleccionada ? ' / Talla ' + tallaSeleccionada : ''),
+        quantity: cantidad
+    });
+});
+document.getElementById('btn-comprar-ahora').addEventListener('click', function () {
+    const imgActual        = document.getElementById('main-product-img')?.src || '';
+    const tallaSeleccionada = document.querySelector('.talla-box.selected')?.textContent?.trim() || '';
+    const colorSeleccionado = document.querySelector('.color-box.active-color')?.dataset?.color || '';
+    const cantidad          = parseInt(document.getElementById('quantity')?.value) || 1;
+    const varianteId        = document.getElementById('selectedVariante')?.value || '';
+
+    // Agregar al carrito
+    addToCart({
+        id:      '{{ $producto->id }}' + '-' + varianteId,
+        name:    '{{ addslashes($producto->nombre) }}',
+        price:    {{ $producto->precio }},
+        image:   imgActual,
+        variant: colorSeleccionado + (tallaSeleccionada ? ' / Talla ' + tallaSeleccionada : ''),
+        quantity: cantidad
+    });
+
+    // Ir directo al checkout
+    window.location.href = '{{ route("checkout.index") }}';
+});
 </script>
 @endsection

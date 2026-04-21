@@ -5,6 +5,7 @@ use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\CheckoutController;
 
 // Página principal 📌
 Route::get('/', [HomeController::class, 'index']);
@@ -32,3 +33,8 @@ Route::get('/api/productos/buscar', [ProductoController::class, 'buscar'])->name
 // 🎇 New arrivals
 Route::get('/new-arrivals', [App\Http\Controllers\HomeController::class, 'newArrivals'])
     ->name('productos.newArrivals'); //
+
+// 👕👖 Checkout
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/procesar', [CheckoutController::class, 'procesar'])->name('checkout.procesar');
+Route::get('/checkout/confirmacion/{codigo}', [CheckoutController::class, 'confirmacion'])->name('checkout.confirmacion');

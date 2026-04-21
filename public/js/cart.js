@@ -390,14 +390,10 @@ const CartEvents = (() => {
 
     // ── Checkout ──────────────────────────────────────────
     document.addEventListener('click', e => {
-      if (e.target.id === 'cartCheckout') {
-        // TODO: conectar con tu ruta de checkout Laravel
-        // window.location.href = '/checkout';
-        console.log('Checkout:', CartStore.getAll());
-        alert('Conecta esta acción con tu ruta de checkout.');
-      }
-    });
-
+  if (e.target.id === 'cartCheckout') {
+    window.location.href = '/checkout';
+  }
+});
     // ── Botones dentro del drawer (delegación) ────────────
     document.addEventListener('click', e => {
       // Botón + / -

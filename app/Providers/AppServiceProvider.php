@@ -10,18 +10,18 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        // Fix para Railway (proxy HTTPS)
-        $this->app['request']->server->set('HTTPS', true);
-        URL::forceScheme('https');
-        
-        // Confiar en todos los proxies de Railway
-        Request::setTrustedProxies(
-            ['*'],
-            Request::HEADER_X_FORWARDED_FOR |
-            Request::HEADER_X_FORWARDED_HOST |
-            Request::HEADER_X_FORWARDED_PORT |
-            Request::HEADER_X_FORWARDED_PROTO |
-            Request::HEADER_X_FORWARDED_AWS_ELB
-        );
+        // Solo forzar HTTPS en producción (Railway)
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+            
+            Request::setTrustedProxies(
+                ['*'],
+                Request::HEADER_X_FORWARDED_FOR |
+                Request::HEADER_X_FORWARDED_HOST |
+                Request::HEADER_X_FORWARDED_PORT |
+                Request::HEADER_X_FORWARDED_PROTO |
+                Request::HEADER_X_FORWARDED_AWS_ELB
+            );
+        }
     }
 }
