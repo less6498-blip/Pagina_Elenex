@@ -8,11 +8,13 @@ use Illuminate\Http\Request;
 
 class AppServiceProvider extends ServiceProvider
 {
-   public function boot(): void
-{
-    if (app()->environment('production')) {
+    public function boot(): void
+    {
+        // Fix para Railway (proxy HTTPS)
+        $this->app['request']->server->set('HTTPS', true);
         URL::forceScheme('https');
         
+        // Confiar en todos los proxies de Railway
         Request::setTrustedProxies(
             ['*'],
             Request::HEADER_X_FORWARDED_FOR |
@@ -22,5 +24,4 @@ class AppServiceProvider extends ServiceProvider
             Request::HEADER_X_FORWARDED_AWS_ELB
         );
     }
-}
 }
