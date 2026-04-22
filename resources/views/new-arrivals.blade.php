@@ -13,7 +13,7 @@
     {{-- Título --}}
     <div class="text-center mb-5">
         <h1 class="arrivals-title">New Arrivals 🎇</h1>
-        <p class="text-muted" style="text-align: center">Descubre nuestros productos más recientes</p>
+        <p class="text-muted" style="text-align: center;font-weight: 500px;">Descubre nuestros productos más recientes</p>
     </div>
 
     <div class="row g-4">
