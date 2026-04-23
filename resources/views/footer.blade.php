@@ -1,72 +1,65 @@
 <footer class="footer">
   <div class="footer-container">
 
-    <!-- Logo a la izquierda -->
-    <div class="footer-logo">
-      <img src="{{ asset('img/elelogo2.webp') }}" alt="Logo Elenex">
+    <!-- LOGO + DESCRIPCIÓN -->
+    <div class="footer-col">
+      <img src="{{ asset('img/elelogo2.webp') }}" alt="Logo Elenex" class="footer-logo">
 
-    <!-- Contenido sobre nosotros -->
-      <div class="footer-about">
-        <p>Somos una empresa peruana de moda urbana y casual,</p> 
-          <p>combina diseño moderno, calidad y autenticidad </p>
-          <p>en cada prenda, pensada para quienes</p> 
-          <p>buscan destacar con estilo.</p>
-      </div>
+      <p class="footer-text">
+        Somos una empresa peruana de moda urbana y casual que combina diseño moderno,
+        calidad y autenticidad en cada prenda, pensada para quienes buscan destacar con estilo.
+      </p>
 
-    <!-- Libro de reclamaciones -->
-      <div class="footer-libro">
-    <img src="{{ asset('img/libror.webp') }}" alt="Libro de Reclamaciones">
-  </div>
+      <img src="{{ asset('img/libror.webp') }}" alt="Libro de Reclamaciones" class="libro-img">
     </div>
 
-    <!-- Contacto -->
-      <div class="footer-contact">
-        <h2>CONTACTANOS</h2>
-        <p><i class="fas fa-comments"></i> Chatea con nosotros</p>
-        <span>Lunes a viernes de 9:00 a.m. - 6:00 p.m.</span> 
-        <p><i class="fas fa-envelope"></i> Escríbenos</p>
-        <span>ventasonline@elenexperu.com</span> 
-        <p><i class="fas fa-phone"></i> Llamános</p>
-        <span>+51 123 456 789</span>
-        <p><i class="fas fa-store"></i>
-        <a href="{{ route('tiendas.index') }}">Nuestras Tiendas</a></p>
-      </div>
+    <!-- CONTACTO -->
+    <div class="footer-col">
+      <h3 class="conta">Contáctanos</h3>
+      <ul>
+        <li><i class="fas fa-comments" style="color:gray;"></i> Lunes a viernes: 9:00 a.m. - 6:00 p.m.</li>
+        <li><i class="fas fa-envelope" style="color:gray;"></i> ventasonline@elenexperu.com</li>
+        <li><i class="fas fa-phone" style="color:gray;"></i> +51 123 456 789</li>
+        <li><i class="fas fa-store" style="color:gray;"></i> 
+          <a href="{{ route('tiendas.index') }}">Nuestras tiendas</a>
+        </li>
+      </ul>
+    </div>
 
-    <!-- Redes sociales + Metodos de pago -->
-     <div class="footer-right">
-      <div class="footer-social">
-        <h2>SIGUENOS</h2>
-        <div class="social-icons">
-          <a href="https://www.facebook.com/elenexpe" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a>
-          <a href="https://www.instagram.com/elenex_pe/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-          <a href="https://www.tiktok.com/@elenex_pe" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
-        </div>
-      </div>
-
-       <div class="footer-pago">
-        <h2>METODOS DE PAGO</h2>
-        <br>
-        <a href="#">VISA</a> |
-        <a href="#">MASTERCARD</a> |
-        <a href="#">DINNERS CLUB</a>
-        <br>
-        <a href="#">MASTERCARD</a> |
-        <a href="#">PAGO EFECTIVO</a> |
-        <a href="#">YAPE</a> 
+    <!-- REDES SOCIALES -->
+    <div class="footer-col">
+      <h3 class="sig">Síguenos</h3>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/elenexpe" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/elenex_pe/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.tiktok.com/@elenex_pe" target="_blank"><i class="fab fa-tiktok"></i></a>
       </div>
     </div>
+
+    <!-- MÉTODOS DE PAGO (CULQI STYLE) -->
+    <div class="footer-col">
+      <h3>Métodos de pago</h3>
+
+      <div class="payment-logos">
+        <img src="{{ asset('img/visa.svg') }}" alt="Visa">
+        <img src="{{ asset('img/mastercard.svg') }}" alt="Mastercard">
+        <img src="{{ asset('img/diners.svg') }}" alt="Diners Club">
+        <img src="{{ asset('img/pagoefectivo.svg') }}" alt="Pago Efectivo">
+        <img src="{{ asset('img/yape.svg') }}" alt="Yape">
+        <img src="{{ asset('img/plin.svg') }}" alt="Plin">
+      </div>
+    </div>
+
   </div>
 
-  <!-- Copyright -->
-  <div class="footer-copy">
-    <div class="copy-left">
-    Copyright &copy; {{ date('Y') }} ELENEX | Todos los derechos reservados.
-</div>
+  <!-- COPYRIGHT -->
+  <div class="footer-bottom">
+    <p>Copyright &copy; {{ date('Y') }} ELENEX | Todos los derechos reservados.</p>
 
-    <div class="copy-right">
-    <a href="/terminos">Términos y condiciones</a>
-    <a href="/preguntas">Preguntas frecuentes</a>
-    <a href="/politica">Politica de privacidad</a>
+    <div>
+      <a href="/terminos">Términos y condiciones</a>
+      <a href="/preguntas">Preguntas frecuentes</a>
+      <a class="pol" href="/politica">Politica de privacidad</a>
+    </div>
   </div>
-</div>
 </footer>

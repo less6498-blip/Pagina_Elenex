@@ -1,286 +1,170 @@
 .footer {
-  background-color: #000;  
-  color: #fff;             
-  padding: 30px 20px;
-  font-family: sans-serif;
-  margin-top: 40px;
+    background: #000;
+    color: #fff;
+    padding: 40px 20px 20px;
+    margin-top: 50px;
 }
 
 .footer-container {
-  display: flex;
-  align-items: flex-start;
-  gap: 50px;
-  flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 }
 
-/* LOGO */
-.footer-logo img {
-  max-width: 400px;
-  display: block;
-  margin-left: 100px;
-  margin-top: 10px;
+.footer-col h3 {
+    margin-top: 10px;
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    
 }
 
-/* NOSOTROS */
-.footer-about {
-  display: block;
-  margin-left: 130px;
-  margin-top: 20px;
+.conta {
+  margin-left: 90px;
 }
 
-.footer-about p {
-  font-family: 'Roboto', sans-serif;
-  font-size: 17px;
-  color: #fff;
-  line-height: 1.5;
-  text-align: start; /* si quieres centrar debajo del logo */
-  margin: 10px 0;
+.sig{
+  margin-left: 90px;
 }
 
-/* LIBRO DE RECLAMACIONES */
-.footer-libro {
-  display: flex;
-  justify-content: center; /* centra horizontalmente */
-  margin-top: 30px;        /* separación del texto de sobre nosotros */
+.footer-logo {
+    width: 200px;
+    margin-left: 40px;
 }
 
-.footer-libro img {
-  max-width: 150px; /* ajusta según necesites */
-  height: auto;
-  display: block;
+.footer-text {
+    font-size: 15px;
+    color: #ccc;
+    margin: 15px 0;
+    line-height: 1.6;
+    margin-left: 40px;
+}
+
+.libro-img {
+    width: 130px;
+    margin-top: 10px;
+    margin-left: 40px;
 }
 
 /* CONTACTO */
-.footer-contact {
-  display: block;
-  margin-left: 200px;
-  margin-top: 30px;
+.footer-col ul {
+    list-style: none;
+    padding: 0;
 }
 
-.footer-contact h2 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  font-size: 30px;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 1.6;
-  text-align: center;
-  text-decoration: underline;
-  text-underline-offset: 8px;
+.footer-col ul li {
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #ccc;
+    margin-left: 90px;
 }
 
-.footer-contact p {
-  font-family: 'Roboto', sans-serif;  
-  font-size: 16px;                     
-  color: #ccc;                         
-  line-height: 1.5;
-  margin: 5px 0;
-  font-weight: bold;
+.footer-col a {
+    color: #ccc;
+    font-size: 15px;
+    text-decoration: none;
 }
 
-.footer-contact i {
-  color: inherit;  /* toma el mismo color que el texto */
-  margin-right: 8px; /* opcional, separa icono del texto */
-  margin-top: 18px;
+.footer-col a:hover {
+    text-decoration: underline;
 }
 
-.footer-contact a {
-    color: #ccc;          /* color del texto, ajusta como quieras */
-    text-decoration: none; /* quita el subrayado */
-    font-weight: bold;     /* opcional, lo hace negrita */
-}
-
-.footer-contact a:hover {
-    color: #fff;           /* color al pasar el mouse */
-    text-decoration: underline; /* solo subraya al hacer hover si quieres */
-}
-
-.footer-contact span {
-  margin-left: 32px; /* un pequeño espacio entre “Llamános:” y el número */
-}
-
-/* CONTENEDOR REDES + PAGO */
-.footer-right {
-  display: flex;
-  flex-direction: column; /* esto los pone uno debajo del otro */
-  margin-left: 180px;
-  margin-top: 30px;
-  gap: 30px; /* espacio entre redes y pago */
-}
-
-/* REDES SOCIALES */
-.footer-social h2 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600px;
-  font-size: 30px;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 1.6;
-  text-align: center;
-  text-decoration: underline;
-  text-underline-offset: 8px;
-}
-
-.social-icons {
-  display: flex;
-  gap: 30px;
-  margin-top: 30px;
-  margin-left: 60px;
-}
-
-/* Estilo base (círculos) */
+/* REDES */
 .social-icons a {
-  width: 45px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: #111;
-  color: #ccc;
-  font-size: 18px;
-  transition: all 0.3s ease;
-  text-decoration: none;
+    font-size: 20px;
+    margin-right: -70px;
+    color: #fff;
+    margin-left: 90px;
 }
 
-/* hover general */
-.social-icons a:hover {
-  transform: translateY(-5px) scale(1.1);
+/* PAGOS */
+.payment-logos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
 }
 
-/* FACEBOOK */
-.social-icons a:nth-child(1):hover {
-  background: #1877f2;
-  color: #fff;
-  box-shadow: 0 0 15px #1877f2;
-}
-
-/* INSTAGRAM (degradado pro 🔥) */
-.social-icons a:nth-child(2):hover {
-  background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);
-  color: #fff;
-  box-shadow: 0 0 15px rgba(238,42,123,0.7);
-}
-
-/* TIKTOK */
-.social-icons a:nth-child(3):hover {
-  background: #000;
-  color: #25f4ee;
-  box-shadow: 0 0 15px #25f4ee;
-}
-
-
-/* PAGO */
-.footer-pago h2 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  font-size: 30px;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 1.6;
-  text-align: center;
-  text-decoration: underline;
-  text-underline-offset: 8px;
+.payment-logos img {
+    height: 28px;
+    background: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-left: 3px;
 }
 
 /* COPYRIGHT */
-.footer-copy {
-  display: flex;
-  justify-content: space-between; /* izquierda - derecha */
-  align-items: center;
-  margin-top: 30px;
-  padding-top: 15px;
-  border-top: 1px solid #333; /* 🔥 línea arriba */
-  font-size: 14px;
-  color: #888;
+.footer-bottom {
+    border-top: 1px solid #333;
+    margin-top: 35px;
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    color: #aaa;
 }
 
-.copy-left {
-  padding-left: 80px;
+.footer-bottom p {
+    font-size: 15px;
+    margin-top: 5px;
+    margin-left: 35px;
 }
 
-.copy-right {
-  display: flex;
-  padding-right: 60px;
-  gap: 40px; /* 🔥 espacio entre los links */
+.footer-bottom a {
+    font-size: 15px;
+    margin-right: 30px;
+    color: #aaa;
+    text-decoration: none;
+    
 }
 
-.copy-right a {
-  color: #ccc;
-  text-decoration: none;
+.footer-bottom a:hover {
+    text-decoration: underline;
 }
-
-.copy-right a:hover {
-  color: #fff;
-  text-decoration: underline;
-}
-
-/*RESPONSIVE*/
 
 /* ── Tablet: 768px – 1024px ── */
 @media (max-width: 1024px) {
-  .footer-logo img   { margin-left: 20px; max-width: 200px; }
-  .footer-about      { margin-left: 20px; }
-  .footer-contact    { margin-left: 20px; }
-  .footer-right      { margin-left: 20px; }
-  .footer-container  { gap: 30px; }
-  .copy-left         { padding-left: 20px; }
-  .copy-right        { padding-right: 20px; gap: 20px; }
-}
-
-/* ── Móvil: hasta 767px ── */
-@media (max-width: 767px) {
-  .footer-container {
-    flex-direction: column;
-    gap: 20px;
-  }
-  .footer-logo img {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 200px;
-  }
-  .footer-about {
+  .footer-logo {
     margin-left: 0;
+  }
+
+  .footer-text {
+    margin-left: 0;
+  }
+
+  .libro-img {
+    margin-left: 0;
+  }
+
+  .footer-col h3 {
     margin-top: 20px;
+  }
+
+  .conta {
+    margin-left: 0;
+  }
+
+  .footer-col ul li {
+    margin-left: 0;
+  }
+
+  .sig {
+    margin-left: 0;
+  }
+
+  .social-icons a {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 8px;
+  }
+
+  .footer-bottom p {
+    margin-left: 0;
     text-align: center;
   }
-  .footer-about p { text-align: center; font-size: 16px; }
-  .footer-libro { margin-top: 16px; }
-  .footer-libro img { max-width: 150px;}
 
-  .footer-contact {
-    margin-left: 0;
-    margin-top: 10px;
-    width: 100%;
-    text-align: center;
-  }
-  .footer-contact h2 { font-size: 20px; }
-
-  .footer-right {
-    margin-left: 0;
-    margin-top: 10px;
-    width: 100%;
-    gap: 20px;
-  }
-  .footer-social h2,
-  .footer-pago h2 { font-size: 20px; }
-  .footer-pago  {text-align: center;}
-
-  .social-icons {
-    margin-left: 0;
+  .footer-bottom a {
+    margin-right: 30px;
     justify-content: center;
-    gap: 20px;
   }
 
-  .footer-copy {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-  }
-  .copy-left  { padding-left: 0; }
-  .copy-right { padding-right: 0; gap: 12px; flex-wrap: wrap; justify-content: center; }
 }
