@@ -117,7 +117,7 @@
       @foreach($productosSimilares as $similar)
         @php $firstImage = $similar->variantes->first()?->imagenes->first()?->ruta; @endphp
         <div class="swiper-slide">
-          <a href="{{ route('productos.show', $similar->id) }}">
+          <a href="{{ route('productos.show', $similar->slug) }}">
             <div class="card text-center p-2" style="cursor: pointer;">
               <div style="overflow: hidden; border-radius: 5px;">
                 @if($firstImage)

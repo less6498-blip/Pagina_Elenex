@@ -10,7 +10,9 @@
         calidad y autenticidad en cada prenda, pensada para quienes buscan destacar con estilo.
       </p>
 
-      <img src="{{ asset('img/libror.webp') }}" alt="Libro de Reclamaciones" class="libro-img">
+      <a href="{{ route('reclamaciones.create') }}">
+          <img src="{{ asset('img/libror.webp') }}" alt="Libro de Reclamaciones" class="libro-img">
+      </a>
     </div>
 
     <!-- CONTACTO -->
