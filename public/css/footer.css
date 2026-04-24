@@ -2,7 +2,13 @@
     background: #000;
     color: #fff;
     padding: 40px 20px 20px;
-    margin-top: 50px;
+    margin-top: auto;
+}
+
+/* al final del archivo */
+#page-wrapper main {
+  flex: 1;
+  padding-bottom: 50px;
 }
 
 .footer-container {
