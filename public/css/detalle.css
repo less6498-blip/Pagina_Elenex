@@ -94,6 +94,10 @@ body {
 .talla-box.selected { background-color: #000; color: #fff; }
 
 /* ── Productos similares: cards pegadas a la imagen ── */
+.similar-products {
+  padding-bottom: 50px;
+}
+
 .similar-products .card {
   padding: 0 !important;
   overflow: hidden;
@@ -296,6 +300,7 @@ body {
     color: #000 !important;
     background-color: #fff !important;
     border: 1px solid #000 !important;
+    margin-bottom: -70px;
   }
 
   /*Productos similares*/
@@ -342,7 +347,7 @@ body {
 
 /* 🔥 Eliminar cualquier gap del swiper */
 .similar-products .swiper {
-  padding: 0 !important;
+  padding: 1px !important;
 }
 
   .similar-products .swiper-button-next.custom-arrow {

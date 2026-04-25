@@ -41,11 +41,20 @@
                         <h5 class="card-title">{{ $producto->nombre }}</h5>
                         <p class="price">S/ {{ number_format($producto->precio, 2) }}</p>
 
-                        <a href="{{ route('productos.show', $producto->id) }}" class="btn btn-primary btn-custom mb-2">
+                        <a href="{{ route('productos.show', $producto->slug) }}" class="btn btn-primary btn-custom mb-2">
                             Ver detalle
                         </a>
 
-                        <button class="btn btn-dark btn-custom w-100 mb-2 d-flex justify-content-center align-items-center" disabled>
+                        <button class="btn btn-dark btn-custom w-100 mb-2 d-flex justify-content-center align-items-center" 
+                        onclick="addToCart({
+                            id:      '{{ $producto->id }}',
+                            name:    '{{ addslashes($producto->nombre) }}',
+                            price:    {{ $producto->precio }},
+                            image:   '{{ $imagenPrincipal ? asset("img/" . $imagenPrincipal->ruta) : "" }}',
+                            quantity: 1
+                        })"
+                            aria-label="Añadir {{ $producto->nombre }} al carrito"
+                            >
                             <span>Añadir al carrito</span>
                             <img src="https://img.icons8.com/?size=100&id=3686&format=png&color=ffffff" 
                                 style="width:15px; height:15px; margin-left:5px;">

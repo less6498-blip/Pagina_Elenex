@@ -89,6 +89,7 @@
         max-width: 900px; margin: 0 auto;
         padding: 28px 20px 0;
         font-family: 'Source Sans 3', sans-serif;
+        padding-bottom: 50px;
     }
 
     /* ALERTAS */
@@ -246,7 +247,7 @@
         .lr-tipo-selector { grid-template-columns: 1fr; }
         .lr-form-footer { flex-direction: column; align-items: stretch; }
         .lr-btn-submit { text-align: center; }
-        .lr-container { padding: 14px 12px 0; }
+        .lr-container { padding: 14px 12px 0; padding-bottom: 30px; }
         .lr-aviso { margin: 14px 12px 0; }
     }
 </style>

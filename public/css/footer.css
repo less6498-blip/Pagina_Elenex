@@ -5,12 +5,6 @@
     margin-top: auto;
 }
 
-/* al final del archivo */
-#page-wrapper main {
-  flex: 1;
-  padding-bottom: 50px;
-}
-
 .footer-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));

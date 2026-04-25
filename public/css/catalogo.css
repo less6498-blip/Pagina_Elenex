@@ -112,6 +112,7 @@ h2.category-title {
 
 .catalog-container {
     padding-top: 140px;
+    padding-bottom: 40px;
 }
 
 /* HEADER */
@@ -293,4 +294,7 @@ h2.category-title {
     display: block;
     transform: translateY(-2px);
     }
+    .catalog-container {
+    padding-bottom: 20px;
+}
 }

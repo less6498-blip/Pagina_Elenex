@@ -434,6 +434,7 @@
   color: #363636;
   text-decoration: underline;
   transition: all 0.3s ease;
+  padding-bottom: 40px;
 }
 
 /* Hover sincronizado: imagen + Ver más */
@@ -670,4 +671,7 @@
         margin-top: 8px;
         margin-left: 4px;
     }
+    .category-ver-mas {
+      padding-bottom: 10px;
+}
 }
