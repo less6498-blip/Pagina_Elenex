@@ -19,10 +19,10 @@
     <div class="footer-col">
       <h3 class="conta">Contáctanos</h3>
       <ul>
-        <li><i class="fas fa-clock" style="color:gray;"></i> Lunes a viernes: 9:00 a.m. - 6:00 p.m.</li>
-        <li><i class="fas fa-envelope" style="color:gray;"></i> ventasonline@elenexperu.com</li>
-        <li><i class="fas fa-phone" style="color:gray;"></i> +51 123 456 789</li>
-        <li><i class="fas fa-store" style="color:gray;"></i> 
+        <li><i class="fas fa-clock" style="color:#fff;"></i> Lunes a viernes: 9:00 a.m. - 6:00 p.m.</li>
+        <li><i class="fas fa-envelope" style="color:#fff;"></i> ventasonline@elenexperu.com</li>
+        <li><i class="fas fa-phone" style="color:#fff;"></i> +51 123 456 789</li>
+        <li><i class="fas fa-store" style="color:#fff;"></i> 
           <a href="{{ route('tiendas.index') }}">Nuestras tiendas</a>
         </li>
       </ul>
