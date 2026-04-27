@@ -4,51 +4,55 @@
 
 @section('content')
 
-<section class="faq-section">
+<section class="faq-page">
 
-  <h2 class="faq-title">Preguntas Frecuentes ❓</h2>
+  <div class="faq-card">
 
-  <div class="faq-container">
+    <h2 class="faq-title">Preguntas Frecuentes</h2>
 
-    <div class="faq-item">
-      <button class="faq-question">
-        ¿Cuánto tarda el envío?
-      </button>
-      <div class="faq-answer">
-        Los envíos en Lima Metropolitana tardan entre 24 a 48 horas. A provincias de 3 a 5 días hábiles.
+    <div class="faq-container">
+
+      <div class="faq-item">
+        <button class="faq-question">¿Cuánto tarda el envío?</button>
+        <div class="faq-answer">
+          Los envíos en Lima Metropolitana y el Callao tardan entre 12 a 24 horas. 
+        </div>
       </div>
-    </div>
 
-    <div class="faq-item">
-      <button class="faq-question">
-        ¿Puedo cambiar o devolver un producto?
-      </button>
-      <div class="faq-answer">
-        Sí, puedes solicitar cambio o devolución dentro de los 7 días posteriores a la compra, siempre que el producto esté en buen estado.
-      </div>
-    </div>
+      <div class="faq-item">
+  <button class="faq-question">¿Puedo cambiar o devolver un producto?</button>
+  <div class="faq-answer">
+    Sí, puedes solicitar un cambio o devolución dentro de los 10 días posteriores a la compra, presentando la boleta correspondiente.
+    El producto debe encontrarse en buen estado, con sus condiciones originales.
+    No se aceptan cambios ni devoluciones en los siguientes casos:
+    <ul>
+      <li>Prendas íntimas (trusas, bóxer, etc.).</li>
+      <li>Productos en liquidación.</li>
+      <li>Productos dañados por mal uso.</li>
+    </ul>
+  </div>
+</div>
 
-    <div class="faq-item">
-      <button class="faq-question">
-        ¿Qué métodos de pago aceptan?
-      </button>
-      <div class="faq-answer">
-        Aceptamos Visa, Mastercard, Yape, Plin y PagoEfectivo.
+      <div class="faq-item">
+        <button class="faq-question">¿Qué métodos de pago aceptan?</button>
+        <div class="faq-answer">
+          Aceptamos Visa, Mastercard, Yape, Plin y PagoEfectivo.
+        </div>
       </div>
-    </div>
 
-    <div class="faq-item">
-      <button class="faq-question">
-        ¿Cómo contacto con atención al cliente?
-      </button>
-      <div class="faq-answer">
-        Puedes escribirnos al correo ventasonline@elenexperu.com o al WhatsApp de soporte.
+      <div class="faq-item">
+        <button class="faq-question">¿Cómo contacto con atención al cliente?</button>
+        <div class="faq-answer">
+          Escríbenos a ventasonline@elenexperu.com o WhatsApp de soporte.
+        </div>
       </div>
+
     </div>
 
   </div>
 
 </section>
+
 @endsection
 
 @push('scripts')

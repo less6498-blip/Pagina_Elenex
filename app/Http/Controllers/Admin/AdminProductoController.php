@@ -10,24 +10,99 @@ use App\Models\Imagen;
 use App\Models\Categoria;
 use App\Models\Marca;
 use Illuminate\Support\Str;
+use App\Models\Pedido;
+use Carbon\Carbon;
 
 class AdminProductoController extends Controller
 {
     // ── Dashboard ─────────────────────────────────────────
     public function dashboard()
     {
+        // Stats productos
         $stats = [
-            'total_productos'  => Producto::count(),
-            'productos_activos'=> Producto::where('activo', 1)->count(),
-            'total_variantes'  => Variante::count(),
-            'sin_stock' => Variante::where('stock', 0)->count(), // variantes sin stock
+            'total_productos'     => Producto::count(),
+            'productos_activos'   => Producto::where('activo', 1)->count(),
+            'total_variantes'     => Variante::count(),
+            'sin_stock'           => Variante::where('stock', 0)->count(),
             'productos_sin_stock' => Producto::whereHas('variantes', function($q) {
-            $q->where('stock', 0);
+                $q->where('stock', 0);
             })->count(),
         ];
+
+        // Stats pedidos
+        $pedidoStats = [
+            'total_pedidos'    => Pedido::count(),
+            'pedidos_pagados'  => Pedido::where('estado_pago', 'pagado')->count(),
+            'pedidos_pendientes' => Pedido::where('estado_pago', 'pendiente')->count(),
+            'ingresos_totales' => Pedido::where('estado_pago', 'pagado')->sum('total'),
+            'ingresos_hoy'     => Pedido::where('estado_pago', 'pagado')
+                                        ->whereDate('created_at', Carbon::today())
+                                        ->sum('total'),
+        ];
+
+        // Últimos 5 productos
         $ultimos = Producto::with('categoria')->latest()->take(5)->get();
-        return view('admin.dashboard', compact('stats', 'ultimos'));
+
+        // Últimos 10 pedidos
+        $ultimosPedidos = Pedido::with('detalles')
+                                ->latest()
+                                ->take(10)
+                                ->get();
+
+        // Datos para gráfica (ventas últimos 7 días)
+        $ventasSemana = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $dia   = Carbon::today()->subDays($i);
+            $total = Pedido::where('estado_pago', 'pagado')
+                           ->whereDate('created_at', $dia)
+                           ->sum('total');
+            $ventasSemana[] = [
+                'dia'   => $dia->format('d/m'),
+                'total' => round($total, 2),
+            ];
+        }
+
+        return view('admin.dashboard', compact(
+            'stats', 'pedidoStats', 'ultimos', 'ultimosPedidos', 'ventasSemana'
+        ));
     }
+
+// ── Lista de pedidos ──────────────────────────────────
+public function pedidos(Request $request)
+{
+    $query = Pedido::with('detalles')->latest();
+
+    if ($request->filled('estado_pago')) {
+        $query->where('estado_pago', $request->estado_pago);
+    }
+    if ($request->filled('estado')) {
+        $query->where('estado', $request->estado);
+    }
+    if ($request->filled('buscar')) {
+        $query->where(function($q) use ($request) {
+            $q->where('codigo_orden', 'like', '%' . $request->buscar . '%')
+              ->orWhere('guest_email', 'like', '%' . $request->buscar . '%')
+              ->orWhere('guest_nombre', 'like', '%' . $request->buscar . '%');
+        });
+    }
+
+    $pedidos = $query->paginate(20);
+    return view('admin.pedidos.index', compact('pedidos'));
+}
+
+// ── Actualizar estado del pedido ──────────────────────
+public function actualizarEstadoPedido(Request $request, $id)
+{
+    $request->validate([
+        'estado' => 'required|in:pendiente,confirmado,enviado,entregado,cancelado',
+    ]);
+
+    $pedido = Pedido::findOrFail($id);
+    $pedido->update(['estado' => $request->estado]);
+
+    return response()->json(['success' => true, 'estado' => $request->estado]);
+}
+
 
     // ── Lista de productos ────────────────────────────────
    public function index(Request $request)

@@ -36,9 +36,14 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+    'web' => [
+        'driver'   => 'session',
+        'provider' => 'users',
+    ],
+    // ← Agrega esto:
+    'admin' => [
+        'driver'   => 'session',
+        'provider' => 'admins',
         ],
     ],
 
@@ -64,12 +69,12 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
-    ],
+        // ← Agrega esto:
+        'admins' => [
+        'driver' => 'eloquent',
+        'model'  => App\Models\Admin::class,
+            ],
+        ],
 
     /*
     |--------------------------------------------------------------------------

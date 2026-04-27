@@ -1,11 +1,11 @@
-.privacy-page {
+.terms-page {
   background: linear-gradient(180deg, #f5f7fb 0%, #eef2f7 100%);
   padding: 175px 20px 60px;
   display: flex;
   justify-content: center;
 }
 
-.privacy-card {
+.terms-card {
   background: #fff;
   max-width: 900px;
   width: 100%;
@@ -15,9 +15,9 @@
   animation: fadeIn 0.6s ease-in-out;
 }
 
-.privacy-card h1 {
-  font-size: 34px;
+.terms-card h1 {
   text-align: center;
+  font-size: 34px;
   margin-bottom: 10px;
   color: #111;
 }
@@ -25,39 +25,38 @@
 .intro {
   text-align: center;
   color: #666;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
   line-height: 1.6;
 }
 
-.privacy-block {
+.terms-block {
   padding: 18px 0;
   border-bottom: 1px solid #eee;
-  transition: all 0.3s ease;
+  transition: 0.3s ease;
 }
 
-.privacy-block:hover {
+.terms-block:hover {
   transform: translateX(5px);
 }
 
-.privacy-block h2 {
+.terms-block h2 {
   font-size: 18px;
   color: #111;
   margin-bottom: 6px;
-  position: relative;
 }
 
-.privacy-block h2::before {
+.terms-block h2::before {
   content: "";
   width: 6px;
   height: 6px;
-  background: #e11d48;
+  background: #1d41e1;
   display: inline-block;
   border-radius: 50%;
   margin-right: 8px;
   transform: translateY(-2px);
 }
 
-.privacy-block p {
+.terms-block p {
   color: #555;
   line-height: 1.7;
 }
@@ -74,9 +73,8 @@
   }
 }
 
-
 @media (max-width: 1024px) {
-  .privacy-page {
+  .terms-page {
   padding: 120px 20px 60px;
   }
 }

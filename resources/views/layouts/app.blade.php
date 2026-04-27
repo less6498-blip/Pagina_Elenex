@@ -22,6 +22,8 @@
   <link rel="stylesheet" href="{{ asset('css/detalle.css') }}">
   <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
   <link rel="stylesheet" href="{{ asset('css/preguntas.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/politica.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/terminos.css') }}">
 
   @stack('styles')
 </head>

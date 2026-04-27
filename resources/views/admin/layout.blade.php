@@ -46,13 +46,28 @@
     <a href="{{ route('productos.catalogo') }}" class="nav-link" target="_blank">
       <i class="fas fa-external-link-alt"></i> Ver Tienda
     </a>
+    <a href="{{ route('admin.pedidos.index') }}" 
+   class="nav-link {{ request()->routeIs('admin.pedidos.*') ? 'active' : '' }}">
+      <i class="fas fa-shopping-bag"></i> Pedidos
+    </a>
   </nav>
 </div>
 
 <div class="main-content">
   <div class="topbar">
     <h5 class="mb-0 fw-bold">@yield('page-title', 'Dashboard')</h5>
-    <span style="font-size:13px;color:#666;">Elenex Admin</span>
+      <div class="d-flex align-items-center gap-3">
+        <span style="font-size:13px;color:#666;">
+        {{ Auth::guard('admin')->user()->nombre }}
+        </span>
+      <form action="{{ route('admin.logout') }}" method="POST">
+          @csrf
+      <button type="submit" class="btn btn-outline-secondary btn-sm"
+            style="font-size:12px;">
+          Cerrar sesión
+        </button>
+      </form>
+    </div>
   </div>
 
   @if(session('success'))

@@ -61,7 +61,7 @@
     <div>
       <a href="/terminos">Términos y condiciones</a>
       <a href="/preguntas">Preguntas frecuentes</a>
-      <a class="pol" href="/politica">Politica de privacidad</a>
+      <a href="/politica">Politica de privacidad</a>
     </div>
   </div>
 </footer>

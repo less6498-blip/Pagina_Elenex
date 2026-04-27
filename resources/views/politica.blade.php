@@ -4,54 +4,48 @@
 
 @section('content')
 
-<section class="privacy-section">
+<section class="privacy-page">
 
-  <h1 class="privacy-title">Política de Privacidad</h1>
+  <div class="privacy-card">
 
-  <p class="privacy-text">
-    En <strong>Elenex</strong>, respetamos y protegemos la privacidad de nuestros usuarios.
-    Esta política describe cómo recopilamos, usamos y protegemos su información personal.
-  </p>
+    <h1>Política de Privacidad</h1>
 
-  <h2>1. Información que recopilamos</h2>
-  <p class="privacy-text">
-    Podemos recopilar datos como nombre, correo electrónico, teléfono y dirección
-    cuando usted realiza una compra o se registra en nuestro sitio web.
-  </p>
+    <p class="intro">
+      En <strong>ELENEX</strong> respetamos tu privacidad y protegemos tus datos personales.
+      Esta política explica cómo recopilamos y usamos tu información.
+    </p>
 
-  <h2>2. Uso de la información</h2>
-  <p class="privacy-text">
-    La información recopilada se utiliza para procesar pedidos, mejorar nuestros servicios
-    y brindar una mejor experiencia de usuario.
-  </p>
+    <div class="privacy-block">
+      <h2>1. Información que recopilamos</h2>
+      <p>Recopilamos datos como nombre, correo, teléfono y dirección cuando realizas compras o te registras.</p>
+    </div>
 
-  <h2>3. Protección de datos</h2>
-  <p class="privacy-text">
-    Implementamos medidas de seguridad para proteger su información contra accesos no autorizados,
-    alteración o divulgación.
-  </p>
+    <div class="privacy-block">
+      <h2>2. Uso de la información</h2>
+      <p>Usamos tus datos para procesar pedidos, mejorar el servicio y brindarte una mejor experiencia.</p>
+    </div>
 
-  <h2>4. Cookies</h2>
-  <p class="privacy-text">
-    Este sitio utiliza cookies para mejorar la navegación y analizar el tráfico del sitio web.
-  </p>
+    <div class="privacy-block">
+      <h2>3. Protección de datos</h2>
+      <p>Aplicamos medidas de seguridad para evitar accesos no autorizados o uso indebido de tu información.</p>
+    </div>
 
-  <h2>5. Compartición de información</h2>
-  <p class="privacy-text">
-    No vendemos ni compartimos su información personal con terceros, excepto cuando sea necesario
-    para completar una transacción (por ejemplo, envíos o pagos).
-  </p>
+    <div class="privacy-block">
+      <h2>4. Cookies</h2>
+      <p>Este sitio utiliza cookies para mejorar la navegación y analizar el tráfico web.</p>
+    </div>
 
-  <h2>6. Derechos del usuario</h2>
-  <p class="privacy-text">
-    Usted puede solicitar la actualización o eliminación de sus datos personales en cualquier momento.
-  </p>
+    <div class="privacy-block">
+      <h2>5. Compartición de datos</h2>
+      <p>No vendemos tu información, solo la compartimos cuando es necesario para completar pedidos.</p>
+    </div>
 
-  <h2>7. Contacto</h2>
-  <p class="privacy-text">
-    Si tiene dudas sobre esta política, puede escribirnos a:
-    <strong>ventasonline@elenexperu.com</strong>
-  </p>
+    <div class="privacy-block">
+      <h2>6. Contacto</h2>
+      <p>Escríbenos a: <strong>ventasonline@elenexperu.com</strong></p>
+    </div>
+
+  </div>
 
 </section>
 
