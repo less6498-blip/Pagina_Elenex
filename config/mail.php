@@ -13,7 +13,7 @@ return [
     | "mailers" array. Examples of each type of mailer are provided.
     |
     */
-
+    'reclamaciones_email' => env('RECLAMACIONES_EMAIL'),
     'default' => env('MAIL_MAILER', 'log'),
 
     /*

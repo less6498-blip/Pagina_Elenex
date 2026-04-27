@@ -119,7 +119,53 @@
       </a>
     </div>
   </div>
+{{-- Carga masiva --}}
+<div class="table-card mt-4">
+  <h6 class="fw-bold mb-3">
+    <i class="fas fa-file-excel me-2" style="color:#28a745;"></i>
+    Carga masiva
+  </h6>
+  <p style="font-size:13px;color:#888;margin-bottom:16px;">
+    Sube múltiples productos de una vez usando nuestra plantilla.
+  </p>
 
+  {{-- Descargar plantilla --}}
+  <a href="{{ route('admin.productos.plantilla') }}"
+     class="btn btn-outline-success w-100 mb-3"
+     style="border-radius:10px;font-size:13px;font-weight:600;">
+    <i class="fas fa-download me-2"></i>
+    Descargar plantilla (.xlsx)
+  </a>
+
+  {{-- Subir archivo --}}
+  <form action="{{ route('admin.productos.importar') }}"
+        method="POST"
+        enctype="multipart/form-data">
+    @csrf
+    <div class="mb-2">
+      <label style="font-size:13px;font-weight:500;margin-bottom:6px;display:block;">
+        Subir archivo (.csv o .xlsx)
+      </label>
+      <input type="file" name="archivo" accept=".csv,.xlsx,.txt"
+             class="form-control form-control-sm" required>
+    </div>
+    <button type="submit" class="btn btn-success w-100 mt-2"
+            style="border-radius:10px;font-size:13px;font-weight:600;">
+      <i class="fas fa-upload me-2"></i>
+      Importar productos
+    </button>
+  </form>
+
+  <div class="mt-3 p-3 rounded-3" style="background:#f0fff4;border:1px solid #c6f6d5;">
+    <p style="font-size:12px;color:#276749;margin:0;">
+      <strong>Instrucciones:</strong><br>
+      1. Descarga la plantilla .xlsx<br>
+      2. Llena una fila por cada variante<br>
+      3. Si un producto tiene 4 tallas, escribe 4 filas con el mismo nombre<br>
+      4. Sube el archivo y se crearán automáticamente
+    </p>
+  </div>
+</div>
 </div>
 </form>
 

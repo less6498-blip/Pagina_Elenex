@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reclamacion;
+use App\Mail\ReclamacionConfirmacion;
+use App\Mail\ReclamacionNuevaAdmin;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -58,7 +60,7 @@ class ReclamacionController extends Controller
             'acepta_politica.accepted'   => 'Debe aceptar la política de datos personales.',
         ]);
 
-        // Generar código único de reclamo
+        // Generar código único
         $codigoReclamo = 'REC-' . date('Y') . '-' . strtoupper(Str::random(8));
 
         // Guardar en base de datos
@@ -83,8 +85,24 @@ class ReclamacionController extends Controller
             'ip_registro'        => $request->ip(),
         ]);
 
-        // Enviar correo de confirmación al consumidor (opcional)
-        // Mail::to($validated['correo'])->send(new ReclamacionConfirmacion($reclamacion));
+        // ── Correo al cliente ──────────────────────────────────────
+        try {
+            Mail::to($reclamacion->correo)
+                ->send(new ReclamacionConfirmacion($reclamacion));
+        } catch (\Exception $e) {
+            \Log::error('Error enviando correo al cliente: ' . $e->getMessage());
+        }
+
+        // ── Correo al administrador ────────────────────────────────
+        // Agrega RECLAMACIONES_EMAIL=admin@tuemail.com en tu .env
+        // Si no está definido, usa el MAIL_FROM_ADDRESS
+        try {
+            $adminEmail = config('mail.reclamaciones_email', config('mail.from.address'));
+            Mail::to($adminEmail)
+                ->send(new ReclamacionNuevaAdmin($reclamacion));
+        } catch (\Exception $e) {
+            \Log::error('Error enviando correo al admin: ' . $e->getMessage());
+        }
 
         return redirect()->route('reclamaciones.create')
             ->with('reclamo_registrado', true)

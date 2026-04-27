@@ -20,6 +20,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::delete('/productos/{id}', [AdminProductoController::class, 'eliminar'])->name('productos.eliminar');
     Route::delete('/variantes/{id}', [AdminProductoController::class, 'eliminarVariante'])->name('variantes.eliminar');
     Route::delete('/imagenes/{id}', [AdminProductoController::class, 'eliminarImagen'])->name('imagenes.eliminar');
+    Route::get('/productos/plantilla', [AdminProductoController::class, 'descargarPlantilla'])->name('productos.plantilla');
+    Route::post('/productos/importar', [AdminProductoController::class, 'importar'])->name('productos.importar');
 });
 
 
