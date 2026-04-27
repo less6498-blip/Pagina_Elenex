@@ -43,7 +43,7 @@
         <li class="menu-item">
           <a href="{{ route('productos.newArrivals') }}">NEW ARRIVALS</a>
         </li>
-        <li class="menu-item-especial">LIQUIDACIÓN 🔥</li>
+        <li class="menu-item-especial">LIQUIDACIÓN</li>
       </ul>
     </nav>
 
@@ -97,7 +97,7 @@
     </li>
     <li><span>CONJUNTOS</span></li>
     <li><a href="{{ route('productos.newArrivals') }}">NEW ARRIVALS</a></li>
-    <li class="item-especial"><span>LIQUIDACIÓN 🔥</span></li>
+    <li class="item-especial"><span>LIQUIDACIÓN</span></li>
   </ul>
 </aside>
 
