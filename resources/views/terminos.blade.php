@@ -31,12 +31,12 @@
 
     <div class="terms-block">
       <h2>4. Envíos</h2>
-      <p>Envíos en Lima 24–48 horas y provincias de 3–5 días hábiles.</p>
+      <p>Envíos en Lima Metropolitana y el Callao de 12-24 horas.</p>
     </div>
 
     <div class="terms-block">
       <h2>5. Cambios y devoluciones</h2>
-      <p>Se aceptan dentro de los 7 días posteriores a la compra si el producto está en buen estado.</p>
+      <p>Se aceptan dentro de los 10 días posteriores a la compra si el producto está en buen estado.</p>
     </div>
 
     <div class="terms-block">
