@@ -90,7 +90,7 @@
                                 @endphp
 
                                 @if($imagenPrincipal)
-                                    <img src="{{ asset('img/' . $imagenPrincipal->ruta) }}" class="product-img">
+                                    <img src="{{ $imagenPrincipal->ruta }}" class="product-img">
                                 @endif
 
                                 @if($imagenHover)

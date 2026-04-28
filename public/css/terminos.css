@@ -61,6 +61,11 @@
   line-height: 1.7;
 }
 
+.terms-block ul li {
+  color: #555;
+  line-height: 1.7;
+}
+
 /* Animación */
 @keyframes fadeIn {
   from {

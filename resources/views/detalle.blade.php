@@ -18,7 +18,7 @@
       {{-- Miniaturas a la izquierda --}}
       <div class="sub-images d-flex flex-column gap-2 me-3">
         @foreach($imagenes as $img)
-          <img src="{{ asset('img/' . $img->ruta) }}"
+          <img src="{{ $img->ruta }}"
                alt="Miniatura {{ $loop->iteration }}"
                class="sub-img rounded cursor-pointer {{ $loop->first ? 'active-thumb' : '' }}"
                style="width: 80px; height: 80px; object-fit: cover;">
@@ -28,7 +28,7 @@
       {{-- Imagen principal --}}
       <div class="main-image flex-grow-1">
         @if($imagenes->isNotEmpty())
-          <img src="{{ asset('img/' . $imagenes->first()->ruta) }}"
+          <img src="{{ $imagenes->first()->ruta }}"
                alt="{{ $producto->nombre }}"
                id="main-product-img"
                class="img-fluid rounded">
@@ -121,7 +121,7 @@
             <div class="card text-center p-2" style="cursor: pointer;">
               <div style="overflow: hidden; border-radius: 5px;">
                 @if($firstImage)
-                  <img src="{{ asset('img/' . $firstImage) }}" alt="{{ $similar->nombre }}"
+                  <img src="{{ $firstImage }}" alt="{{ $similar->nombre }}"
                        style="width:100%;height:100%;object-fit:cover;">
                 @else
                   <div style="width:100%;height:100%;background:#f0f0f0;">Sin Imagen</div>
@@ -206,13 +206,13 @@ function renderTallas(color) {
 function renderMiniaturas(variante) {
   subImagesContainer.innerHTML = '';
   if (!variante || variante.imagenes.length === 0) {
-    subImagesContainer.innerHTML = `<img src="/img/no-image.png" class="sub-img rounded cursor-pointer active-thumb" style="width:80px;height:80px;object-fit:cover;">`;
-    mainImg.src = '/img/no-image.png';
+    subImagesContainer.innerHTML = `<img src="{{ asset('img/no-image.png') }}" class="sub-img rounded cursor-pointer active-thumb" style="width:80px;height:80px;object-fit:cover;">`;
+    mainImg.src = '{{ asset("img/no-image.png") }}';
     return;
   }
   variante.imagenes.forEach((img, index) => {
     const imgElem = document.createElement("img");
-    imgElem.src = '/img/' + img.ruta;
+    imgElem.src = img.ruta;
     imgElem.className = 'sub-img rounded cursor-pointer' + (index === 0 ? ' active-thumb' : '');
     imgElem.style.cssText = 'width:80px;height:80px;object-fit:cover;';
     imgElem.addEventListener("click", () => {
@@ -222,7 +222,7 @@ function renderMiniaturas(variante) {
     });
     subImagesContainer.appendChild(imgElem);
   });
-  mainImg.src = '/img/' + variante.imagenes[0].ruta;
+  mainImg.src = variante.imagenes[0].ruta;
 }
 
 colorBoxes.forEach(box => {

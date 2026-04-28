@@ -31,12 +31,18 @@
 
     <div class="terms-block">
       <h2>4. Envíos</h2>
-      <p>Envíos en Lima Metropolitana y el Callao de 12-24 horas.</p>
+      <p>Envíos en Lima Metropolitana y el Callao de 12-24 horas. Lima provincias y provincias en 78 horas.</p>
     </div>
 
     <div class="terms-block">
       <h2>5. Cambios y devoluciones</h2>
-      <p>Se aceptan dentro de los 10 días posteriores a la compra si el producto está en buen estado.</p>
+      <p>Se aceptan dentro de los 10 días posteriores a la compra si el producto está en buen estado, presentando la boleta correspondiente.
+          No se aceptan cambios ni devoluciones en los siguientes casos:</p>
+      <ul>
+      <li>Prendas íntimas (trusas, bóxer, etc.).</li>
+      <li>Productos en liquidación.</li>
+      <li>Productos dañados por mal uso.</li>
+      </ul>
     </div>
 
     <div class="terms-block">

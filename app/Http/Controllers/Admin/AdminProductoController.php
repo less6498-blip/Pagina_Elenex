@@ -182,13 +182,13 @@ public function actualizarEstadoPedido(Request $request, $id)
             // Subir imágenes de esta variante
             if ($request->hasFile("imagenes.$idx")) {
                 foreach ($request->file("imagenes.$idx") as $orden => $img) {
-                    $nombre = time() . '_' . uniqid() . '.' . $img->getClientOriginalExtension();
-                    $img->move(public_path('img'), $nombre);
-
+                    $resultado = cloudinary()->upload($img->getRealPath(), [
+                        'folder' => 'elenex/productos',
+                    ]);
                     Imagen::create([
                         'variante_id' => $variante->id,
-                        'ruta'        => $nombre,
-                        'orden'       => $orden,
+                        'ruta'        => $resultado->getSecurePath(),
+                    'orden'       => $orden,
                     ]);
                 }
             }
@@ -239,11 +239,12 @@ public function actualizarEstadoPedido(Request $request, $id)
                 if ($request->hasFile("nuevas_imagenes.$varId")) {
                     $ultimoOrden = Imagen::where('variante_id', $varId)->max('orden') ?? -1;
                     foreach ($request->file("nuevas_imagenes.$varId") as $img) {
-                        $nombre = time() . '_' . uniqid() . '.' . $img->getClientOriginalExtension();
-                        $img->move(public_path('img'), $nombre);
+                        $resultado = cloudinary()->upload($img->getRealPath(), [
+                            'folder' => 'elenex/productos',
+                        ]);
                         Imagen::create([
                             'variante_id' => $varId,
-                            'ruta'        => $nombre,
+                            'ruta'        => $resultado->getSecurePath(),
                             'orden'       => ++$ultimoOrden,
                         ]);
                     }
@@ -266,11 +267,12 @@ public function actualizarEstadoPedido(Request $request, $id)
 
                 if ($request->hasFile("imagenes_nuevas_variantes.$idx")) {
                     foreach ($request->file("imagenes_nuevas_variantes.$idx") as $orden => $img) {
-                        $nombre = time() . '_' . uniqid() . '.' . $img->getClientOriginalExtension();
-                        $img->move(public_path('img'), $nombre);
+                        $resultado = cloudinary()->upload($img->getRealPath(), [
+                            'folder' => 'elenex/productos',
+                        ]);
                         Imagen::create([
                             'variante_id' => $variante->id,
-                            'ruta'        => $nombre,
+                            'ruta'        => $resultado->getSecurePath(),
                             'orden'       => $orden,
                         ]);
                     }
@@ -313,14 +315,29 @@ public function actualizarEstadoPedido(Request $request, $id)
     }
 
     // ── Eliminar imagen ───────────────────────────────────
-    public function eliminarImagen($id)
-    {
-        $imagen = Imagen::findOrFail($id);
-        $ruta   = public_path('img/' . $imagen->ruta);
+public function eliminarImagen($id)
+{
+    $imagen = Imagen::findOrFail($id);
+
+    // Si es URL de Cloudinary → eliminar de la nube
+    if (str_contains($imagen->ruta, 'cloudinary.com')) {
+        try {
+            preg_match('/elenex\/productos\/([^.]+)/', $imagen->ruta, $matches);
+            if (!empty($matches[1])) {
+                cloudinary()->destroy('elenex/productos/' . $matches[1]);
+            }
+        } catch (\Exception $e) {
+            // Si falla, continuar igual
+        }
+    } else {
+        // Imagen local (productos existentes)
+        $ruta = public_path('img/' . $imagen->ruta);
         if (file_exists($ruta)) unlink($ruta);
-        $imagen->delete();
-        return response()->json(['success' => true]);
     }
+
+    $imagen->delete();
+    return response()->json(['success' => true]);
+}
 
     // ── Descargar plantilla Excel ─────────────────────────
 public function descargarPlantilla()
