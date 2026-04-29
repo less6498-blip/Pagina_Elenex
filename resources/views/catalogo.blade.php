@@ -90,7 +90,7 @@
                                 @endphp
 
                                 @if($imagenPrincipal)
-                                    <img src="{{ $imagenPrincipal->ruta }}" class="product-img">
+                                    <img src="{{ str_starts_with($imagenPrincipal->ruta, 'http') ? $imagenPrincipal->ruta : asset('img/' . $imagenPrincipal->ruta) }}" class="product-img">
                                 @endif
 
                                 @if($imagenHover)
