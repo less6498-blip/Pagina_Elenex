@@ -73,18 +73,18 @@
   box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
-.header-container{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:5px 20px;
-  transition:0.3s;
+.header-container {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px 20px;
 }
 
-.header.scrolled .header-container{
-  padding:3px 10px;
+.nav {
+  display: flex;
+  justify-content: center;
 }
 
 .logo img{
@@ -92,23 +92,14 @@
   transition:0.3s;
 }
 
-.header.scrolled .logo img{
-  height:32px;
-}
-
-.header.scrolled .menu-item {
-  font-size: 15px;
-}
-
-.header.scrolled .menu-item-especial {
-  font-size: 15px;
-}
-
-.menu{
-  display:flex;
-  gap:80px;
-  list-style:none;
+.menu {
+  display: flex;
+  gap: 30px;              /* más compacto */
+  list-style: none;
   margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;        /* evita que se rompa en pantallas medianas */
 }
 
 .menu-item{
@@ -124,8 +115,13 @@
 }
 
 .menu-item a {
-  color: black;
+  letter-spacing: 0.5px;
+  color: #000;
   text-decoration: none;
+}
+
+.menu-item:nth-child(4) a { 
+  font-weight: 700;
 }
 
 /* Subrayado */
@@ -136,7 +132,7 @@
   height: 2px;
   background: black;
   left: 0;
-  bottom: -5px;
+  bottom: 0;
   transition: width 0.3s ease;
 }
 
@@ -147,19 +143,73 @@
 /* Botón rojo */
 .menu-item-especial {
   background-color: #EB0045;
-  color: white;
   padding: 8px 16px;
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
   display: inline-block;
   font-size: 17px;
   font-family: 'Roboto', sans-serif;
 }
 
-.menu-item-especial:hover {
-  background-color: #b30000;
+/* link dentro del botón */
+.menu-item-especial a {
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+}
+
+/* línea blanca */
+.menu-item-especial a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: white;
+  transition: width 0.3s ease;
+}
+
+.menu-item-especial a:hover::after {
+  width: 100%;
+}
+
+/* Botón azul */
+.menu-item-coleccion {
+  background-color: #003feb;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 17px;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* link dentro del botón */
+.menu-item-coleccion a {
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+}
+
+/* línea blanca */
+.menu-item-coleccion a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: white;
+  transition: width 0.3s ease;
+}
+
+.menu-item-coleccion a:hover::after {
+  width: 100%;
 }
 
 /* Flecha */
@@ -204,16 +254,6 @@
 
 .search-btn:hover{
   background:#f5f5f5;
-}
-
-.header.scrolled .search-btn {
-  width: 35px;
-  height: 35px;
-}
-
-.header.scrolled .search-btn img {
-  width: 15px;
-  height: 15px;
 }
 
 /* Buscador overlay */
@@ -317,20 +357,6 @@
   border-radius:50%;
 }
 
-.header.scrolled .cart-btn {
-  width: 35px;
-  height: 35px;
-}
-
-.header.scrolled .cart-btn img {
-  width: 15px;
-  height: 15px;
-}
-
-.header.scrolled .cart-count {
-  font-size: 9.5px;
-}
-
 /* ===============================
    CATALOGO VERTICAL
 =============================== */
@@ -342,7 +368,7 @@
 #catalogo {
   position: absolute;
   top: 100%;        /* justo debajo del botón */
-  left: 620px;          /* alineado al borde izquierdo del botón */
+  left: 600px;          /* alineado al borde izquierdo del botón */
   width: 250px;     /* ancho del menú */
   background: #fff; /* color de fondo */
   border: 1px solid #eee; /* borde suave */
@@ -811,11 +837,17 @@
 .drawer-menu > li > a:hover,
 .drawer-menu > li > span:hover { background: #f5f5f5; }
 
-.drawer-menu .item-especial > span {
+.drawer-menu .item-especial > a {
   background: #EB0045;
   color: #fff;
 }
-.drawer-menu .item-especial > span:hover { background: #b30000; }
+.drawer-menu .item-especial > a:hover { background: #b30000; }
+
+.drawer-menu .item-especial-coleccion > a {
+  background: #003feb;
+  color: #fff;
+}
+.drawer-menu .item-especial-coleccion > a:hover { background: #002ba0; }
 
 .drawer-toggle {
   display: flex;
@@ -918,16 +950,6 @@
   height: 15px;
 }
 
-.header.scrolled .search-btn {
-  width: 35px;
-  height: 35px;
-}
-
-.header.scrolled .search-btn img {
-  width: 15px;
-  height: 15px;
-}
-
 .cart-btn {
   width: 35px;
   height: 35px;
@@ -935,25 +957,7 @@
 
 .cart-btn img {
   width: 15px;
-  height: 15px;
-}
-
-.header.scrolled .cart-btn {
-  width: 35px;
-  height: 35px;
-}
-
-.header.scrolled .cart-btn img {
-  width: 15px;
-  height: 15px;
-}
-
-.cart-count {
-  font-size: 10px;
-}
- .header.scrolled .cart-count {
-  font-size: 10px;
- }
+  heig
 
   .search-panel { width: 100%; }
   #catalogo { display: none !important; }
@@ -962,4 +966,5 @@
 @media (max-width: 480px) {
   .logo img { height: 30px; }
   .mobile-drawer { width: 100%; max-width: 290px; }
+}
 }

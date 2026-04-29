@@ -15,7 +15,7 @@
 <div class="mini-carrusel">
   <div class="carrusel-track">
     <div class="carrusel-item">
-      <p>🚚 ENVIOS GRATIS POR COMPRAS MAYORES A S/150.00 A TODO LIMA</p>
+      <p>ENVIOS GRATIS POR COMPRAS MAYORES A S/150.00 A TODO LIMA METROPOLITANA</p>
     </div>
   </div>
 </div>
@@ -39,11 +39,13 @@
         <li class="menu-item" data-menu="catalogo">
           <a href="{{ route('productos.catalogo') }}">CATÁLOGO <span class="arrow"></span></a>
         </li>
-        <li class="menu-item">CONJUNTOS</li>
+        <li class="menu-item"><a href="#">WOMAN</a></li>
+        <li class="menu-item"><a href="#">KIDS</a></li>
         <li class="menu-item">
           <a href="{{ route('productos.newArrivals') }}">NEW ARRIVALS</a>
         </li>
-        <li class="menu-item-especial">LIQUIDACIÓN</li>
+        <li class="menu-item-especial"><a href="#">LIQUIDACIÓN</a></li>
+        <li class="menu-item-coleccion"><a href="#">AFTER WAVE</a></li>
       </ul>
     </nav>
 
@@ -95,9 +97,11 @@
         @endforeach
       </ul>
     </li>
-    <li><span>CONJUNTOS</span></li>
+    <li><a href="#">WOMAN</a></li>
+    <li><a href="#">KIDS</a></li>
     <li><a href="{{ route('productos.newArrivals') }}">NEW ARRIVALS</a></li>
-    <li class="item-especial"><span>LIQUIDACIÓN</span></li>
+    <li class="item-especial"><a href="#">LIQUIDACIÓN</a></li>
+    <li class="item-especial-coleccion"><a href="#">AFTER WAVE</a></li>
   </ul>
 </aside>
 
