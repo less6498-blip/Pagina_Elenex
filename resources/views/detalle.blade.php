@@ -26,19 +26,27 @@
       </div>
 
       {{-- Imagen principal --}}
-      <div class="main-image flex-grow-1">
-        @if($imagenes->isNotEmpty())
-          <img src="{{ str_starts_with($imagenes->first()->ruta, 'http') ? $imagenes->first()->ruta : asset('img/' . $imagenes->first()->ruta) }}"
-               alt="{{ $producto->nombre }}"
-               id="main-product-img"
-               class="img-fluid rounded">
-        @else
-          <img src="{{ asset('img/no-image.png') }}"
-               alt="Sin imagen"
-               id="main-product-img"
-               class="img-fluid rounded">
-        @endif
-      </div>
+      <div class="main-image flex-grow-1 position-relative">
+
+  <!-- Flecha izquierda -->
+  <button id="main-prev" class="main-arrow left" type="button">❮</button>
+
+  @if($imagenes->isNotEmpty())
+    <img src="{{ str_starts_with($imagenes->first()->ruta, 'http') ? $imagenes->first()->ruta : asset('img/' . $imagenes->first()->ruta) }}"
+         alt="{{ $producto->nombre }}"
+         id="main-product-img"
+         class="img-fluid rounded">
+  @else
+    <img src="{{ asset('img/no-image.png') }}"
+         alt="Sin imagen"
+         id="main-product-img"
+         class="img-fluid rounded">
+  @endif
+
+  <!-- Flecha derecha -->
+  <button id="main-next" class="main-arrow right" type="button">❯</button>
+
+</div>
 
     </div>
 
@@ -216,10 +224,13 @@ function renderMiniaturas(variante) {
     imgElem.className = 'sub-img rounded cursor-pointer' + (index === 0 ? ' active-thumb' : '');
     imgElem.style.cssText = 'width:80px;height:80px;object-fit:cover;';
     imgElem.addEventListener("click", () => {
-      mainImg.src = imgElem.src;
-      document.querySelectorAll(".sub-img").forEach(t => t.classList.remove("active-thumb"));
-      imgElem.classList.add("active-thumb");
+    mainImg.src = imgElem.src;
+    document.querySelectorAll(".sub-img").forEach((t, i) => {
+        t.classList.remove("active-thumb");
+        if (t === imgElem) thumbIndex = i; // ← AÑADE ESTA LÍNEA
     });
+    imgElem.classList.add("active-thumb");
+});
     subImagesContainer.appendChild(imgElem);
   });
   mainImg.src = variante.imagenes[0].ruta.startsWith('http') ? variante.imagenes[0].ruta : '/img/' + variante.imagenes[0].ruta;
@@ -243,6 +254,39 @@ if (colorBoxes.length > 0) colorBoxes[0].click();
   let thumbIndex = 0;
   const PER_VIEW = 3;
 
+ document.addEventListener("click", function(e) {
+    const thumbs = subImagesContainer.querySelectorAll('.sub-img');
+    const total  = thumbs.length;
+    if (total === 0) return;
+
+    // ← AÑADE ESTO: si clickeó una miniatura, actualizar thumbIndex
+    if (e.target.classList.contains('sub-img')) {
+        const arr = Array.from(thumbs);
+        thumbIndex = arr.indexOf(e.target);
+    }
+
+    if (e.target.id === "main-prev") {
+        thumbIndex = (thumbIndex - 1 + total) % total;
+        updateThumbCarousel(true);
+        syncMainImage();
+    }
+
+    if (e.target.id === "main-next") {
+        thumbIndex = (thumbIndex + 1) % total;
+        updateThumbCarousel(true);
+        syncMainImage();
+    }
+});
+
+function syncMainImage() {
+  const thumbs = subImagesContainer.querySelectorAll('.sub-img');
+  if (thumbs[thumbIndex]) {
+    mainImg.src = thumbs[thumbIndex].src;
+
+    document.querySelectorAll(".sub-img").forEach(t => t.classList.remove("active-thumb"));
+    thumbs[thumbIndex].classList.add("active-thumb");
+  }
+}
   function injectThumbNav() {
   if (document.querySelector('.thumb-wrapper')) return; // ya existe
 
@@ -448,4 +492,5 @@ document.getElementById('btn-comprar-ahora').addEventListener('click', function 
     window.location.href = '{{ route("checkout.index") }}';
 });
 </script>
+
 @endsection

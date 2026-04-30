@@ -138,8 +138,42 @@ body {
   display: none !important;
 }
 
+.main-image {
+  position: relative;
+}
 
+.main-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  background: rgba(0,0,0,0.50);
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 5;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
 
+.main-arrow.left {
+  left: 10px;
+}
+
+.main-arrow.right {
+  right: 10px;
+}
+
+.main-arrow:active {
+  transform: translateY(-50%) scale(0.9);
+  background: #000;
+  color: #fff;
+}
 /* =====================================================
    RESPONSIVE MÓVIL — hasta 767px
 ===================================================== */
@@ -336,6 +370,10 @@ body {
   .similar-products .card-title,
   .similar-products .card-text {
     text-align: center;
+  }
+
+  .main-arrow {
+    display: none !important;
   }
 }
 
