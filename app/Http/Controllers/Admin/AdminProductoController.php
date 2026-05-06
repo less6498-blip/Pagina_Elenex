@@ -167,6 +167,12 @@ public function actualizarEstadoPedido(Request $request, $id)
             'slug'         => Str::slug($request->nombre) . '-' . uniqid(),
             'activo'       => $request->has('activo') ? 1 : 0,
             'nuevo'        => $request->has('nuevo') ? 1 : 0,
+            'seccion' => implode(',', array_filter([
+            $request->has('seccion_hombre')    ? 'hombre'     : null,
+            $request->has('seccion_woman')     ? 'woman'      : null,
+            $request->has('seccion_kids')      ? 'kids'       : null,
+            $request->has('seccion_after_wave')? 'after_wave' : null,
+])),
         ]);
 
         // 2. Crear variantes e imágenes
@@ -219,12 +225,18 @@ public function actualizarEstadoPedido(Request $request, $id)
         $producto = Producto::findOrFail($id);
         $producto->update([
             'nombre'       => $request->nombre,
-            'categoria_id' => $request->categoria_id,
-            'marca_id'     => $request->marca_id,
-            'precio'       => $request->precio,
-            'activo'       => $request->has('activo') ? 1 : 0,
-            'nuevo'        => $request->has('nuevo') ? 1 : 0,
-        ]);
+    'categoria_id' => $request->categoria_id,
+    'marca_id'     => $request->marca_id,
+    'precio'       => $request->precio,
+    'activo'       => $request->has('activo') ? 1 : 0,
+    'nuevo'        => $request->has('nuevo') ? 1 : 0,
+    'seccion'      => implode(',', array_filter([
+        $request->has('seccion_hombre')    ? 'hombre'     : null,
+        $request->has('seccion_woman')      ? 'woman'      : null,
+        $request->has('seccion_kids')       ? 'kids'       : null,
+        $request->has('seccion_after_wave') ? 'after_wave' : null,
+    ])),
+]);
 
         // Actualizar stock de variantes existentes
         if ($request->filled('variantes_existentes')) {

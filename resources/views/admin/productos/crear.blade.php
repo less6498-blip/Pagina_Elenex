@@ -49,13 +49,34 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div class="form-check form-switch mt-4">
-            <input class="form-check-input" type="checkbox" name="nuevo" id="nuevo">
-            <label class="form-check-label" for="nuevo">New Arrival</label>
-          </div>
-        </div>
-      </div>
+  <div class="form-check form-switch mt-4">
+    <input class="form-check-input" type="checkbox" name="nuevo" id="nuevo">
+    <label class="form-check-label" for="nuevo">New Arrival</label>
+  </div>
+</div>
+
+{{-- Sección --}}
+<div class="col-12">
+  <label class="form-label fw-medium">Sección</label>
+  <div class="d-flex gap-4 flex-wrap">
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" name="seccion_hombre" id="seccion_hombre" checked>
+      <label class="form-check-label" for="seccion_hombre">Hombre</label>
     </div>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" name="seccion_woman" id="seccion_woman">
+      <label class="form-check-label" for="seccion_woman">Woman</label>
+    </div>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" name="seccion_kids" id="seccion_kids">
+      <label class="form-check-label" for="seccion_kids">Kids</label>
+    </div>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" name="seccion_after_wave" id="seccion_after_wave">
+      <label class="form-check-label" for="seccion_after_wave">After Wave</label>
+    </div>
+  </div>
+</div>
 
     {{-- Variantes --}}
     <div class="table-card">

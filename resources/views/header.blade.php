@@ -39,13 +39,13 @@
         <li class="menu-item" data-menu="catalogo">
           <a href="{{ route('productos.catalogo') }}">CATÁLOGO <span class="arrow"></span></a>
         </li>
-        <li class="menu-item"><a href="#">WOMAN</a></li>
-        <li class="menu-item"><a href="#">KIDS</a></li>
+        <li class="menu-item"><a href="{{ route('productos.woman') }}">WOMAN</a></li>
+        <li class="menu-item"><a href="{{ route('productos.kids') }}">KIDS</a></li>
         <li class="menu-item">
           <a href="{{ route('productos.newArrivals') }}">NEW ARRIVALS</a>
         </li>
-        <li class="menu-item-especial"><a href="#">LIQUIDACIÓN</a></li>
-        <li class="menu-item-coleccion"><a href="#">AFTER WAVE</a></li>
+        <li class="menu-item-especial"><a href="{{ route('productos.catalogo') }}?liquidacion=1">LIQUIDACIÓN</a></li>
+        <li class="menu-item-coleccion"><a href="{{ route('productos.afterWave') }}">AFTER WAVE</a></li>
       </ul>
     </nav>
 
@@ -97,11 +97,11 @@
         @endforeach
       </ul>
     </li>
-    <li><a href="#">WOMAN</a></li>
-    <li><a href="#">KIDS</a></li>
+    <li><a href="{{ route('productos.woman') }}">WOMAN</a></li>
+    <li><a href="{{ route('productos.kids') }}">KIDS</a></li>
     <li><a href="{{ route('productos.newArrivals') }}">NEW ARRIVALS</a></li>
-    <li class="item-especial"><a href="#">LIQUIDACIÓN</a></li>
-    <li class="item-especial-coleccion"><a href="#">AFTER WAVE</a></li>
+    <li class="item-especial"><a href="{{ route('productos.catalogo') }}?liquidacion=1">LIQUIDACIÓN</a></li>
+    <li class="item-especial-coleccion"><a href="{{ route('productos.afterWave') }}">AFTER WAVE</a></li>
   </ul>
 </aside>
 

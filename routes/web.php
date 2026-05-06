@@ -61,6 +61,15 @@ Route::get('/api/productos/buscar', [ProductoController::class, 'buscar'])->name
 Route::get('/new-arrivals', [App\Http\Controllers\HomeController::class, 'newArrivals'])
     ->name('productos.newArrivals'); //
 
+// 👗 Woman
+Route::get('/woman', [App\Http\Controllers\HomeController::class, 'woman'])->name('productos.woman');
+
+// 👦 Kids
+Route::get('/kids', [App\Http\Controllers\HomeController::class, 'kids'])->name('productos.kids');
+
+// 🌊 After Wave
+Route::get('/after-wave', [App\Http\Controllers\HomeController::class, 'afterWave'])->name('productos.afterWave');
+
 // 👕👖 Checkout
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout/procesar', [CheckoutController::class, 'procesar'])->name('checkout.procesar');

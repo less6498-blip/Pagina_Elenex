@@ -38,4 +38,61 @@ class HomeController extends Controller
         // Enviar a la vista new-arrivals
         return view('new-arrivals', compact('productos'));
     }
+
+
+    // 👗 Woman
+public function woman(Request $request)
+{
+    $categoria     = $request->get('categoria');
+    $queryBusqueda = $request->get('query');
+
+    $query = Producto::with(['variantes.imagenes', 'categoria'])
+                     ->where('activo', 1)
+                     ->where('seccion', 'woman');
+
+    if ($categoria) {
+        $query->whereHas('categoria', function($q) use ($categoria) {
+            $q->whereRaw('LOWER(nombre) = ?', [strtolower($categoria)]);
+        });
+    }
+
+    $productos       = $query->get();
+    $todasCategorias = $productos->groupBy(fn($p) => $p->categoria->nombre ?? 'Sin categoría');
+
+    return view('woman', compact('productos', 'todasCategorias', 'categoria', 'queryBusqueda'));
+}
+
+// 👦 Kids
+public function kids(Request $request)
+{
+    $categoria     = $request->get('categoria');
+    $queryBusqueda = $request->get('query');
+
+    $query = Producto::with(['variantes.imagenes', 'categoria'])
+                     ->where('activo', 1)
+                     ->where('seccion', 'kids');
+
+    if ($categoria) {
+        $query->whereHas('categoria', function($q) use ($categoria) {
+            $q->whereRaw('LOWER(nombre) = ?', [strtolower($categoria)]);
+        });
+    }
+
+    $productos       = $query->get();
+    $todasCategorias = $productos->groupBy(fn($p) => $p->categoria->nombre ?? 'Sin categoría');
+
+    return view('kids', compact('productos', 'todasCategorias', 'categoria', 'queryBusqueda'));
+}
+
+// 🌊 After Wave
+public function afterWave(Request $request)
+{
+    $productos = Producto::with(['variantes.imagenes', 'categoria'])
+                         ->where('activo', 1)
+                         ->where('seccion', 'after_wave')
+                         ->get();
+
+    return view('after-wave', compact('productos'));
+}
+
 }
