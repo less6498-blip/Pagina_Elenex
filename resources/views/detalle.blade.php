@@ -66,6 +66,7 @@
             'beige'        => '#e2c9a9',
             'verde-oscuro' => '#1d3623',
             'lila'         => '#8c64ad',
+            'melange'      => '#cecece'
         ];
         $colores = $producto->variantes->pluck('color')->unique();
       @endphp
