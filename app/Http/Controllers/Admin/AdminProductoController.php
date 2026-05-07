@@ -12,6 +12,7 @@ use App\Models\Marca;
 use Illuminate\Support\Str;
 use App\Models\Pedido;
 use Carbon\Carbon;
+use Cloudinary\Cloudinary;
 
 class AdminProductoController extends Controller
 {
@@ -188,14 +189,23 @@ public function actualizarEstadoPedido(Request $request, $id)
             // Subir imágenes de esta variante
             if ($request->hasFile("imagenes.$idx")) {
                 foreach ($request->file("imagenes.$idx") as $orden => $img) {
-                    $resultado = cloudinary()->upload($img->getRealPath(), [
-                        'folder' => 'elenex/productos',
-                    ]);
-                    Imagen::create([
-                        'variante_id' => $variante->id,
-                        'ruta'        => $resultado->getSecurePath(),
-                    'orden'       => $orden,
-                    ]);
+                    $cloudinary = new Cloudinary([
+    'cloud' => [
+        'cloud_name' => env('CLOUDINARY_CLOUD_NAME', 'dkgyvvcfo'),
+        'api_key'    => env('CLOUDINARY_API_KEY', '622711976887225'),
+        'api_secret' => env('CLOUDINARY_API_SECRET', 'e9RwQH8jBoSOV99zl4NwIKrQXGk'),
+    ]
+]);
+
+$resultado = $cloudinary->uploadApi()->upload($img->getRealPath(), [
+    'folder' => 'elenex/productos',
+]);
+
+Imagen::create([
+    'variante_id' => $variante->id,
+    'ruta'        => $resultado['secure_url'],
+    'orden'       => $orden,
+]);
                 }
             }
         }
@@ -251,14 +261,23 @@ public function actualizarEstadoPedido(Request $request, $id)
                 if ($request->hasFile("nuevas_imagenes.$varId")) {
                     $ultimoOrden = Imagen::where('variante_id', $varId)->max('orden') ?? -1;
                     foreach ($request->file("nuevas_imagenes.$varId") as $img) {
-                        $resultado = cloudinary()->upload($img->getRealPath(), [
-                            'folder' => 'elenex/productos',
-                        ]);
-                        Imagen::create([
-                            'variante_id' => $varId,
-                            'ruta'        => $resultado->getSecurePath(),
-                            'orden'       => ++$ultimoOrden,
-                        ]);
+                        $cloudinary = new Cloudinary([
+    'cloud' => [
+        'cloud_name' => env('CLOUDINARY_CLOUD_NAME', 'dkgyvvcfo'),
+        'api_key'    => env('CLOUDINARY_API_KEY', '622711976887225'),
+        'api_secret' => env('CLOUDINARY_API_SECRET', 'e9RwQH8jBoSOV99zl4NwIKrQXGk'),
+    ]
+]);
+
+$resultado = $cloudinary->uploadApi()->upload($img->getRealPath(), [
+    'folder' => 'elenex/productos',
+]);
+
+Imagen::create([
+    'variante_id' => $variante->id,
+    'ruta'        => $resultado['secure_url'],
+    'orden'       => $orden,
+]);
                     }
                 }
             }
@@ -279,14 +298,23 @@ public function actualizarEstadoPedido(Request $request, $id)
 
                 if ($request->hasFile("imagenes_nuevas_variantes.$idx")) {
                     foreach ($request->file("imagenes_nuevas_variantes.$idx") as $orden => $img) {
-                        $resultado = cloudinary()->upload($img->getRealPath(), [
-                            'folder' => 'elenex/productos',
-                        ]);
-                        Imagen::create([
-                            'variante_id' => $variante->id,
-                            'ruta'        => $resultado->getSecurePath(),
-                            'orden'       => $orden,
-                        ]);
+                        $cloudinary = new Cloudinary([
+    'cloud' => [
+        'cloud_name' => env('CLOUDINARY_CLOUD_NAME', 'dkgyvvcfo'),
+        'api_key'    => env('CLOUDINARY_API_KEY', '622711976887225'),
+        'api_secret' => env('CLOUDINARY_API_SECRET', 'e9RwQH8jBoSOV99zl4NwIKrQXGk'),
+    ]
+]);
+
+$resultado = $cloudinary->uploadApi()->upload($img->getRealPath(), [
+    'folder' => 'elenex/productos',
+]);
+
+Imagen::create([
+    'variante_id' => $variante->id,
+    'ruta'        => $resultado['secure_url'],
+    'orden'       => $orden,
+]);
                     }
                 }
             }
