@@ -94,7 +94,8 @@
                                 @endif
 
                                 @if($imagenHover)
-                                    <img src="{{ asset('img/' . $imagenHover->ruta) }}" class="product-img img-hover">
+                                <img src="{{ str_starts_with($imagenHover->ruta, 'http') ? $imagenHover->ruta : asset('img/' . $imagenHover->ruta) }}" class="product-img img-hover">
+                                    
                                 @endif
                             </div>
 
