@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Hash;
 class AdminSeeder extends Seeder
 {
     public function run(): void
-    {
-        Admin::firstOrCreate([
-            'nombre'   => 'Administrador',
-            'email'    => 'admin@elenex.com',
+{
+    Admin::firstOrCreate(
+        ['email' => 'admin@elenex.com'],
+        [
+            'nombre'   => 'Administrador Principal',
             'password' => Hash::make('Elenex2024$'),
-        ]);
-    }
+        ]
+    );
+}
 }
