@@ -28,11 +28,11 @@
                         @endphp
 
                         @if($imagenPrincipal)
-                        <img src="{{ asset('img/' . $imagenPrincipal->ruta) }}" class="product-img" alt="{{ $producto->nombre }}">
+                        <img src="{{ str_starts_with($imagenPrincipal->ruta, 'http') ? $imagenPrincipal->ruta : asset('img/' . $imagenPrincipal->ruta) }}" class="product-img" alt="{{ $producto->nombre }}">
                         @endif
 
                         @if($imagenHover)
-                        <img src="{{ asset('img/' . $imagenHover->ruta) }}" class="product-img img-hover" alt="{{ $producto->nombre }} hover">
+                        <img src="{{ str_starts_with($imagenHover->ruta, 'http') ? $imagenHover->ruta : asset('img/' . $imagenHover->ruta) }}" class="product-img img-hover" alt="{{ $producto->nombre }} hover">
                         @endif
                     </div>
 
