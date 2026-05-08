@@ -11,9 +11,11 @@
     "require": {
         "php": "^8.2",
         "cloudinary-labs/cloudinary-laravel": "^3.0",
+        "culqi/culqi-php": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "maatwebsite/excel": "^3.1",
+        "mercadopago/dx-php": "^3.9",
         "phpoffice/phpspreadsheet": "^1.30"
     },
     "require-dev": {

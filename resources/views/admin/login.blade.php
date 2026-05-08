@@ -85,8 +85,7 @@
     </div>
     <div class="mb-4">
       <label class="form-label fw-medium" style="font-size:14px;">Contraseña</label>
-      <input type="password" name="password" class="form-control"
-             placeholder="••••••••" required>
+      <input type="password" name="password" class="form-control">
     </div>
     <div class="mb-4">
       <div class="form-check">

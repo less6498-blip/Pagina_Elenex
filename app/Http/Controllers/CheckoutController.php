@@ -4,20 +4,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pedido;
 use App\Models\DetallePedido;
+use App\Models\Pago;
 use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
 {
-    // Mostrar página de checkout
     public function index()
     {
         return view('checkout.index');
     }
 
-    // Procesar pedido (sin pago por ahora)
     public function procesar(Request $request)
     {
-        // 1. Validar
         $request->validate([
             'nombre'       => 'required|string|max:100',
             'email'        => 'required|email|max:100',
@@ -27,23 +25,58 @@ class CheckoutController extends Controller
             'distrito'     => 'required|string',
             'direccion'    => 'required|string|max:200',
             'referencia'   => 'nullable|string|max:200',
-            'zona_envio'   => 'required|in:lima,provincias',
+            'culqi_token'  => 'required|string',
             'cart_items'   => 'required|string',
+            'zona_envio'   => 'required|in:lima,provincias',
         ]);
 
-        // 2. Decodificar carrito
-        $items = json_decode($request->cart_items, true);
+        $items     = json_decode($request->cart_items, true);
+        $zonaEnvio = $request->zona_envio;
 
         if (empty($items)) {
             return response()->json(['error' => 'El carrito está vacío'], 422);
         }
 
-        // 3. Calcular totales
-        $subtotal   = collect($items)->sum(fn($i) => $i['price'] * $i['quantity']);
-        $costoEnvio = $request->zona_envio === 'lima' ? 10.00 : 20.00;
-        $total      = $subtotal + $costoEnvio;
+        // Calcular totales
+        $subtotal        = collect($items)->sum(fn($i) => $i['price'] * $i['quantity']);
+        $costoEnvio      = $zonaEnvio === 'lima' ? 10.00 : 20.00;
+        $total           = $subtotal + $costoEnvio;
+        $totalCentimos   = (int) round($total * 100);
 
-        // 4. Crear pedido
+        // Cobrar con Culqi
+        try {
+            $culqi = new \Culqi\Culqi(['api_key' => env('CULQI_SECRET_KEY')]);
+
+            $cargo = $culqi->Charges->create([
+                'amount'        => $totalCentimos,
+                'currency_code' => 'PEN',
+                'email'         => $request->email,
+                'source_id'     => $request->culqi_token,
+                'description'   => 'Pedido Elenex - ' . $request->nombre,
+                'capture'       => true,
+                'antifraud_details' => [
+                    'first_name'   => explode(' ', $request->nombre)[0],
+                    'last_name'    => explode(' ', $request->nombre)[1] ?? '',
+                    'phone_number' => $request->telefono ?? '999999999',
+                    'address'      => $request->direccion,
+                    'address_city' => $request->provincia,
+                    'country_code' => 'PE',
+                ],
+            ]);
+
+            if (!isset($cargo->id)) {
+                throw new \Exception('No se recibió confirmación de Culqi');
+            }
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error en el pago: ' . $e->getMessage()
+            ], 422);
+        }
+
+        // Guardar pedido
+        $codigoOrden = 'ELX-' . strtoupper(Str::random(8));
+
         $pedido = Pedido::create([
             'guest_nombre'       => $request->nombre,
             'guest_email'        => $request->email,
@@ -57,12 +90,12 @@ class CheckoutController extends Controller
             'costo_envio'        => $costoEnvio,
             'total'              => $total,
             'estado'             => 'confirmado',
-            'estado_pago'        => 'pendiente', // cambiará a 'pagado' con Culqi
-            'metodo_pago'        => 'pendiente',
-            'codigo_orden'       => 'ELX-' . strtoupper(Str::random(8)),
+            'estado_pago'        => 'pagado',
+            'metodo_pago'        => 'culqi',
+            'codigo_orden'       => $codigoOrden,
         ]);
 
-        // 5. Guardar items
+        // Guardar items
         foreach ($items as $item) {
             DetallePedido::create([
                 'pedido_id'        => $pedido->id,
@@ -76,14 +109,25 @@ class CheckoutController extends Controller
             ]);
         }
 
+        // Guardar pago
+        Pago::create([
+            'pedido_id'          => $pedido->id,
+            'culqi_charge_id'    => $cargo->id,
+            'monto'              => $total,
+            'moneda'             => 'PEN',
+            'estado'             => 'exitoso',
+            'marca_tarjeta'      => $cargo->source->card_brand ?? null,
+            'ultimos_digitos'    => $cargo->source->last_four ?? null,
+            'respuesta_completa' => json_encode($cargo),
+        ]);
+
         return response()->json([
             'success'      => true,
-            'codigo_orden' => $pedido->codigo_orden,
-            'redirect'     => route('checkout.confirmacion', $pedido->codigo_orden),
+            'codigo_orden' => $codigoOrden,
+            'redirect'     => route('checkout.confirmacion', $codigoOrden),
         ]);
     }
 
-    // Página de confirmación
     public function confirmacion($codigo)
     {
         $pedido = Pedido::with('detalles')
