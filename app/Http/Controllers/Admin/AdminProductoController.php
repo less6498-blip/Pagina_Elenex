@@ -165,7 +165,7 @@ public function actualizarEstadoPedido(Request $request, $id)
             'categoria_id' => $request->categoria_id,
             'marca_id'     => $request->marca_id,
             'precio'       => $request->precio,
-            'slug'         => Str::slug($request->nombre) . '-' . uniqid(),
+            'slug'         => Str::slug($request->nombre),
             'activo'       => $request->has('activo') ? 1 : 0,
             'nuevo'        => $request->has('nuevo') ? 1 : 0,
             'seccion' => implode(',', array_filter([
