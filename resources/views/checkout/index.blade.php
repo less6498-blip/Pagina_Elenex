@@ -266,16 +266,6 @@ function validar() {
     return true;
 }
 
-// Callback de Culqi
-window.culqi = function() {
-    if (Culqi.token) {
-        procesarPago(Culqi.token.id);
-    } else {
-        mostrarError(Culqi.error?.user_message || 'Error al procesar el pago');
-        document.getElementById('btn-pagar').disabled = false;
-        document.getElementById('btn-pagar').innerHTML = '🔒 Pagar con tarjeta — ' + document.getElementById('resumen-total').textContent;
-    }
-};
 
 async function procesarPago(token) {
     const zona     = document.getElementById('inp-zona').value;
@@ -326,41 +316,92 @@ async function procesarPago(token) {
 
 document.getElementById('inp-zona').addEventListener('change', renderResumen);
 
-document.getElementById('btn-pagar').addEventListener('click', () => {
+document.getElementById('btn-pagar').addEventListener('click', async () => {
+
     if (!validar()) return;
 
     const btn = document.getElementById('btn-pagar');
-    btn.disabled  = true;
-    btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Procesando...`;
 
-    const zona  = document.getElementById('inp-zona').value;
-    const envio = COSTO[zona] || 10;
-    const items = getCart();
-    const total = items.reduce((a, i) => a + (i.price * i.quantity), 0) + envio;
+    btn.disabled = true;
+    btn.innerHTML = `
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        Procesando...
+    `;
 
-    // Configurar Culqi
-    Culqi.publicKey = CULQI_PK;
-    Culqi.settings({
-        title:       'Elenex',
-        currency:    'PEN',
-        description: 'Compra en Elenex',
-        amount:      Math.round(total * 100),
-    });
-    Culqi.options({
-        lang:           'auto',
-        modal:          true,
-        paymentMethods: { tarjeta: true, yape: true },
-        style: {
-            logo:       '{{ asset("img/elelogo.webp") }}',
-            maincolor:  '#000000',
-            buttontext: '#ffffff',
-        },
-    });
-    Culqi.setEmail(document.getElementById('inp-email').value);
-    Culqi.open();
+    try {
+
+        const zona  = document.getElementById('inp-zona').value;
+        const envio = COSTO[zona] || 10;
+
+        const items = getCart();
+
+        const total = items.reduce(
+            (a, i) => a + (i.price * i.quantity),
+            0
+        ) + envio;
+
+        // ─────────────────────────────────────
+        // CONFIGURAR CHECKOUT V4
+        // ─────────────────────────────────────
+
+        const checkout = new CulqiCheckout({
+            publicKey: CULQI_PK,
+            title: 'Elenex',
+            currency: 'PEN',
+            amount: Math.round(total * 100),
+            description: 'Compra en Elenex',
+
+            settings: {
+                title: 'Elenex',
+                currency: 'PEN',
+                amount: Math.round(total * 100),
+            },
+
+            client: {
+                email: document.getElementById('inp-email').value,
+            },
+
+            appearance: {
+                theme: 'default'
+            }
+        });
+
+        // Abrir checkout
+        const token = await checkout.open();
+
+        // Token exitoso
+        if (token?.id) {
+
+            await procesarPago(token.id);
+
+        } else {
+
+            mostrarError('No se pudo generar el pago');
+
+            btn.disabled = false;
+
+            btn.innerHTML =
+                '🔒 Pagar con tarjeta — ' +
+                document.getElementById('resumen-total').textContent;
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        mostrarError(
+            error?.message ||
+            'Pago cancelado o error en Culqi'
+        );
+
+        btn.disabled = false;
+
+        btn.innerHTML =
+            '🔒 Pagar con tarjeta — ' +
+            document.getElementById('resumen-total').textContent;
+    }
+
 });
-
-renderResumen();
 </script>
 
 @push('styles')
