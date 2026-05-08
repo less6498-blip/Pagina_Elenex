@@ -183,7 +183,7 @@ public function actualizarEstadoPedido(Request $request, $id)
                 'talla'           => $varData['talla'],
                 'color'           => $varData['color'],
                 'stock'           => $varData['stock'],
-                'sku'             => strtoupper(Str::random(8)),
+                'sku' => strtoupper(Str::slug($producto->nombre) . '-' . $varData['color'] . '-' . $varData['talla']),
             ]);
 
             // Subir imágenes de esta variante
@@ -293,7 +293,7 @@ Imagen::create([
                     'talla'       => $varData['talla'],
                     'color'       => $varData['color'],
                     'stock'       => $varData['stock'] ?? 0,
-                    'sku'         => strtoupper(Str::random(8)),
+                    'sku' => strtoupper(Str::slug($producto->nombre) . '-' . $varData['color'] . '-' . $varData['talla']),
                 ]);
 
                 if ($request->hasFile("imagenes_nuevas_variantes.$idx")) {
