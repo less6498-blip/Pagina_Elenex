@@ -255,6 +255,7 @@ Imagen::create([
                     'talla' => $varData['talla'],
                     'color' => $varData['color'],
                     'stock' => $varData['stock'],
+                    'sku' => strtoupper(Str::slug($producto->nombre) . '-' . $varData['color'] . '-' . $varData['talla']),
                 ]);
 
                 // Nuevas imágenes para variante existente
