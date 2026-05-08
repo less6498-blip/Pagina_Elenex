@@ -17,6 +17,10 @@ $colorMap = [
     'azul'         => '#1d4ed8',
     'rojo'         => '#dc2626',
     'cafe'         => '#92400e',
+    'melange'      => '#cecece',
+    'mostaza'      => '#dda93a',
+    'melon'        => '#eeaba9',
+    'verde'        => '#50bd67',
 ];
 @endphp
 
@@ -83,7 +87,7 @@ $colorMap = [
     <tr style="cursor:pointer;" onclick="toggleVariantes({{ $producto->id }})">
         <td>
             @if($imagenPrincipal)
-                <img src="{{ asset('img/' . $imagenPrincipal->ruta) }}" class="img-thumb">
+                <img src="{{ str_starts_with($imagenPrincipal->ruta, 'http') ? $imagenPrincipal->ruta : asset('img/' . $imagenPrincipal->ruta) }}" class="img-thumb">
             @else
                 <div class="img-thumb bg-light d-flex align-items-center justify-content-center">
                     <i class="fas fa-image text-muted"></i>
