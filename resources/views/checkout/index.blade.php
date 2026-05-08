@@ -109,9 +109,8 @@
           {{-- Botón de pago --}}
 <button type="button" id="btn-pagar"
         class="btn btn-dark w-100 py-3 fw-bold"
-        style="border-radius:12px;font-size:15px;">
-  🔒 Pagar con tarjeta —
-  <span id="btn-total-display">S/ 0.00</span>
+        style="border-radius:12px;font-size:19px;">
+  Pagar ahora
 </button>
 <p id="form-error" class="text-danger text-center mt-3 small d-none"></p>
         </div>
