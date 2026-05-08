@@ -168,7 +168,7 @@ const URL_PROCESAR = '{{ route("checkout.procesar") }}';
 const CULQI_PK     = '{{ env("CULQI_PUBLIC_KEY") }}';
 
 const COSTO = {
-    lima: 10,
+    lima: 0.50,
     provincias: 20
 };
 
