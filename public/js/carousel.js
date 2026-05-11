@@ -1,16 +1,12 @@
 (function () {
     // Si no existe el carrusel en esta página, salir
     const bsEl = document.getElementById('carruselExample');
-    if (!bsEl) return; // ← AGREGAR ESTA LÍNEA
+    if (!bsEl) return;
 
     const DURATION = 4000;
     const EXPAND_DELAY = 350;
     const BAR_WIDTH = 44;
 
-    const dots = document.querySelectorAll('#carruselIndicadores .yape-dot');
-    // ... resto del código igual
-
-    const bsEl = document.getElementById('carruselExample');
     const dots = document.querySelectorAll('#carruselIndicators .yape-dot');
     const TOTAL = dots.length;
     let current = 0;
@@ -48,14 +44,12 @@
         }, EXPAND_DELAY);
     }
 
-    // Sincronizar con Bootstrap cuando cambia el slide
     bsEl.addEventListener('slide.bs.carousel', (e) => {
         resetDot(dots[current]);
         current = e.to;
         activateDot(dots[current]);
     });
 
-    // Click en dots
     dots.forEach(dot => {
         dot.addEventListener('click', () => {
             const index = parseInt(dot.dataset.index);
@@ -63,7 +57,6 @@
         });
     });
 
-    // Flechas
     document.getElementById('prevBtn').addEventListener('click', () => {
         bootstrap.Carousel.getInstance(bsEl).prev();
     });

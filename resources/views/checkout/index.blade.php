@@ -357,8 +357,7 @@ document.getElementById('btn-pagar').addEventListener('click', () => {
         },
     });
     const emailVal = document.getElementById('inp-email').value;
-if (typeof Culqi !== 'undefined' && Culqi.open) {
-    Culqi.setEmail(emailVal);
+if (typeof Culqi !== 'undefined') {
     Culqi.open();
 } else {
     mostrarError('Error al cargar el sistema de pago. Recarga la página.');
