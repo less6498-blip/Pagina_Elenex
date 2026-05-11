@@ -242,7 +242,6 @@ function renderResumen() {
     document.getElementById('resumen-subtotal').textContent = fmt(subtotal);
     document.getElementById('resumen-envio').textContent    = fmt(envio);
     document.getElementById('resumen-total').textContent    = fmt(total);
-    document.getElementById('btn-total-display').textContent = fmt(total);
 }
 
 /* =========================
