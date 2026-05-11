@@ -284,6 +284,13 @@ async function procesarPago(token) {
     const subtotal = items.reduce((a, i) => a + (i.price * i.quantity), 0);
     const total    = subtotal + envio;
 
+    if (Math.round(total * 100) !== montoFijado) {
+        mostrarError('El monto cambió. Por favor recarga la página e intenta de nuevo.');
+        document.getElementById('btn-pagar').disabled = false;
+        document.getElementById('btn-pagar').innerHTML = '🔒 Pagar con tarjeta — ' + document.getElementById('resumen-total').textContent;
+        return;
+    }
+    
     try {
         const res = await fetch(URL_PROCESAR, {
             method:  'POST',
@@ -326,10 +333,12 @@ async function procesarPago(token) {
 
 document.getElementById('inp-zona').addEventListener('change', renderResumen);
 
+let montoFijado = 0; // ← variable global para guardar el monto
+
 document.getElementById('btn-pagar').addEventListener('click', () => {
     if (!validar()) return;
 
-    const btn = document.getElementById('btn-pagar');
+    const btn   = document.getElementById('btn-pagar');
     btn.disabled  = true;
     btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>Procesando...`;
 
@@ -338,13 +347,14 @@ document.getElementById('btn-pagar').addEventListener('click', () => {
     const items = getCart();
     const total = items.reduce((a, i) => a + (i.price * i.quantity), 0) + envio;
 
-    // Configurar Culqi
+    montoFijado = Math.round(total * 100); // ← guardar monto exacto
+
     Culqi.publicKey = CULQI_PK;
     Culqi.settings({
         title:       'Elenex',
         currency:    'PEN',
         description: 'Compra en Elenex',
-        amount:      Math.round(total * 100),
+        amount:      montoFijado, // ← usar monto fijado
     });
     Culqi.options({
         lang:           'auto',
@@ -356,14 +366,13 @@ document.getElementById('btn-pagar').addEventListener('click', () => {
             buttontext: '#ffffff',
         },
     });
-    const emailVal = document.getElementById('inp-email').value;
-if (typeof Culqi !== 'undefined') {
-    Culqi.open();
-} else {
-    mostrarError('Error al cargar el sistema de pago. Recarga la página.');
-    btn.disabled = false;
-    btn.innerHTML = '🔒 Pagar con tarjeta — ' + document.getElementById('resumen-total').textContent;
-}
+    if (typeof Culqi !== 'undefined') {
+        Culqi.open();
+    } else {
+        mostrarError('Error al cargar el sistema de pago. Recarga la página.');
+        btn.disabled  = false;
+        btn.innerHTML = '🔒 Pagar con tarjeta — ' + document.getElementById('resumen-total').textContent;
+    }
 });
 
 renderResumen();
