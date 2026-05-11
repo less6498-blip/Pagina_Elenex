@@ -166,7 +166,7 @@
 const CSRF          = '{{ csrf_token() }}';
 const URL_PROCESAR  = '{{ route("checkout.procesar") }}';
 const CULQI_PK      = '{{ env("CULQI_PUBLIC_KEY") }}';
-const COSTO         = { lima: 10, provincias: 20 };
+const COSTO         = { lima: 0.50, provincias: 20 };
 
 function getCart() {
     try { return JSON.parse(localStorage.getItem('elenex_cart')) || []; }
