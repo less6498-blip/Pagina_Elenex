@@ -25,7 +25,8 @@ class CheckoutController extends Controller
             'distrito'     => 'required|string',
             'direccion'    => 'required|string|max:200',
             'referencia'   => 'nullable|string|max:200',
-            'culqi_token'  => 'required|string',
+            'tipo_pago'    => 'required|string',
+            'culqi_id'     => 'required|string',
             'cart_items'   => 'required|string',
             'zona_envio'   => 'required|in:lima,provincias',
         ]);
@@ -46,12 +47,18 @@ class CheckoutController extends Controller
         // Cobrar con Culqi
         try {
             $culqi = new \Culqi\Culqi(['api_key' => env('CULQI_SECRET_KEY')]);
+if ($request->tipo_pago === 'order') {
 
+    return response()->json([
+        'error' => 'Yape aún no configurado en backend'
+    ], 422);
+
+}
             $cargo = $culqi->Charges->create([
                 'amount'        => $totalCentimos,
                 'currency_code' => 'PEN',
                 'email'         => $request->email,
-                'source_id'     => $request->culqi_token,
+                'source_id' => $request->culqi_id,
                 'description'   => 'Pedido Elenex - ' . $request->nombre,
                 'capture'       => true,
                 'antifraud_details' => [

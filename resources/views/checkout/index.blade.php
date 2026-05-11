@@ -80,7 +80,7 @@
             <div class="col-md-6">
               <label class="form-label fw-medium" style="font-size:14px;">Zona de envío *</label>
               <select id="inp-zona" class="form-select" style="border-radius:10px;">
-                <option value="lima">Lima Metropolitana — S/ 10.00</option>
+                <option value="lima">Lima Metropolitana — S/ 0.50</option>
                 <option value="provincias">Provincias — S/ 20.00</option>
               </select>
             </div>
@@ -136,7 +136,7 @@
           </div>
           <div class="d-flex justify-content-between text-muted small mb-2">
             <span>Envío</span>
-            <span id="resumen-envio">S/ 10.00</span>
+            <span id="resumen-envio">S/ 0.50</span>
           </div>
           <hr>
           <div class="d-flex justify-content-between fw-bold">
@@ -267,17 +267,45 @@ function validar() {
 }
 
 // Callback de Culqi
-window.culqi = function() {
+window.culqi = function () {
+
+    console.log("RESPUESTA CULQI:", Culqi);
+
+    // TARJETA
     if (Culqi.token) {
-        procesarPago(Culqi.token.id);
-    } else {
-        mostrarError(Culqi.error?.user_message || 'Error al procesar el pago');
-        document.getElementById('btn-pagar').disabled = false;
-        document.getElementById('btn-pagar').innerHTML = '🔒 Pagar con tarjeta — ' + document.getElementById('resumen-total').textContent;
+
+        procesarPago({
+            tipo: 'token',
+            id: Culqi.token.id
+        });
+
+        return;
     }
+
+    // YAPE
+    if (Culqi.order) {
+
+        procesarPago({
+            tipo: 'order',
+            id: Culqi.order.id
+        });
+
+        return;
+    }
+
+    // ERROR
+    mostrarError(
+        Culqi.error?.user_message || 'Error al procesar el pago'
+    );
+
+    document.getElementById('btn-pagar').disabled = false;
+
+    document.getElementById('btn-pagar').innerHTML =
+        '🔒 Pagar con tarjeta — ' +
+        document.getElementById('resumen-total').textContent;
 };
 
-async function procesarPago(token) {
+async function procesarPago(dataPago) {
     const zona     = document.getElementById('inp-zona').value;
     const envio    = COSTO[zona] || 10;
     const items    = getCart();
@@ -309,7 +337,8 @@ async function procesarPago(token) {
                 direccion:    document.getElementById('inp-direccion').value,
                 referencia:   document.getElementById('inp-referencia').value,
                 zona_envio:   zona,
-                culqi_token:  token,
+                tipo_pago: dataPago.tipo,
+                culqi_id: dataPago.id,
                 cart_items:   JSON.stringify(items),
             }),
         });
