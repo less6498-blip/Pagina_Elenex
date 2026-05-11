@@ -43,72 +43,36 @@ class CheckoutController extends Controller
         $total           = $subtotal + $costoEnvio;
         $totalCentimos   = (int) round($total * 100);
 
-       // Cobrar con Culqi
-try {
+        // Cobrar con Culqi
+        try {
+            $culqi = new \Culqi\Culqi(['api_key' => env('CULQI_SECRET_KEY')]);
 
-    $culqi = new \Culqi\Culqi([
-        'api_key' => env('CULQI_SECRET_KEY')
-    ]);
+            $cargo = $culqi->Charges->create([
+                'amount'        => $totalCentimos,
+                'currency_code' => 'PEN',
+                'email'         => $request->email,
+                'source_id'     => $request->culqi_token,
+                'description'   => 'Pedido Elenex - ' . $request->nombre,
+                'capture'       => true,
+                'antifraud_details' => [
+                    'first_name'   => explode(' ', $request->nombre)[0],
+                    'last_name'    => explode(' ', $request->nombre)[1] ?? '',
+                    'phone_number' => $request->telefono ?? '999999999',
+                    'address'      => $request->direccion,
+                    'address_city' => $request->provincia,
+                    'country_code' => 'PE',
+                ],
+            ]);
 
-    $sourceId = $request->culqi_token;
+            if (!isset($cargo->id)) {
+                throw new \Exception('No se recibió confirmación de Culqi');
+            }
 
-    /*
-    |--------------------------------------------------------------------------
-    | TARJETA
-    |--------------------------------------------------------------------------
-    */
-    if (str_starts_with($sourceId, 'tkn_')) {
-
-        $cargo = $culqi->Charges->create([
-
-            'amount'        => $totalCentimos,
-            'currency_code' => 'PEN',
-            'email'         => $request->email,
-            'source_id'     => $sourceId,
-            'description'   => 'Pedido Elenex - ' . $request->nombre,
-            'capture'       => true,
-
-            'antifraud_details' => [
-                'first_name'   => explode(' ', $request->nombre)[0],
-                'last_name'    => explode(' ', $request->nombre)[1] ?? '',
-                'phone_number' => $request->telefono ?? '999999999',
-                'address'      => $request->direccion,
-                'address_city' => $request->provincia,
-                'country_code' => 'PE',
-            ],
-        ]);
-
-    /*
-    |--------------------------------------------------------------------------
-    | YAPE
-    |--------------------------------------------------------------------------
-    */
-    } elseif (str_starts_with($sourceId, 'ype_')) {
-
-        $cargo = $culqi->Charges->create([
-
-            'amount'        => $totalCentimos,
-            'currency_code' => 'PEN',
-            'email'         => $request->email,
-            'source_id'     => $sourceId,
-            'description'   => 'Pedido Elenex - ' . $request->nombre,
-        ]);
-
-    } else {
-
-        throw new \Exception('Método de pago no soportado');
-    }
-
-    if (!isset($cargo->id)) {
-        throw new \Exception('No se recibió confirmación de Culqi');
-    }
-
-} catch (\Exception $e) {
-
-    return response()->json([
-        'error' => 'Error en el pago: ' . $e->getMessage()
-    ], 422);
-}
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error en el pago: ' . $e->getMessage()
+            ], 422);
+        }
 
         // Guardar pedido
         $codigoOrden = 'ELX-' . strtoupper(Str::random(8));
