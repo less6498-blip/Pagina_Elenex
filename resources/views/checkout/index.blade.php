@@ -363,22 +363,68 @@ async function procesarPago(token) {
 /* =========================
    CULQI CALLBACK (OBLIGATORIO)
 ========================= */
-window.culqi = function () {
+window.culqi = async function () {
 
-    if (Culqi.token) {
-        procesarPago(Culqi.token.id);
-    } else {
-        mostrarError(
-            Culqi.error?.user_message || 'Error al procesar pago'
-        );
-    }
+    console.log('CULQI RESPONSE:', Culqi);
 
     const btn = document.getElementById('btn-pagar');
 
-    btn.disabled = false;
-    btn.innerHTML =
-        '🔒 Pagar con tarjeta — ' +
-        document.getElementById('resumen-total').textContent;
+    try {
+
+        // TARJETA
+        if (Culqi.token && Culqi.token.id) {
+
+            console.log('TOKEN:', Culqi.token.id);
+
+            await procesarPago(Culqi.token.id);
+
+            return;
+        }
+
+        // YAPE / BILLETERAS
+        if (Culqi.order && Culqi.order.id) {
+
+            console.log('ORDER:', Culqi.order.id);
+
+            await procesarPago(Culqi.order.id);
+
+            return;
+        }
+
+        // ERROR
+        if (Culqi.error) {
+
+            console.error(Culqi.error);
+
+            mostrarError(
+                Culqi.error.user_message ||
+                Culqi.error.merchant_message ||
+                'Error al procesar pago'
+            );
+
+            return;
+        }
+
+        // FALLBACK
+        console.warn('Respuesta inesperada:', Culqi);
+
+        mostrarError(
+            'No se recibió confirmación de Culqi'
+        );
+
+    } catch (e) {
+
+        console.error(e);
+
+        mostrarError('Error inesperado');
+
+    } finally {
+
+        btn.disabled = false;
+
+        btn.innerHTML =
+            'Pagar ahora';
+    }
 };
 
 /* =========================
