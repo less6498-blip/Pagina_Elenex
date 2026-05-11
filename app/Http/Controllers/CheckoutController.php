@@ -45,41 +45,49 @@ class CheckoutController extends Controller
         $totalCentimos   = (int) round($total * 100);
 
         // Cobrar con Culqi
-        try {
-            $culqi = new \Culqi\Culqi(['api_key' => env('CULQI_SECRET_KEY')]);
-if ($request->tipo_pago === 'order') {
+        $culqi = new \Culqi\Culqi(['api_key' => env('CULQI_SECRET_KEY')]);
+
+try {
+
+    // 💳 TARJETA
+    if ($request->tipo_pago === 'token') {
+
+        $cargo = $culqi->Charges->create([
+            'amount'        => $totalCentimos,
+            'currency_code' => 'PEN',
+            'email'         => $request->email,
+            'source_id'     => $request->culqi_id,
+            'description'   => 'Pedido Elenex - ' . $request->nombre,
+            'capture'       => true,
+            'antifraud_details' => [
+                'first_name'   => explode(' ', $request->nombre)[0],
+                'last_name'    => explode(' ', $request->nombre)[1] ?? '',
+                'phone_number' => $request->telefono ?? '999999999',
+                'address'      => $request->direccion,
+                'address_city' => $request->provincia,
+                'country_code' => 'PE',
+            ],
+        ]);
+
+    // 📱 YAPE
+    } else {
+
+        $cargo = $culqi->Orders->confirm([
+            'order_id' => $request->culqi_id
+        ]);
+    }
+
+    // ✔ VALIDACIÓN IMPORTANTE
+    if (!isset($cargo->id)) {
+        throw new \Exception('No se recibió confirmación de Culqi');
+    }
+
+} catch (\Exception $e) {
 
     return response()->json([
-        'error' => 'Yape aún no configurado en backend'
+        'error' => 'Error en el pago: ' . $e->getMessage()
     ], 422);
-
 }
-            $cargo = $culqi->Charges->create([
-                'amount'        => $totalCentimos,
-                'currency_code' => 'PEN',
-                'email'         => $request->email,
-                'source_id' => $request->culqi_id,
-                'description'   => 'Pedido Elenex - ' . $request->nombre,
-                'capture'       => true,
-                'antifraud_details' => [
-                    'first_name'   => explode(' ', $request->nombre)[0],
-                    'last_name'    => explode(' ', $request->nombre)[1] ?? '',
-                    'phone_number' => $request->telefono ?? '999999999',
-                    'address'      => $request->direccion,
-                    'address_city' => $request->provincia,
-                    'country_code' => 'PE',
-                ],
-            ]);
-
-            if (!isset($cargo->id)) {
-                throw new \Exception('No se recibió confirmación de Culqi');
-            }
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Error en el pago: ' . $e->getMessage()
-            ], 422);
-        }
 
         // Guardar pedido
         $codigoOrden = 'ELX-' . strtoupper(Str::random(8));
