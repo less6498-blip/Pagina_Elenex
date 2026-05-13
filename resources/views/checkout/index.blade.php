@@ -310,7 +310,7 @@ async function procesarPago(token) {
                 referencia:   document.getElementById('inp-referencia').value,
                 zona_envio:   zona,
                 culqi_token:  token,
-                cart_items:   JSON.stringify(items),
+                cart_items:   items
             }),
         });
 
