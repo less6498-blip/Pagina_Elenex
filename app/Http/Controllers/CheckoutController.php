@@ -30,7 +30,7 @@ class CheckoutController extends Controller
             'zona_envio'   => 'required|in:lima,provincias',
         ]);
 
-        $items     = json_decode($request->cart_items, true);
+        $items     = $request->cart_items;
         $zonaEnvio = $request->zona_envio;
 
         if (empty($items)) {
