@@ -38,42 +38,41 @@ class CheckoutController extends Controller
         }
 
         // Calcular totales
-        $subtotal        = collect($items)->sum(fn($i) => $i['price'] * $i['quantity']);
-        $costoEnvio      = $zonaEnvio === 'lima' ? 10.00 : 20.00;
-        $total           = $subtotal + $costoEnvio;
-        $totalCentimos   = (int) round($total * 100);
+        $items = $request->cart_items;
+        $totalCentimos = $request->amount;
 
         // Cobrar con Culqi
         try {
-            $culqi = new \Culqi\Culqi(['api_key' => env('CULQI_SECRET_KEY')]);
+    $culqi = new \Culqi\Culqi([
+        'api_key' => env('CULQI_SECRET_KEY')
+    ]);
 
-            $cargo = $culqi->Charges->create([
-                'amount'        => $totalCentimos,
-                'currency_code' => 'PEN',
-                'email'         => $request->email,
-                'source_id'     => $request->culqi_token,
-                'description'   => 'Pedido Elenex - ' . $request->nombre,
-                'capture'       => true,
-                'antifraud_details' => [
-                    'first_name'   => explode(' ', $request->nombre)[0],
-                    'last_name'    => explode(' ', $request->nombre)[1] ?? '',
-                    'phone_number' => $request->telefono ?? '999999999',
-                    'address'      => $request->direccion,
-                    'address_city' => $request->provincia,
-                    'country_code' => 'PE',
-                ],
-            ]);
-            return response()->json($cargo);
+    $cargo = $culqi->Charges->create([
+        'amount'        => $totalCentimos,
+        'currency_code' => 'PEN',
+        'email'         => $request->email,
+        'source_id'     => $request->culqi_token,
+        'description'   => 'Pedido Elenex - ' . $request->nombre,
+        'capture'       => true,
+        'antifraud_details' => [
+            'first_name'   => explode(' ', $request->nombre)[0],
+            'last_name'    => explode(' ', $request->nombre)[1] ?? '',
+            'phone_number' => $request->telefono ?? '999999999',
+            'address'      => $request->direccion,
+            'address_city' => $request->provincia,
+            'country_code' => 'PE',
+        ],
+    ]);
 
-            if (!isset($cargo->id)) {
-                throw new \Exception('No se recibió confirmación de Culqi');
-            }
+    if (!isset($cargo->id)) {
+        throw new \Exception('No se recibió confirmación de Culqi');
+    }
 
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Error en el pago: ' . $e->getMessage()
-            ], 422);
-        }
+} catch (\Exception $e) {
+    return response()->json([
+        'error' => 'Error en el pago: ' . $e->getMessage()
+    ], 422);
+}
 
         // Guardar pedido
         $codigoOrden = 'ELX-' . strtoupper(Str::random(8));
