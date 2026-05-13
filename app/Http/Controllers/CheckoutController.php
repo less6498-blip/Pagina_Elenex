@@ -26,7 +26,7 @@ class CheckoutController extends Controller
             'direccion'    => 'required|string|max:200',
             'referencia'   => 'nullable|string|max:200',
             'culqi_token'  => 'required|string',
-            'cart_items'   => 'required|string',
+            'cart_items'   => 'required|array',
             'zona_envio'   => 'required|in:lima,provincias',
         ]);
 
