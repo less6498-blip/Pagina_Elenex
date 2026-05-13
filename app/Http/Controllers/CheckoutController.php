@@ -63,6 +63,7 @@ class CheckoutController extends Controller
                     'country_code' => 'PE',
                 ],
             ]);
+            return response()->json($cargo);
 
             if (!isset($cargo->id)) {
                 throw new \Exception('No se recibió confirmación de Culqi');
