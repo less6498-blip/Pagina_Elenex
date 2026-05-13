@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pedido;
 use App\Models\DetallePedido;
 use App\Models\Pago;
+use App\Models\Product;
 use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
@@ -16,6 +18,9 @@ class CheckoutController extends Controller
 
     public function procesar(Request $request)
     {
+        // ======================
+        // VALIDACIÓN
+        // ======================
         $request->validate([
             'nombre'       => 'required|string|max:100',
             'email'        => 'required|email|max:100',
@@ -30,52 +35,95 @@ class CheckoutController extends Controller
             'zona_envio'   => 'required|in:lima,provincias',
         ]);
 
-        $items     = $request->cart_items;
-        $zonaEnvio = $request->zona_envio;
+        $items = $request->cart_items;
 
         if (empty($items)) {
-            return response()->json(['error' => 'El carrito está vacío'], 422);
+            return response()->json([
+                'success' => false,
+                'error' => 'El carrito está vacío'
+            ], 422);
         }
 
-        // Calcular totales
-        $items = $request->cart_items;
-        $totalCentimos = $request->amount;
+        // ======================
+        // 1. VALIDAR STOCK + SUBTOTAL
+        // ======================
+        $subtotal = 0;
 
-        // Cobrar con Culqi
+        foreach ($items as $item) {
+
+            $producto = Product::find($item['id']);
+
+            if (!$producto) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Producto no existe'
+                ], 422);
+            }
+
+            if ($producto->stock < $item['quantity']) {
+                return response()->json([
+                    'success' => false,
+                    'error' => "Stock insuficiente para {$producto->name}"
+                ], 422);
+            }
+
+            $subtotal += $producto->price * $item['quantity'];
+        }
+
+        // ======================
+        // 2. ENVÍO + TOTAL
+        // ======================
+        $costoEnvio = $request->zona_envio === 'lima' ? 10 : 20;
+        $total = $subtotal + $costoEnvio;
+
+        // ======================
+        // 3. EVITAR DOBLE PAGO (básico)
+        // ======================
+        $ultimoPedido = Pedido::where('guest_email', $request->email)
+            ->where('estado_pago', 'pagado')
+            ->latest()
+            ->first();
+
+        if ($ultimoPedido) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Ya existe un pago reciente con este email'
+            ], 422);
+        }
+
+        // ======================
+        // 4. COBRO CULQI
+        // ======================
         try {
-    $culqi = new \Culqi\Culqi([
-        'api_key' => env('CULQI_SECRET_KEY')
-    ]);
 
-    $cargo = $culqi->Charges->create([
-        'amount'        => $totalCentimos,
-        'currency_code' => 'PEN',
-        'email'         => $request->email,
-        'source_id'     => $request->culqi_token,
-        'description'   => 'Pedido Elenex - ' . $request->nombre,
-        'capture'       => true,
-        'antifraud_details' => [
-            'first_name'   => explode(' ', $request->nombre)[0],
-            'last_name'    => explode(' ', $request->nombre)[1] ?? '',
-            'phone_number' => $request->telefono ?? '999999999',
-            'address'      => $request->direccion,
-            'address_city' => $request->provincia,
-            'country_code' => 'PE',
-        ],
-    ]);
+            $culqi = new \Culqi\Culqi([
+                'api_key' => env('CULQI_SECRET_KEY')
+            ]);
 
-    if (!isset($cargo->id)) {
-        throw new \Exception('No se recibió confirmación de Culqi');
-    }
+            $cargo = $culqi->Charges->create([
+                'amount'        => intval($total * 100),
+                'currency_code' => 'PEN',
+                'email'         => $request->email,
+                'source_id'     => $request->culqi_token,
+                'description'   => 'Pedido - ' . $request->nombre,
+                'capture'       => true,
+            ]);
 
-} catch (\Exception $e) {
-    return response()->json([
-        'error' => 'Error en el pago: ' . $e->getMessage()
-    ], 422);
-}
+            if (!isset($cargo->id)) {
+                throw new \Exception('Pago no procesado');
+            }
 
-        // Guardar pedido
-        $codigoOrden = 'ELX-' . strtoupper(Str::random(8));
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Error en Culqi: ' . $e->getMessage()
+            ], 422);
+        }
+
+        // ======================
+        // 5. CREAR PEDIDO
+        // ======================
+        $codigo = 'ELX-' . strtoupper(Str::random(8));
 
         $pedido = Pedido::create([
             'guest_nombre'       => $request->nombre,
@@ -92,47 +140,57 @@ class CheckoutController extends Controller
             'estado'             => 'confirmado',
             'estado_pago'        => 'pagado',
             'metodo_pago'        => 'culqi',
-            'codigo_orden'       => $codigoOrden,
+            'codigo_orden'       => $codigo,
         ]);
 
-        // Guardar items
+        // ======================
+        // 6. GUARDAR DETALLES + DESCONTAR STOCK
+        // ======================
         foreach ($items as $item) {
+
+            $producto = Product::find($item['id']);
+
             DetallePedido::create([
                 'pedido_id'        => $pedido->id,
-                'producto_id'      => $item['id'] ?? null,
-                'nombre_producto'  => $item['name'],
-                'variante_detalle' => $item['variant'] ?? null,
-                'imagen_url'       => $item['image'] ?? null,
+                'producto_id'      => $producto->id,
+                'nombre_producto'  => $producto->name,
                 'cantidad'         => $item['quantity'],
-                'precio_unitario'  => $item['price'],
-                'subtotal'         => $item['price'] * $item['quantity'],
+                'precio_unitario'  => $producto->price,
+                'subtotal'         => $producto->price * $item['quantity'],
             ]);
+
+            // 🔥 DESCONTAR STOCK AQUÍ (solo si pago fue exitoso)
+            $producto->stock -= $item['quantity'];
+            $producto->save();
         }
 
-        // Guardar pago
+        // ======================
+        // 7. REGISTRAR PAGO
+        // ======================
         Pago::create([
             'pedido_id'          => $pedido->id,
             'culqi_charge_id'    => $cargo->id,
             'monto'              => $total,
             'moneda'             => 'PEN',
             'estado'             => 'exitoso',
-            'marca_tarjeta'      => $cargo->source->card_brand ?? null,
-            'ultimos_digitos'    => $cargo->source->last_four ?? null,
             'respuesta_completa' => json_encode($cargo),
         ]);
 
+        // ======================
+        // 8. RESPUESTA FRONT
+        // ======================
         return response()->json([
             'success'      => true,
-            'codigo_orden' => $codigoOrden,
-            'redirect'     => route('checkout.confirmacion', $codigoOrden),
+            'codigo_orden' => $codigo,
+            'redirect'     => route('checkout.confirmacion', $codigo),
         ]);
     }
 
     public function confirmacion($codigo)
     {
         $pedido = Pedido::with('detalles')
-                        ->where('codigo_orden', $codigo)
-                        ->firstOrFail();
+            ->where('codigo_orden', $codigo)
+            ->firstOrFail();
 
         return view('checkout.confirmacion', compact('pedido'));
     }
