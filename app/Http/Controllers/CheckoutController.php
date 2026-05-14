@@ -22,9 +22,10 @@ class CheckoutController extends Controller
         // VALIDACIÓN
         // ======================
         $request->validate([
-            'nombre'       => 'required|string|max:100',
+            'nombre'       => ['required','string','max:100','regex:/^[\pL\s]+$/u'],
             'email'        => 'required|email|max:100',
-            'telefono'     => 'nullable|string|max:20',
+            'telefono'     => 'nullable|digits:9',
+            'dni'          => 'required|digits:8',
             'departamento' => 'required|string',
             'provincia'    => 'required|string',
             'distrito'     => 'required|string',
@@ -129,6 +130,7 @@ class CheckoutController extends Controller
             'guest_nombre'       => $request->nombre,
             'guest_email'        => $request->email,
             'guest_telefono'     => $request->telefono,
+            'guest_dni'          => $request->dni,
             'envio_departamento' => $request->departamento,
             'envio_provincia'    => $request->provincia,
             'envio_distrito'     => $request->distrito,

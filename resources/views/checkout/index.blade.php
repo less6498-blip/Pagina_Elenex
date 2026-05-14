@@ -22,18 +22,18 @@
           <div class="row g-3">
             <div class="col-md-6">
               <label class="form-label fw-medium" style="font-size:14px;">Nombre completo *</label>
-              <input type="text" id="inp-nombre" placeholder="Juan García"
+              <input type="text" id="inp-nombre" placeholder="Juan García" maxlength="100" pattern="[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+"
                      class="form-control" style="border-radius:10px;">
             </div>
             <div class="col-md-6">
               <label class="form-label fw-medium" style="font-size:14px;">Correo electrónico *</label>
-              <input type="email" id="inp-email" placeholder="juan@email.com"
-                     class="form-control" style="border-radius:10px;">
+              <input type="email" id="inp-email" placeholder="juan@email.com" maxlength="100" class="form-control"
+                     style="border-radius:10px;">
             </div>
             <div class="col-md-6">
               <label class="form-label fw-medium" style="font-size:14px;">Teléfono</label>
-              <input type="tel" id="inp-telefono" placeholder="987 654 321"
-                     class="form-control" style="border-radius:10px;">
+              <input type="tel" id="inp-telefono" placeholder="987 654 321" maxlength="11" class="form-control"
+                     style="border-radius:10px;">
             </div>
           </div>
         </div>
@@ -223,19 +223,79 @@ function renderResumen() {
 // VALIDACIÓN
 // ======================
 function validar() {
+
+    const nombre = document.getElementById('inp-nombre').value.trim();
+    const email = document.getElementById('inp-email').value.trim();
+    const telefono = document.getElementById('inp-telefono').value.trim();
+    const dni = document.getElementById('inp-dni').value.trim();
+
     const campos = [
-        'inp-nombre','inp-email','inp-departamento',
-        'inp-provincia','inp-distrito','inp-direccion'
+        'inp-nombre',
+        'inp-email',
+        'inp-dni',
+        'inp-departamento',
+        'inp-provincia',
+        'inp-distrito',
+        'inp-direccion'
     ];
 
     for (let id of campos) {
+
         const el = document.getElementById(id);
+
         if (!el.value.trim()) {
             mostrarError('Completa los campos requeridos');
             return false;
         }
     }
 
+    // ======================
+    // NOMBRE
+    // ======================
+    if (nombre.length < 3 || nombre.length > 100) {
+        mostrarError('Nombre inválido');
+        return false;
+    }
+
+    if (!/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/.test(nombre)) {
+        mostrarError('El nombre solo debe contener letras');
+        return false;
+    }
+
+    // ======================
+    // EMAIL
+    // ======================
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+        mostrarError('Correo electrónico inválido');
+        return false;
+    }
+
+    // ======================
+    // TELÉFONO
+    // ======================
+    if (telefono) {
+
+        const telefonoLimpio = telefono.replace(/\s/g, '');
+
+        if (!/^\d{9}$/.test(telefonoLimpio)) {
+            mostrarError('El teléfono debe tener 9 números');
+            return false;
+        }
+    }
+
+    // ======================
+    // DNI
+    // ======================
+    if (!/^\d{8}$/.test(dni)) {
+        mostrarError('El DNI debe tener 8 números');
+        return false;
+    }
+
+    // ======================
+    // CARRITO
+    // ======================
     if (!getCart().length) {
         mostrarError('Carrito vacío');
         return false;
@@ -362,6 +422,25 @@ window.culqi = function () {
 };
 
 // ======================
+// FORMATO TELÉFONO
+// ======================
+document.getElementById('inp-telefono').addEventListener('input', function(e) {
+
+    let value = e.target.value.replace(/\D/g, '');
+
+    value = value.substring(0, 9);
+
+    if (value.length > 6) {
+        value = value.replace(/(\d{3})(\d{3})(\d+)/, '$1 $2 $3');
+    }
+    else if (value.length > 3) {
+        value = value.replace(/(\d{3})(\d+)/, '$1 $2');
+    }
+
+    e.target.value = value;
+});
+
+// ======================
 // PROCESAR PAGO
 // ======================
 async function procesarPago(token) {
@@ -378,6 +457,7 @@ async function procesarPago(token) {
                 nombre: document.getElementById('inp-nombre').value,
                 email: document.getElementById('inp-email').value,
                 telefono: document.getElementById('inp-telefono').value,
+                dni: document.getElementById('inp-dni').value,
                 departamento: document.getElementById('inp-departamento').value,
                 provincia: document.getElementById('inp-provincia').value,
                 distrito: document.getElementById('inp-distrito').value,
