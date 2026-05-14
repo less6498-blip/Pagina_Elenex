@@ -29,7 +29,7 @@ class CheckoutController extends Controller
             'departamento' => 'required|string',
             'provincia'    => 'required|string',
             'distrito'     => 'required|string',
-            'direccion'    => 'required|string|max:200',
+            'direccion'    => ['required', 'string', 'min:5', 'max:120'],
             'referencia'   => 'nullable|string|max:200',
             'culqi_token'  => 'required|string',
             'cart_items'   => 'required|array',

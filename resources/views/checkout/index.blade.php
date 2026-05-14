@@ -57,31 +57,23 @@
               <label class="form-label fw-medium" style="font-size:14px;">Departamento *</label>
               <select id="inp-departamento" class="form-select" style="border-radius:10px;">
                 <option value="">Seleccionar...</option>
-                <option>Lima</option>
-                <option>Callao</option>
-                <option>Arequipa</option>
-                <option>Cusco</option>
-                <option>La Libertad</option>
-                <option>Piura</option>
-                <option>Lambayeque</option>
-                <option>Junín</option>
-                <option>Ica</option>
-                <option>Ancash</option>
-                <option>Puno</option>
-                <option>Cajamarca</option>
-                <option>Otro</option>
               </select>
             </div>
-            <div class="col-md-6">
-              <label class="form-label fw-medium" style="font-size:14px;">Provincia *</label>
-              <input type="text" id="inp-provincia" placeholder="Lima"
-                     class="form-control" style="border-radius:10px;">
+
+          <div class="col-md-6">
+              <label class="form-label fw-medium">Provincia *</label>
+              <select id="inp-provincia" class="form-select">
+                <option value="">Seleccionar...</option>
+              </select>
             </div>
-            <div class="col-md-6">
-              <label class="form-label fw-medium" style="font-size:14px;">Distrito *</label>
-              <input type="text" id="inp-distrito" placeholder="Miraflores"
-                     class="form-control" style="border-radius:10px;">
+
+          <div class="col-md-6">
+              <label class="form-label fw-medium">Distrito *</label>
+              <select id="inp-distrito" class="form-select">
+                <option value="">Seleccionar...</option>
+              </select>
             </div>
+
             <div class="col-md-6">
               <label class="form-label fw-medium" style="font-size:14px;">Zona de envío *</label>
               <select id="inp-zona" class="form-select" style="border-radius:10px;">
@@ -91,7 +83,7 @@
             </div>
             <div class="col-12">
               <label class="form-label fw-medium" style="font-size:14px;">Dirección completa *</label>
-              <input type="text" id="inp-direccion" placeholder="Av. Principal 123, Dpto 4B"
+              <input type="text" id="inp-direccion" maxlength="120" placeholder="Av. Principal 123, Dpto 4B"
                      class="form-control" style="border-radius:10px;">
             </div>
             <div class="col-12">
@@ -233,7 +225,12 @@ function validar() {
     const email = document.getElementById('inp-email').value.trim();
     const telefono = document.getElementById('inp-telefono').value.trim();
     const dni = document.getElementById('inp-dni').value.trim();
+    const dep = document.getElementById('inp-departamento').value;
+    const prov = document.getElementById('inp-provincia').value;
+    const dist = document.getElementById('inp-distrito').value;
+    const direccion = document.getElementById('inp-direccion').value.trim();
 
+    // campos obligatorios
     const campos = [
         'inp-nombre',
         'inp-email',
@@ -245,7 +242,6 @@ function validar() {
     ];
 
     for (let id of campos) {
-
         const el = document.getElementById(id);
 
         if (!el.value.trim()) {
@@ -254,9 +250,19 @@ function validar() {
         }
     }
 
-    // ======================
+    // UBIGEO
+    if (!dep || !prov || !dist) {
+        mostrarError('Selecciona ubicación completa');
+        return false;
+    }
+
+    // DIRECCIÓN (✔ correcto)
+    if (direccion.length < 5 || direccion.length > 120) {
+        mostrarError('La dirección debe tener entre 5 y 120 caracteres');
+        return false;
+    }
+
     // NOMBRE
-    // ======================
     if (nombre.length < 3 || nombre.length > 100) {
         mostrarError('Nombre inválido');
         return false;
@@ -267,40 +273,29 @@ function validar() {
         return false;
     }
 
-    // ======================
     // EMAIL
-    // ======================
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     if (!emailRegex.test(email)) {
         mostrarError('Correo electrónico inválido');
         return false;
     }
 
-    // ======================
     // TELÉFONO
-    // ======================
     if (telefono) {
-
         const telefonoLimpio = telefono.replace(/\s/g, '');
-
         if (!/^\d{9}$/.test(telefonoLimpio)) {
             mostrarError('El teléfono debe tener 9 números');
             return false;
         }
     }
 
-    // ======================
     // DNI
-    // ======================
     if (!/^\d{8}$/.test(dni)) {
         mostrarError('El DNI debe tener 8 números');
         return false;
     }
 
-    // ======================
     // CARRITO
-    // ======================
     if (!getCart().length) {
         mostrarError('Carrito vacío');
         return false;
@@ -308,7 +303,6 @@ function validar() {
 
     return true;
 }
-
 // ======================
 // ERROR
 // ======================
@@ -443,6 +437,53 @@ document.getElementById('inp-telefono').addEventListener('input', function(e) {
     }
 
     e.target.value = value;
+});
+
+const dep = document.getElementById('inp-departamento');
+const prov = document.getElementById('inp-provincia');
+const dist = document.getElementById('inp-distrito');
+
+// ======================
+// DEPARTAMENTOS
+// ======================
+fetch('/api/departments')
+.then(r => r.json())
+.then(data => {
+    dep.innerHTML = `<option value="">Seleccionar...</option>` +
+        data.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+});
+
+// ======================
+// PROVINCIAS
+// ======================
+dep.addEventListener('change', async () => {
+
+    prov.innerHTML = `<option value="">Cargando...</option>`;
+    dist.innerHTML = `<option value="">Seleccionar...</option>`;
+
+    if (!dep.value) return;
+
+    const res = await fetch(`/api/provinces/${dep.value}`);
+    const data = await res.json();
+
+    prov.innerHTML = `<option value="">Seleccionar...</option>` +
+        data.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+});
+
+// ======================
+// DISTRITOS
+// ======================
+prov.addEventListener('change', async () => {
+
+    dist.innerHTML = `<option value="">Cargando...</option>`;
+
+    if (!prov.value) return;
+
+    const res = await fetch(`/api/districts/${prov.value}`);
+    const data = await res.json();
+
+    dist.innerHTML = `<option value="">Seleccionar...</option>` +
+        data.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
 });
 
 // ======================
