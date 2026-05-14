@@ -35,6 +35,11 @@
               <input type="tel" id="inp-telefono" placeholder="987 654 321" maxlength="11" class="form-control"
                      style="border-radius:10px;">
             </div>
+            <div class="col-md-6">
+            <label class="form-label fw-medium" style="font-size:14px;">DNI *</label>
+           <input type="text" id="inp-dni" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                  placeholder="12345678" class="form-control" style="border-radius:10px;">
+            </div>
           </div>
         </div>
       </div>
