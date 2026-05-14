@@ -305,47 +305,61 @@ window.culqi = function () {
     const btn = document.getElementById('btn-pagar');
 
     if (isProcessing) return;
-    isProcessing = true;
 
     if (Culqi.token) {
 
-        // cerrar modal
+        isProcessing = true;
+
         Culqi.close();
 
-        // estado inmediato
         btn.disabled = true;
         btn.innerHTML = "Procesando...";
 
         procesarPago(Culqi.token.id)
-        .then((data) => {
+            .then((data) => {
 
-    const btn = document.getElementById('btn-pagar');
+                if (data.success) {
 
-    if (data.success) {
+                    localStorage.removeItem('elenex_cart');
+
+                    btn.innerHTML = "Pago exitoso";
+
+                    setTimeout(() => {
+                        window.location.href = data.redirect;
+                    }, 1200);
+
+                } else {
+
+                    isProcessing = false;
+
+                    btn.disabled = false;
+                    btn.innerHTML = "Pagar";
+
+                    mostrarError(data.error || "Error en el pago");
+                }
+
+            })
+            .catch(() => {
+
+                isProcessing = false;
+
+                btn.disabled = false;
+                btn.innerHTML = "Pagar";
+
+                mostrarError("Error procesando pago");
+
+            });
+
+    } else if (Culqi.error) {
 
         isProcessing = false;
 
-        localStorage.removeItem('elenex_cart');
-
-        btn.innerHTML = "Pago exitoso";
-
-        setTimeout(() => {
-            btn.innerHTML = "Redirigiendo...";
-        }, 800);
-
-        setTimeout(() => {
-            window.location.href = data.redirect;
-        }, 1500);
-
-    } else {
-
-        isProcessing = false;
         btn.disabled = false;
         btn.innerHTML = "Pagar";
 
-        mostrarError(data.error || "Error en el pago");
+        mostrarError(Culqi.error.user_message || "Pago cancelado");
     }
-})
+};
 
 // ======================
 // PROCESAR PAGO
