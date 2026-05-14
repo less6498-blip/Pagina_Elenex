@@ -95,3 +95,16 @@ Route::get('/politica', function () {
 Route::get('/terminos', function () {
     return view('terminos');
 })->name('terms');
+
+// APIS DIRECCION
+Route::get('/api/departments', function () {
+    return \App\Models\Department::all();
+});
+
+Route::get('/api/provinces/{id}', function ($id) {
+    return \App\Models\Province::where('department_id', $id)->get();
+});
+
+Route::get('/api/districts/{id}', function ($id) {
+    return \App\Models\District::where('province_id', $id)->get();
+});
