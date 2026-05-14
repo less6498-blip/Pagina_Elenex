@@ -95,7 +95,3 @@ Route::get('/politica', function () {
 Route::get('/terminos', function () {
     return view('terminos');
 })->name('terms');
-
-Route::get('/api/departments', function () {
-    return \App\Models\Department::all();
-});
