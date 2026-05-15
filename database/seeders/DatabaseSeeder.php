@@ -16,5 +16,8 @@ class DatabaseSeeder extends Seeder
 
     // Aquí llamamos a tu seeder de productos
         $this->call(ProductoSeeder::class);
+
+    // Aquí llamamos a tu seeder de admin
+        $this->call(AdminSeeder::class);
     }
 }
