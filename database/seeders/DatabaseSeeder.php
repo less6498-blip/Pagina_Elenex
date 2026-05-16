@@ -19,5 +19,8 @@ class DatabaseSeeder extends Seeder
 
     // Aquí llamamos a tu seeder de admin
         $this->call(AdminSeeder::class);
+
+    // Aquí llamamos a tu seeder de ubigeo
+        $this->call(UbigeoSeeder::class);
     }
 }
